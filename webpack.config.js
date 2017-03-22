@@ -22,7 +22,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules(?![\\/]vue-echarts[\\/])/,
+        include: [
+          path.join(__dirname, 'src'),
+          path.join(__dirname, 'node_modules/vue-echarts')
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
