@@ -8,6 +8,9 @@
 # install dependencies
 npm install
 
+## start server
+node app.js
+
 # serve with hot reload at localhost:8080 and open koa service.
 npm run dev
 # build for production with minification
