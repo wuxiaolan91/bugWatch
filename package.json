@@ -5,7 +5,7 @@
   "author": "吴晓兰 <wuxiaolan@wecash.net>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
+    "dev": "node app.js && node build/dev-server.js && node app.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },
