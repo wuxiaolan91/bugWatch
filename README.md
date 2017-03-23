@@ -4,7 +4,8 @@
 ## 技术栈：
 - Vue2系列： Vue2 + Vue-router
 - 接口请求： Axios
-- Koa： Koa2， Koa-Router， koa-bodyparser（解析post请求数据的插件）
+- 数据库: MongoDB, Mongoose(驱动Mongoo的，大家可以多了解下怎么用这个取数据，存数据)
+- Koa： Koa2（主要用来写接口， Koa-Router（koa一个方便的处理地址栏路径的插件）， koa-bodyparser（解析post请求数据的插件）
 - 接口转发配置在 ./config/index 里的 proxyTalbe
 - 本地调试接口请另外开一个控制台 输入 node app.js
 
