@@ -10,10 +10,8 @@
   },
   "dependencies": {
     "echarts": "^3.4.0",
-    "vue": "^2.2.1",
-    "vue-echarts": "^2.3.3",
-    "vue-echarts-v3": "^1.0.3",
-    "vue2-echarts": "^1.0.1"
+    "mongoose": "^4.9.1",
+    "vue": "^2.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
