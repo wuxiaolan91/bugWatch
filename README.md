@@ -4,7 +4,7 @@
 ## 技术栈：
 - Vue2系列： Vue2 + Vue-router
 - 接口请求： Axios
-- Koa： Koa2， Koa-Router， koa-bodyparser
+- Koa： Koa2， Koa-Router， koa-bodyparser（解析post请求数据的插件）
 - 接口转发配置在 ./config/index 里的 proxyTalbe
 - 本地调试接口请另外开一个控制台 输入 node app.js
 
