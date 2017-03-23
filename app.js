@@ -1,17 +1,21 @@
-const app = require('koa')(),
-      koa = require('koa-router')();
-      
-app.use(require('koa-bodyparser')());
+const Koa = require('koa');
+const app = new Koa();
+const router = require('koa-router')();
 
-app.use(function* (next){
-  let start = new Date;
-  yield next;
-  let ms = new Date - start;
-  console.log('%s %s - %s', this.method, this.url, ms); // 显示执行的时间
+
+router.get('/', function* (next) {
+  console.log('我是首页');
+  this.body = 'Hello World';
 });
+router.get('/getBugList', function* (next) {
+  console.log('我是api');
+  this.body = 'Hello Api';
+});
+app.use(router.routes())
+  .use(router.allowedMethods());
 
-app.on('error', function(err, ctx){
-  console.log('server error', err);
+app.on('error', (err, ctx) => {
+  console.log('Koa服务开启失败', err);
 });
 
 app.listen(3000, () => {
