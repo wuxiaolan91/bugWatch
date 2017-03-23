@@ -6,12 +6,18 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "devs": "npm run dev && node app.js",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "echarts": "^3.4.0",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^5.4.0",
     "mongoose": "^4.9.1",
-    "vue": "^2.2.1"
+    "vue": "^2.2.1",
+    "vue-router": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

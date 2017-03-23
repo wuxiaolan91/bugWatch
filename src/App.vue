@@ -1,19 +1,13 @@
 <template>
   <div id="app">
   {{ msg }}
-    <bug-compare></bug-compare>
-    <div id="top-wrap">
-      <page-bug :IEcharts="IEcharts"></page-bug>
-      <top-bug :IEcharts="IEcharts"></top-bug>
-    </div>
-    
+  <router-view></router-view>
   </div>
 </template>
 
 <script>
-import BugCompare from './components/dashboard/bugCompare.vue';
-import pageBug from './components/dashboard/pageBug.vue';
-import topBug from './components/dashboard/topBug.vue';
+import Dashboard from './components/dashboard/dashboard.vue';
+
 // import ECharts modules manually to reduce bundle size
 export default {
   name: 'app',
@@ -21,10 +15,6 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }, components: {
-    BugCompare,
-    pageBug,
-    topBug
   }
 }
 </script>

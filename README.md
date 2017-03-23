@@ -10,7 +10,8 @@ npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
-
+# 它包括了npm run dev && node app.js
+npm run devS
 # build for production with minification
 npm run build
 ```
