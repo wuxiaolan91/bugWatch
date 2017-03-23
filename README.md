@@ -10,14 +10,6 @@
 
 -----
 ## 项目结构
-src里的目录
->  ├─assets
-	│  └─js
-	├─components
-	│  └─dashboard
-	├─config
-	└─router
-	
 - 前端代码在 **./src **
 - 后端代码现在主要在 **./app.js** ，建模等后端代码放在 **./server** 里
 - 数据库连接放在 **./models/db.js**
