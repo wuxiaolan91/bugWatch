@@ -12,23 +12,15 @@
 -----
 ## 项目结构
 ### 前端
-#### src
-├─assets
-│  └─js
-├─components
-│  ├─dashboard
-│  └─list
-├─config
-└─router
-#### static
-└─js
-    └─lib // 插件库
+
+- **./src ** 前端代码在 
+-  **./static** 静态资源再
 - **config** **build** 项目的构建代码
 ### 后端
-- 后端代码启动的 js 是 **./app.js** ，建模等后端代码放在 **./server** 里
+- **./app.js**  后端服务的启动代码
+- **./server** 后端代码主要放在这里
 	- **server/controller**  前端直接访问的接口主要定义在这里
-	- **server/models**  **Schema**  （Schema不知道的话可以把它理解为数据库的表的字段的定义）主要定义在这个里面
-- 数据库连接放在 **./models/db.js**
+	- **server/models**  **Schema**  （Schema不知道的话可以把它理解为数据库的表的字段的定义）定义
 
 
 在本地开发的时候
