@@ -4,7 +4,7 @@ const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
 const mongoose = require('mongoose');
 
-const dashboardController = require('./controllers/dashboard.js');
+const dashboardController = require('./server/controllers/dashboard.js');
 // const list = require("./controllers/list.js");
 // const mongo = require('./models/db.js');
 router.get('/bug/watch', dashboardController.bugWatch);
