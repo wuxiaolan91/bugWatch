@@ -5,8 +5,8 @@
     </div>
   </div>
 </template >
-    <script>
 
+    <script>
         // import ECharts modules manually to reduce bundle size
         export default {
             data() {
@@ -87,13 +87,6 @@
     }
   },
   created () {
-    this.$http.get('/api/getBugList')
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
 }, mounted () {
     var myChart = echarts.init(document.getElementById('compare-bug'));
     myChart.setOption(this.option);
