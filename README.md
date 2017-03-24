@@ -26,7 +26,7 @@
 在本地开发的时候
 ## MongoDB的使用
 建议
-1. 从http://pan.baidu.com/s/1jII90iU这里下载软件
+1. 从http://pan.baidu.com/s/1jII90iU这里下载软件（如果失效了联系我）
 2.  安装这个软件
 3. 进入安装目录。安装目录一般是 C:\Program Files\MongoDB 或者 C:\Program Files (x86)\MongoDB 目录下。
 4. 进入 MongoDB 目录下的 Server\3.2\bin 目录。双击 mongod.exe 程序。这个时候就算是启动成功Mongo了
