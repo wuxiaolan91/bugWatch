@@ -1,7 +1,7 @@
 <template>
   <div id="page-bug" class="echarts">
     <h2>页面Top排行榜</h2>
-    <div id="page-bug" style="width: 600px;height:400px;"></div>
+    <div id="page-bug" style="width: 45%;height:400px;"></div>
   </div>
   </div>
 </template>

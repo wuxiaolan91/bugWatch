@@ -3,6 +3,7 @@
 > 监测bug报错平台
 ## 技术栈：
 - Vue2系列： Vue2 + Vue-router
+- 插件： Echarts（图表）
 - 接口请求： Axios
 - 数据库: MongoDB, Mongoose(驱动 MongoDB 的，大家可以多了解下怎么用这个取数据，存数据)
 - Koa： Koa2（主要用来写接口）， Koa-Router（koa一个方便的处理地址栏路径的插件）， koa-bodyparser（解析post请求数据的插件）

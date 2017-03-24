@@ -27,3 +27,8 @@ components: {
 },
 };
 </script>
+<style>
+  #top-wrap {
+    margin-top: 10%;
+  }
+</style>
