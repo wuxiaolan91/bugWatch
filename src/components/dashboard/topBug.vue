@@ -1,8 +1,6 @@
 <template>
-  <div id="page-bug" class="echarts">
-    <h2>bugTop排行榜</h2>
-        <div id="top-bug" style="width: 600px;height:400px;"></div>
-
+  <div class="echarts">
+    <div id="top-bug" style="width: 48%;height:400px;"></div>
   </div>
   </div>
 </template>
@@ -72,9 +70,10 @@ export default {
 }
 </script>
 
-<style>
-#bug-compare {
-    display: inline-block;
-    width: 45%;
+<style scoped>
+#top-bug {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 </style>

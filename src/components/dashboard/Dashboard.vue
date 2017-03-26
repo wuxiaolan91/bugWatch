@@ -30,5 +30,6 @@ components: {
 <style>
   #top-wrap {
     margin-top: 10%;
+    position: relative;
   }
 </style>

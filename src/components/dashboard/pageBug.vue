@@ -1,8 +1,6 @@
 <template>
-  <div id="page-bug" class="echarts">
-    <h2>页面Top排行榜</h2>
-    <div id="page-bug" style="width: 45%;height:400px;"></div>
-  </div>
+  <div class="echarts">
+    <div id="page-bug" style="width:48%;height:400px;"></div>
   </div>
 </template>
 
@@ -11,7 +9,6 @@
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
        option: {
         title: {
             text: 'bug页面排行榜',
@@ -74,8 +71,8 @@ export default {
 <style>
 
 #page-bug {
-    display: inline-block;
-    width: 45%;
+    position: relative;
     left: 0;
+    top: 0;
 }
 </style>

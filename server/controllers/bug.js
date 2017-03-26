@@ -7,7 +7,6 @@ exports.bugWatch = function *() {
     ip,
     errorPage: this.query.pageUrl,
     refferPage: '',
-    errorJs: 'http://m.wecash.net/wep/index.html?version=h5 :1:19',
     message: this.query.message,
     error: this.query.error,
     ua: this.request.header['user-agent'],
