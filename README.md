@@ -1,6 +1,6 @@
 
 ## 原型（墨刀）
-(项目原型)[https://pro.modao.cc/app/cmIi5Fm0W8QWWPDhXXyOFyqoAR08PUe] 密码：111111
+(项目原型)[https://pro.modao.cc/app/cmIi5Fm0W8QWWPDhXXyOFyqoAR08PUe]
 ## 技术栈：
 - Vue2系列： Vue2 + Vue-router
 - 插件： Echarts（图表）
