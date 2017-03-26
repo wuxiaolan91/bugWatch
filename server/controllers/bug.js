@@ -1,4 +1,4 @@
-const dashboardModel = require('../models/dashboard.js');
+const bugModel = require('../models/bug.js');
 
 exports.bugWatch = function *() {
   console.log('接口拿到');
@@ -14,14 +14,15 @@ exports.bugWatch = function *() {
     date: this.query.time
   };
 
-  const ab = yield new dashboardModel(bugObj).save();
-  console.log('ab');
-  console.log(ab);
-  this.body = ab;
+  const bug = yield new bugModel(bugObj).save();
+  console.log('bug');
+  console.log(bug);
+  this.body = bug;
 };
 
 exports.list = function *() {
-  this.body = '我是bug列表';
+  let bugList = yield new bugModel.find();
+  this.body = bugList;
 }
 // router.get('/getBugList', function* (next) {
 //   mongo.getBugList( function (bugList) {
