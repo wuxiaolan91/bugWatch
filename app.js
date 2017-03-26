@@ -1,18 +1,18 @@
 const Koa = require('koa');
 const app = new Koa();
-const bodyParser = require('koa-bodyparser');
+// const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
 const mongoose = require('mongoose');
 
-const dashboardController = require('./server/controllers/dashboard.js');
+const bugController = require('./server/controllers/bug.js');
 // const list = require("./controllers/list.js");
 // const mongo = require('./models/db.js');
-router.get('/bug/watch', dashboardController.bugWatch);
+router.get('/bug/watch', bugController.bugWatch);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.use(bodyParser());
+// app.use(bodyParser());
 
 app.on('error', (err, ctx) => {
   console.log('Koa服务开启失败', err);
