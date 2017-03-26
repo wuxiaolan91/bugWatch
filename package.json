@@ -16,6 +16,7 @@
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^5.4.0",
+    "lodash": "^4.17.4",
     "mongoose": "^4.9.1",
     "vue": "^2.2.2",
     "vue-router": "^2.2.0"

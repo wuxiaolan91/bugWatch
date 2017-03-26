@@ -3,6 +3,7 @@ const app = new Koa();
 // const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
 const mongoose = require('mongoose');
+const config = require('./server/config');
 
 const bugController = require('./server/controllers/bug.js');
 // const list = require("./controllers/list.js");
@@ -18,16 +19,14 @@ app.on('error', (err, ctx) => {
   console.log('Koa服务开启失败', err);
 });
 
-app.listen(3000, () => {
+app.listen(config.port, () => {
   console.log('Koa 服务开启');
 });
-
-const DB_URL = 'mongodb://admin:111111@localhost:27017/bugWatch?readPreference=primary';
 
 /**
  * 连接
  */
-mongoose.connect(DB_URL);
+mongoose.connect(config.mongo.DB_URL);
 
 /**
  * 连接成功
