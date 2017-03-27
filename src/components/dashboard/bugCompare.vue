@@ -63,47 +63,35 @@ export default {
         .then( (res) => {
             if (res.status = 200) {
                 let bugList = res.data;
-                let yesterdayList = [], yesteryBugList = [];
-                let todayList = [], todayBugList = [];
+                let yesterdayBugList = []; // 昨天的bug列表
+                let todayBugList = []; // 今天的bug列表
                 bugList.forEach( item => {
                     let date = new Date();
                     date.setHours('00','00','01');
-                    console.log('今天早上开始' + date);
                     var todayStart = date.getTime();
                     if ( new Date(item.time).getTime() > todayStart) {
-                        todayList.push(item);
+                        todayBugList.push(item);
                     } else {
-                        yesterdayList.push(item);
+                        yesterdayBugList.push(item);
                     }
                 })
-                console.log('昨天');
-                console.dir(yesterdayList);
-                console.log('今天');
-                console.log(todayList);
-                yesteryBugList = this.getListByEveryHour(yesterdayList);
-                todayBugList = this.getListByEveryHour(todayList);
-                this.option.series[0].data =  yesteryBugList;
-                this.option.series[1].data =  todayBugList;
+                this.option.series[0].data =  this.getListByEveryHour(yesterdayBugList);
+                this.option.series[1].data =  this.getListByEveryHour(todayBugList);
                 myChart.setOption(this.option);
             }
         })
 
   }, methods: {
       getListByEveryHour (bugList) {
-          console.log('分割');
         var timeList = [];
         for(let i= 0;i < 24; i++) {
             timeList.push(0);
-            
         }
         bugList.forEach(item => {
             const hour = new Date(item.time).getHours();
-            console.log(hour + '点的bug');
-            debugger;
             timeList[hour] = timeList[hour] + 1;
         });
         return timeList;
-        console.log(timeList);
       }
   }
 }
