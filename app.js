@@ -9,6 +9,8 @@ const bugController = require('./server/controllers/bug.js');
 // const list = require("./controllers/list.js");
 // const mongo = require('./models/db.js');
 router.get('/bug/watch', bugController.bugWatch);
+router.get('/bug/list', bugController.list);
+router.get('/bug/compareList', bugController.compareList);
 
 app.use(router.routes());
 app.use(router.allowedMethods());
@@ -32,6 +34,6 @@ mongoose.connect(config.mongo.DB_URL);
  * 连接成功
  */
 mongoose.connection.on('connected', () => {
-  console.log('连接成功');
-
+  console.log('数据库连接成功');
 });
+

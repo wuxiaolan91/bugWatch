@@ -1,4 +1,4 @@
-const bugModel = require('../models/bug.js');
+const bugModel = require('../models/bugModel.js');
 
 exports.bugWatch = function *() {
   console.log('接口拿到');
@@ -20,8 +20,33 @@ exports.bugWatch = function *() {
 };
 
 exports.list = function *() {
-  let bugList = yield new bugModel.find();
-  this.body = bugList;
+  const bugList = yield bugModel.find(function (err, bugList) {
+    if (err) {
+      return console.error(err);
+    } else {
+      return bugList;
+    }
+    // let bugList = yield new bugModel.find();
+    
+  })
+this.body = bugList;
+}
+exports.compareList = function *() {
+  const twoDaybugList = yield bugModel.find({
+     time:{
+      "$gte": new Date('2017-03-26T00:00:00'),
+      "$lte": new Date('2017-03-26T24:00:00')
+   }
+  }).sort().exec(function (err, bugList) {
+    var yestroday = '';
+      if (err) {
+        return console.error(err);
+      } else {
+
+        return bugList;
+      }
+    })
+  this.body = twoDaybugList;
 }
 // router.get('/getBugList', function* (next) {
 //   mongo.getBugList( function (bugList) {
