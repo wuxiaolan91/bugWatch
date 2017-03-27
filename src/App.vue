@@ -3,20 +3,17 @@
     <div id="nav-wrap">
       <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
         <el-menu-item index="1">
-          <i class="el-icon-message"></i>
-          <router-link to="/dashboard">Dashboard</router-link>
+          <router-link to="/dashboard"><i class="el-icon-message"></i>Dashboard
+          </router-link>
         </el-menu-item>
         <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <router-link to="/list">日志列表</router-link>
+          <router-link to="/list"><i class="el-icon-menu"></i>日志列表</router-link>
         </el-menu-item>
         <el-menu-item index="3">
-          <i class="el-icon-setting"></i>
-          <router-link to="/ajax">Ajax日志</router-link>
+          <router-link to="/ajax"><i class="el-icon-setting"></i>Ajax日志</router-link>
         </el-menu-item>
         <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <router-link to="/email">邮件通知</router-link>
+          <router-link to="/email"><i class="el-icon-setting"></i>邮件通知</router-link>
         </el-menu-item>
       </el-menu>
     </div>
