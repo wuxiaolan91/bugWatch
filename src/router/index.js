@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hello from '@/components/Hello';
 import App from '../App.vue';
 import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/list/list.vue';
@@ -12,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/dashboard'
+      redirect: '/dashboard',
     },
     {
       path: '/list', // bug的日志列表

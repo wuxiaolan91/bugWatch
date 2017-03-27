@@ -11,8 +11,7 @@ export default {
     return {
        option: {
         title: {
-            text: 'bug页面排行榜',
-            subtext: '页面'
+            text: 'bug页面排行榜'
         },
         tooltip: {
             trigger: 'axis'

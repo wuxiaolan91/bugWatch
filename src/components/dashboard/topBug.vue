@@ -13,8 +13,7 @@ export default {
       msg: 'Welcome to Your Vue.js App',
        option: {
                     title: {
-                        text: 'bugTop排行榜',
-                        subtext: 'bug类型'
+                        text: 'bugTop排行榜'
                     },
                     tooltip: {
                         trigger: 'axis'

@@ -27,7 +27,7 @@ components: {
 </script>
 <style>
   #top-wrap {
-    margin-top: 10%;
+    margin-top: 5%;
     position: relative;
   }
 </style>
