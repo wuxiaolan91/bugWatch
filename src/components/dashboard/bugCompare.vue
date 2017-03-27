@@ -10,7 +10,7 @@ export default {
         return {
             option: {
                 title: {
-                    text: '今天和昨天比较的 bug 图'
+                    text: 'bug 时间比较图'
                 },
                 tooltip: {
                     trigger: 'axis',

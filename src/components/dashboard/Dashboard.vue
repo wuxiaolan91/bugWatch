@@ -1,7 +1,5 @@
 <template>
   <div>
-    <router-link to="list">日志列表</router-link>
-    
     <bug-compare></bug-compare>
     <div id="top-wrap">
       <page-bug ></page-bug>
