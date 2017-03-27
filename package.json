@@ -13,6 +13,7 @@
     "axios": "^0.15.3",
     "co": "^4.6.0",
     "echarts": "^3.4.0",
+    "element-ui": "^1.2.5",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^5.4.0",
