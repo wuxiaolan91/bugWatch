@@ -63,36 +63,14 @@ export default {
         .then( (res) => {
             if (res.status = 200) {
                 let bugList = res.data;
-                let yesterdayBugList = []; // 昨天的bug列表
-                let todayBugList = []; // 今天的bug列表
-                bugList.forEach( item => {
-                    let date = new Date();
-                    date.setHours('00','00','01');
-                    var todayStart = date.getTime();
-                    if ( new Date(item.time).getTime() > todayStart) {
-                        todayBugList.push(item);
-                    } else {
-                        yesterdayBugList.push(item);
-                    }
-                })
-                this.option.series[0].data =  this.getListByEveryHour(yesterdayBugList);
-                this.option.series[1].data =  this.getListByEveryHour(todayBugList);
+                this.option.series[0].data = bugList.yesterBugCountList;
+                this.option.series[1].data =  bugList.todayBugCountList;
                 myChart.setOption(this.option);
             }
         })
 
   }, methods: {
-      getListByEveryHour (bugList) {
-        var timeList = [];
-        for(let i= 0;i < 24; i++) {
-            timeList.push(0);
-        }
-        bugList.forEach(item => {
-            const hour = new Date(item.time).getHours();
-            timeList[hour] = timeList[hour] + 1;
-        });
-        return timeList;
-      }
+      
   }
 }
 </script>
