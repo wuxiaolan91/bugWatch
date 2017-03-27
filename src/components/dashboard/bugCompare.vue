@@ -55,8 +55,39 @@ export default {
     },
   created () {
 }, mounted () {
+    this.$http.get('/api/bug/compareList')
+        .then( (res) => {
+            if (res.status = 200) {
+                let bugList = res.data;
+                let yesterdayList = [];
+                let todayList = [];
+                bugList.forEach( item => {
+                    var todayStart = new Date('2017-03-26T00:00:00').getTime();
+                    debugger;
+                    if ( new Date(item.time).getTime() > todayStart) {
+                        todayList.push(item);
+                    } else {
+                        yesterdayList.push(item);
+                    }
+                })
+                console.log(todayList);
+            }
+        })
+        
     var myChart = echarts.init(document.getElementById('compare-bug'));
     myChart.setOption(this.option);
+  }, methods: {
+      getListByEveryHour (timeList) {
+        var time = [];
+        for(let i= 0;i < 24; i++) {
+            time.push {
+                i: 0
+            };
+            timeList.forEach( item =>) {
+                if (new Date(item.index).getHours() == )
+            });
+        }
+      }
   }
 }
 </script>
