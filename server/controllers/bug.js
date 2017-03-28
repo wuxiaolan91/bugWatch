@@ -1,6 +1,6 @@
 const bugModel = require('../models/bugModel.js');
 const getListByEveryHour = (bugList) => { // 按照每个时间段筛选出昨天和今天的bug列表
-  let timeList = [];
+  const timeList = [];
   for (let i = 0; i < 24; i++) {
     timeList.push(0);
   }
@@ -25,8 +25,6 @@ exports.bugWatch = function* () {
   };
 
   const bug = yield new bugModel(bugObj).save();
-  console.log('bug');
-  console.log(bug);
   this.body = bug;
 };
 
@@ -34,18 +32,18 @@ exports.list = function* () {
   const bugList = yield bugModel.find((err, bugList) => {
     if (err) {
       return console.error(err);
-    } 
-      return bugList;
-    
+    }
+    return bugList;
+
     // let bugList = yield new bugModel.find();
 
   });
   this.body = bugList;
 };
 exports.compareList = function* () {
-  let date = new Date();
-  let todaytoday = date.getDate();
-  let yesterDay = new Date();
+  const date = new Date();
+  const todaytoday = date.getDate();
+  const yesterDay = new Date();
   yesterDay.setDate(todaytoday - 1);
   yesterDay.setHours('00', '00', '01');
   date.setHours('24', '00', '00');
@@ -55,25 +53,25 @@ exports.compareList = function* () {
       $lte: date,
     },
   }).sort().exec((err, bugList) => {
-    let yestroday = '';
+    const yestroday = '';
     if (err) {
-        return console.error(err);
-      } 
+      return console.error(err);
+    }
 
-        return bugList;
-      
+    return bugList;
+
   });
   const yesterdayBugList = []; // 昨天的bug列表
   const todayBugList = []; // 今天的bug列表
   twoDaybugList.forEach((item) => {
     const date = new Date();
     date.setHours('00', '00', '01');
-    let todayStart = date.getTime();
+    const todayStart = date.getTime();
     if (new Date(item.time).getTime() > todayStart) {
-        todayBugList.push(item);
-      } else {
-        yesterdayBugList.push(item);
-      }
+      todayBugList.push(item);
+    } else {
+      yesterdayBugList.push(item);
+    }
   });
 
   this.body = {

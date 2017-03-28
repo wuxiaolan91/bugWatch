@@ -3,9 +3,9 @@ const app = new Koa();
 // const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
 const mongoose = require('mongoose');
-const config = require('./server/config');
+const config = require('./config');
 
-const bugController = require('./server/controllers/bug.js');
+const bugController = require('./controllers/bug.js');
 // const list = require("./controllers/list.js");
 // const mongo = require('./models/db.js');
 router.get('/bug/watch', bugController.bugWatch);
