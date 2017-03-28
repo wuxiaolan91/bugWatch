@@ -47,6 +47,20 @@ module.exports = {
         include: [resolve('src'), resolve('test')]
       },
       {
+         test: /\.less$/,
+            use: [{
+                loader: "style-loader"
+            }, {
+                loader: "css-loader"
+            }, {
+                loader: "less-loader", options: {
+                    paths: [
+                        path.resolve(__dirname, "node_modules")
+                    ]
+                }
+            }]
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         query: {
