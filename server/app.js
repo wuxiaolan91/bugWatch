@@ -11,7 +11,8 @@ const bugController = require('./controllers/bug.js');
 router.get('/bug/watch', bugController.bugWatch);
 router.get('/bug/list', bugController.list);
 router.get('/bug/compareList', bugController.compareList);
-
+router.get('/bug/pageTopList', bugController.weekBugList);
+router.get('/bug/bugTopList', bugController.weekBugList);
 app.use(router.routes());
 app.use(router.allowedMethods());
 

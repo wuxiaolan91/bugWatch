@@ -1,6 +1,6 @@
 <template>
     <div id="bug-compare" class="echarts">
-        <div id="compare-bug" style="width: 100%;height:400px;"></div>
+        <div id="compare-bug" style="width:100%;height:400px;"></div>
     </div>
   </div>
 </template >
@@ -75,13 +75,6 @@ export default {
 }
 </script>
 
-    <style scoped>
+<style scoped>
 
-        #bug-compare {
-            width: 100%;
-}
- .echarts {
-            width: 400px;
-    height: 400px;
-  }
 </style>

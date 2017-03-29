@@ -5,3 +5,4 @@ npm-debug.log
 yarn-error.log
 models/db.js
 server/config/local.config.js
+.vscode
