@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="bug时间比较图" name="first">bug时间比较图</el-tab-pane>
-      <el-tab-pane label="bug页面排行榜" name="second">bug页面排行榜</el-tab-pane>
-      <el-tab-pane label="bugTop排行榜" name="third">bugTop排行榜</el-tab-pane>
+      <el-tab-pane label="bug时间比较图" name="first"></el-tab-pane>
+      <el-tab-pane label="bug页面排行榜" name="second"></el-tab-pane>
+      <el-tab-pane label="bugTop排行榜" name="third"></el-tab-pane>
     </el-tabs>
     <bug-compare v-show="activeName === 'first'"></bug-compare>
     <div id="top-wrap" >
