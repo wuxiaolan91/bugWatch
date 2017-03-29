@@ -28,7 +28,7 @@ exports.bugWatch = function* () {
   this.body = bug;
 };
 
-exports.list = function* () {
+exports.list = function* () { // 获取bug列表，还没有哪个地方用到
   const bugList = yield bugModel.find((err, bugList) => {
     if (err) {
       return console.error(err);
@@ -40,7 +40,22 @@ exports.list = function* () {
   });
   this.body = bugList;
 };
-exports.compareList = function* () {
+exports.pageTopList = function* () { // 显示一周内报错最多的页面
+  const date = new Date(); // 今天
+  const sevenDayStart = new Date();
+  sevenDayStart.setDate(date.getDate() - 7);
+  const yesterDay = new Date();
+  yesterDay.setHours('00', '00', '01');
+  date.setHours('24', '00', '00');
+  const twoDaybugList = yield bugModel.find({
+    time: {
+      $gte: yesterDay,
+      $lte: date,
+    },
+  }).sort().exec((err, bugList) => {
+  });
+};
+exports.compareList = function* () { // 显示昨天和今天每个时间段的bug数量
   const date = new Date();
   const todaytoday = date.getDate();
   const yesterDay = new Date();
