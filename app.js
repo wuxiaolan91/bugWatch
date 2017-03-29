@@ -1,19 +1,11 @@
-const Koa = require('koa');
-const app = new Koa();
-// const bodyParser = require('koa-bodyparser');
-const router = require('koa-router')();
+const router = require('./server/router')
 const mongoose = require('mongoose');
-const config = require('./server/config');
+const config = require('./server/config')
 
-const bugController = require('./server/controllers/bug.js');
+
 // const list = require("./controllers/list.js");
 // const mongo = require('./models/db.js');
-router.get('/bug/watch', bugController.bugWatch);
-router.get('/bug/list', bugController.list);
-router.get('/bug/compareList', bugController.compareList);
-
-app.use(router.routes());
-app.use(router.allowedMethods());
+const app = require('./server/router')
 
 // app.use(bodyParser());
 
@@ -34,6 +26,6 @@ mongoose.connect(config.mongo.DB_URL);
  * 连接成功
  */
 mongoose.connection.on('connected', () => {
-  console.log('数据库连接成功');
-});
+  console.log('连接成功');
 
+});

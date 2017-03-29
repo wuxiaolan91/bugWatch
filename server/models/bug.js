@@ -8,10 +8,8 @@ const bugSchema = new Schema({
   error: String, //  报错的堆栈信息
   ua: String, // 报错页面的user-agent
   time: { // 报错的时间
-    type:Date,
-    default:Date.now
-  }
+    type:Date, default:Date.now
+  }, 
 });
-const BugModel = mongoose.model('Bug', bugSchema);
-
-module.exports = BugModel;
+const bug = mongoose.model('Bug', bugSchema);
+module.exports = bug;

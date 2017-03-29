@@ -1,5 +1,7 @@
 <template>
   <div>
+    <router-link to="list">日志列表</router-link>
+    
     <bug-compare></bug-compare>
     <div id="top-wrap">
       <page-bug ></page-bug>
@@ -27,7 +29,7 @@ components: {
 </script>
 <style>
   #top-wrap {
-    margin-top: 5%;
+    margin-top: 10%;
     position: relative;
   }
 </style>
