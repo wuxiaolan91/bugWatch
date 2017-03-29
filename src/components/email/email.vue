@@ -5,75 +5,46 @@
       <div class="item"><span>收件人</span><input type="text" placeholder="收件人邮件地址"></div>
       <div class="item"><span>错误页面关键词</span><input type="text" placeholder="收件人邮件地址"></div>
     </div>
+    <button @click="state = !state" class="btn">{{state ? '编辑' : '取消'}}</button>
+    <button @click="del()" class="btn" v-show="!state">删除</button>
     <div class="list">
-      <p v-for="(item, index) in items">
-        <span>{{item.name}}</span><span>{{item.email}}</span><button @click="del(item, index)" class="btn">删除</button>
-      </p>
+      <div v-for="(item, index) in items" class="wraper">
+          <input type="checkbox" v-model="ids" :value="item._id">
+        <div class="details" :class="state ? 'active' : ''">
+            <span>{{item.name}}</span><span>{{item.email}}</span>
+        </div>
+      </div>
     </div>
 
   </div>
 
 </template>
-<script>
-
-</script>
-<style lang="less" scoped>
-  .content {
-    .title {
-      text-align: left;
-      margin-bottom: 20px;
-    }
-    .search {
-      border-bottom: 1px solid #848484;
-      padding-bottom: 20px;
-      overflow: hidden;
-      .item{
-        float: left;
-        input {
-          line-height: 30px;
-          border: none;
-          margin-left: 20px;
-          width: 180px;
-          text-indent: 1rem;
-        }
-      }
-      .item:nth-last-of-type(1) {
-        margin-left: 30px;
-      }
-    }
-  }
-  .list {
-    p {
-      text-align: left;
-      margin-top: 10px;
-    }
-    span {
-      margin-right: 15px;
-    }
-    button {
-      background-color: #e6e6e6;
-      border: none;
-      padding: 8px 12px;
-      margin-left: 13px;
-    }
-  }
-</style>
+<style lang="less" src="./less/email.less" scoped></style>
 <script>
   export default {
     data () {
       return {
-        items: []
+        items: [],
+        ids: [],
+        state: true,
       }
     },
     mounted () {
-      this.$http.post('/api/user').then((res) => {
-        this.items = res.data
-      })
+      this.get()
     },
     methods: {
-      del (item, index) {
-        this.$http.post('/api/user/delete', {id: item._id}).then((res) => {
-          this.items.splice(index, 1)
+      get () {
+        this.$http.post('/api/user').then((res) => {
+          this.items = res.data
+        })
+      },
+      del () {
+        if (!this.ids.length) {
+          alert('请选择删除项目')
+          return
+        }
+        this.$http.post('/api/user/delete', {id: this.ids}).then((res) => {
+          this.get()
         })
       }
     }
