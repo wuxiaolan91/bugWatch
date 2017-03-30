@@ -1,5 +1,5 @@
-(function () {
-  /**   
+const bugwatch = function (project) {
+  /**
       messag: 错误信息字符串
       source: 发生错误的脚本url
       lineno： 发生错误的行号
@@ -10,11 +10,15 @@
   window.onerror = function (message, source, lineno, colno, error) {
     console.log('js错误请求捕获到并开始调用接口')
     console.log('time:---------------');
-    console.log(new Date());
-    var url = `time=${new Date}&message=${message}&source=${source}行号:${lineno}列号:${colno}&pageUrl=${encodeURIComponent(location.href)}
+    console.log(message)
+    console.log(source)
+    console.log(lineno)
+    console.log(colno)
+    console.log(error)
+    var url = `project=${project}&time=${new Date}&message=${message}&source=${source}行号:${lineno}列号:${colno}&pageUrl=${encodeURIComponent(location.href)}
     `
-    ;
     if (error) {
+      console.log(error)
       url = `${url}&error=${error.stack}&errorType=${error.name}`
     }
     fetch(`/api/bug/watch?${url}`, {
@@ -42,7 +46,7 @@
         } catch (ex) {
 
         }
-        
+
       } else {
         console.log("Looks like the response wasn't perfect, got status", res.status);
       }
@@ -51,6 +55,6 @@
       console.log('这个接口出错了' + error);
     })
   }
-})();
+}
 
-     
+
