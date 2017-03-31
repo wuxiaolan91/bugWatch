@@ -5,6 +5,7 @@ import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/list/list.vue';
 import Ajax from '@/components/Ajax/Ajax.vue';
 import Email from '@/components/Email/Email.vue';
+import Performance from '@/components/Performance/Performance.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -36,6 +37,14 @@ export default new Router({
       children: [{
         path: '',
         component: Email
+      }]
+    },
+    {
+      path: '/performance', // 性能极客
+      component: App,
+      children: [{
+        path: '',
+        component: Performance
       }]
     }
   ],

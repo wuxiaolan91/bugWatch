@@ -29,6 +29,9 @@ methods: {
     
   }
 },
+mounted () {
+  console.dir(performance);
+},
 components: {
   BugCompare,
   pageBug,

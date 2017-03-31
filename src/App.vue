@@ -15,6 +15,9 @@
         <el-menu-item index="4">
           <router-link to="/email"><i class="el-icon-setting"></i>邮件通知</router-link>
         </el-menu-item>
+        <el-menu-item index="4">
+          <router-link to="/performance"><i class="el-icon-setting"></i>性能极客</router-link>
+        </el-menu-item>
       </el-menu>
     </div>
     <div id="wrap">

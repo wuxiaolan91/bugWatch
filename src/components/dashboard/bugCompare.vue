@@ -60,7 +60,7 @@ export default {
 }, mounted () {
     var myChart = echarts.init(document.getElementById('compare-bug'));
     this.$http.get('/api/bug/compareList')
-        .then( (res) => {
+        .then(res => {
             if (res.status = 200) {
                 let bugList = res.data;
                 this.option.series[0].data = bugList.yesterBugCountList;

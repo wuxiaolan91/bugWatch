@@ -2,8 +2,14 @@
   "name": "bugwatch",
   "version": "1.0.0",
   "description": "bugWatch,bug监测平台",
-  "author": "吴晓兰 <wuxiaolan@wecash.net>",
+  "author": "吴晓兰 <wuxiaolan91@163.com>",
   "private": true,
+  "keywords":["fontend", "bug", "watch", "performance"],
+  "maintainers": [
+    {
+      "name": "吴晓兰 wuxiaolan91@163.com"
+    }
+  ],
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",

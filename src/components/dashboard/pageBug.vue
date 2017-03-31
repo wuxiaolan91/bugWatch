@@ -66,7 +66,6 @@ export default {
       this.$http.get('/api/bug/bugTopList?type=page')
         .then( res => {
             if (res.status == 200) {
-                debugger;
                 let bugListObj = res.data;
                 this.option.xAxis[0].data = bugListObj.chartPageList;
                 this.option.series[0].data = bugListObj.chartCountList;
