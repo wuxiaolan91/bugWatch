@@ -15,7 +15,6 @@ router.get('/bug/pageTopList', bugController.weekBugList);
 router.get('/bug/bugTopList', bugController.weekBugList);
 app.use(router.routes());
 app.use(router.allowedMethods());
-
 // app.use(bodyParser());
 
 app.on('error', (err, ctx) => {

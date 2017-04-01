@@ -111,7 +111,11 @@ exports.bugWatch = function* () {
  * 得到bug列表
  */
 exports.list = function* () { // 获取bug列表，还没有哪个地方用到
-  const bugList = yield bugModel.find((err, bugList) => {
+  let query = this.query;
+  let currentPage = query.currentPage;
+  let size = query.size;
+  let skip = (currentPage-1)*size;
+  const bugList = yield bugModel.find().skip(skip).limit(10).exec((err, bugList) => {
     if (err) {
       return console.error(err);
     }
