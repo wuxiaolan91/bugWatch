@@ -18,6 +18,9 @@
       url = `${url}&error=${error.stack}&errorType=${error.name}`
     }
     fetch(`/api/bug/watch?${url}`, {
+      headers: {
+        website: location.host
+      },
       method: 'GET'
       // body: JSON.stringify({
       //   time: new Date(),
@@ -50,6 +53,11 @@
     .catch( function (error) {
       console.log('这个接口出错了' + error);
     })
+  }
+  window.onload = function () {
+    let timing = performance.timing;
+    var baiping = timing.domLoading - timing.fetchStart;
+    console.log('白屏时间：' + baiping);
   }
 })();
 
