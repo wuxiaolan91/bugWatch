@@ -120,11 +120,12 @@ exports.list = function* () { // 获取bug列表，还没有哪个地方用到
       return console.error(err);
     }
     return bugList;
-
-    // let bugList = yield new bugModel.find();
-
   });
-  this.body = bugList;
+  const totalLength = yield bugModel.find().count();
+  this.body = {
+    bugList,
+    totalLength: totalLength 
+  };
 };
 /*
  *  得到本周所有的bug列表

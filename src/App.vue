@@ -7,7 +7,7 @@
           </router-link>
         </el-menu-item>
         <el-menu-item index="2">
-          <router-link to="/list"><i class="el-icon-menu"></i>日志列表</router-link>
+          <router-link to="/bugList"><i class="el-icon-menu"></i>日志列表</router-link>
         </el-menu-item>
         <el-menu-item index="3">
           <router-link to="/ajax"><i class="el-icon-setting"></i>Ajax日志</router-link>
@@ -40,12 +40,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 #wrap {
-  position: fixed;
-  top: 30px;
-  left: 220px;
+  position: relative;
+  margin-left: 220px;
   right: 10px;
 }
 #nav-wrap {

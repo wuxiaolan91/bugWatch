@@ -7,13 +7,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-    <el-pagination
-      layout="prev, pager, next"
-      :size = "10"
-      :total="50"
-      @current-change="handleCurrentChange"
-      >
-     </el-pagination>
+    
     <el-table
       :data="tableData"
       style="width: 100%">
@@ -41,6 +35,13 @@
         label="useragent" style="width:150px">
       </el-table-column>
     </el-table>
+    <el-pagination
+      layout="prev, pager, next"
+      :size = "10"
+      :total="pageTotal"
+      @current-change="handleCurrentChange"
+      >
+     </el-pagination>
   </div>
 </template>
 <script>
@@ -49,6 +50,7 @@
       return {
         value: '1',
         size: 10,
+        
         page: 1,
          options: [{
           value: '1',
@@ -63,6 +65,7 @@
         value: '',
         tableData:[]
       }
+    },computed: {
     }, methods: {
       handleCurrentChange (page, page1) {
         if (this.page == page) {
@@ -77,8 +80,8 @@
         this.$http.get(`/api/bug/list?size=${this.size}&currentPage=${this.page}`)
           .then((res) => {
               if (res.status = 200) {
-                this.tableData = res.data;
-                this.total = res.data.length;
+                this.tableData = res.data.bugList;
+                this.pageTotal = res.data.totalLength / this.size;
 
               }
               
@@ -94,8 +97,9 @@
 </script>
 <style>
 .el-select {
-  position: absolute;
-  left: 0;
+  float: left;
+  margin-bottom: 20px;
+  clear: none;
 }
 .el-pagination {
   margin: 30px;

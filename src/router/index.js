@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import App from '../App.vue';
 import Dashboard from '@/components/dashboard/dashboard.vue';
-import List from '@/components/list/list.vue';
+import List from '@/components/bugList/bugList.vue';
 import Ajax from '@/components/Ajax/Ajax.vue';
 import Email from '@/components/Email/Email.vue';
 import Performance from '@/components/Performance/Performance.vue';
@@ -15,7 +15,7 @@ export default new Router({
       redirect: '/dashboard',
     },
     {
-      path: '/list', // bug的日志列表
+      path: '/bugList', // bug的日志列表
       name: 'list',
       component: List,
     },
