@@ -8,9 +8,8 @@
   */
   console.log('bug.js加载')
   window.onerror = function (message, source, lineno, colno, error) {
-    console.log('js错误请求捕获到并开始调用接口')
-    console.log('time:---------------');
-    console.log(new Date());
+    console.log('location.href');
+    console.log(location.href);
     var url = `time=${new Date}&message=${message}&source=${source}行号:${lineno}列号:${colno}&pageUrl=${encodeURIComponent(location.href)}
     `
     ;

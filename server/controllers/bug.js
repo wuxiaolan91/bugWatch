@@ -115,7 +115,17 @@ exports.list = function* () { // 获取bug列表，还没有哪个地方用到
   let currentPage = query.currentPage;
   let size = query.size;
   let skip = (currentPage-1)*size;
-  const bugList = yield bugModel.find().skip(skip).limit(10).exec((err, bugList) => {
+  const errorPage = query.errorPage;
+  const errorKeyword = query.errorKeyword;
+  var filterObj = {};
+  if (errorPage) {
+    filterObj.errorPage = new RegExp(query.errorPage)
+  }
+  if (errorKeyword) {
+    filterObj.message = new RegExp(query.errorKeyword)
+  }
+
+  const bugList = yield bugModel.find(filterObj).sort({_id: -1}).skip(skip).limit(10).exec((err, bugList) => {
     if (err) {
       return console.error(err);
     }
