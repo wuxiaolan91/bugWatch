@@ -1,15 +1,32 @@
 <template>
   <div>
-    我是日志列表
-    <ul>
-      <li v-for="bug in list">
-        时间: {{ bug.time}}<br>
-        ip: {{ bug.ip }}
-        错误: {{ bug.error }}
-        错误类型: {{ bug.errorType }}
-        错误页面: {{ bug.pageUrl }}
-        
-      </li>
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+       <el-table-column
+        prop="errorPage"
+        label="错误页面">
+      </el-table-column>
+      <el-table-column
+        prop="message"
+        label="错误"
+        >
+      </el-table-column>
+      <el-table-column
+        prop="time"
+        label="时间">
+      </el-table-column>
+      <el-table-column
+        prop="error"
+        label="错误堆栈"
+       >
+      </el-table-column>
+     
+      <el-table-column
+        prop="ua"
+        label="usergent" style="width:150px">
+      </el-table-column>
+    </el-table>
     </ul>
   </div>
 </template>
@@ -17,21 +34,14 @@
   export default {
     data () {
       return {
-        list: [
-          {
-            id: 1
-          }, {
-            id: 2
-          }
-        ]
+        tableData:[]
       }
     }, mounted () {
       console.log('获取bug列表')
-      this.$http.get('/api/getBugList')
+      this.$http.get('/api/bug/list')
         .then((res) => {
-            debugger;
             if (res.status = 200) {
-              this.list = res.data;
+              this.tableData = res.data;
             }
             
         })
