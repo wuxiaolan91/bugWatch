@@ -110,31 +110,49 @@ exports.bugWatch = function* () {
 /**
  * 得到bug列表
  */
-exports.list = function* () { // 获取bug列表，还没有哪个地方用到
-  let query = this.query;
-  let currentPage = query.currentPage;
-  let size = query.size;
-  let skip = (currentPage-1)*size;
-  const errorPage = query.errorPage;
-  const errorKeyword = query.errorKeyword;
-  var filterObj = {};
-  if (errorPage) {
-    filterObj.errorPage = new RegExp(query.errorPage)
+exports.getList = function* () { // 获取bug列表，还没有哪个地方用到
+  const query = this.query;
+  const currentPage = query.currentPage;
+  const size = query.size;
+  const skip = (currentPage - 1) * size;
+  const timeType = query.timeType;
+  console.log('timeType' + timeType);
+  const startTime = new Date();
+  const endTime = new Date();
+  switch (timeType) {
+    case '7':
+      console.log('7')
+      startTime.setDate(startTime.getDate() - 7);
+      break;
+    case '30':
+      startTime.setDate(startTime.getDate() - 30);
+      break;
   }
-  if (errorKeyword) {
-    filterObj.message = new RegExp(query.errorKeyword)
+  startTime.setHours('00', '00', '01');
+  endTime.setHours('23', '59', '59');
+  const filterObj = {
+    time: {
+      $gte: new Date(startTime),
+      $lte: new Date(endTime),
+    },
+  };
+  if (query.errorPage) {
+    filterObj.errorPage = new RegExp(query.errorPage);
+  }
+  if (query.errorKeyword) {
+    filterObj.message = new RegExp(query.errorKeyword);
   }
 
-  const bugList = yield bugModel.find(filterObj).sort({_id: -1}).skip(skip).limit(10).exec((err, bugList) => {
+  const bugList = yield bugModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, bugList) => {
     if (err) {
       return console.error(err);
     }
     return bugList;
   });
-  const totalLength = yield bugModel.find().count();
+  const totalLength = yield bugModel.find(filterObj).count();
   this.body = {
     bugList,
-    totalLength: totalLength 
+    totalLength,
   };
 };
 /*

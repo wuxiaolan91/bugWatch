@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-select v-model="value" placeholder="请选择">
+    <el-select v-model="timeValue" placeholder="请选择" @change="getList">
       <el-option
         v-for="item in timeList"
         :label="item.label"
@@ -56,12 +56,18 @@
   </div>
 </template>
 <script>
+let startTime = new Date(),
+    endTime = new Date();
+startTime.setHours('00','00','00');
+endTime.setHours('23','59','59');
   export default {
     data () {
       return {
-        value: '1',
+        timeValue: '1',
+        startTime:startTime,
+        endTime: endTime,
         size: 10,
-        page: 1,
+        currentPage: 1,
         errorPage: '', //页面关键字
         errorKeyword: '',
         timeList: [{ // 按照时间筛选
@@ -77,34 +83,50 @@
         value: '',
         tableData:[]
       }
-    },computed: {
     }, methods: {
       onSearch () {
         this.getList();
       },
-      handleCurrentChange (page, page1) {
-        if (this.page == page) {
+      handleCurrentChange (currentPage) {
+        if (this.pagcurrentPage == currentPage) {
           return;
         } else {
-          this.page = page;
+          this.currentPage = currentPage;
           this.getList();
         }
         
       }, getList () {
+        let self = this;
         console.log('获取bug列表')
-        var searchParam = `size=${this.size}&currentPage=${this.page}`;
+        var searchParam = {
+          size: self.size,
+          currentPage: self.currentPage,
+          timeType: self.timeValue
+        };
         if (this.errorPage) {
-          searchParam = searchParam + `&errorPage=${this.errorPage}`;
+          searchParam.errorPage = this.errorPage;
         }
         if (this.errorKeyword) {
-          searchParam = searchParam + `&errorKeyword=${this.errorKeyword}`;
+          searchParam.errorKeyword = this.errorKeyword;
         }
-        this.$http.get(`/api/bug/list?${searchParam}`)
+        this.$http.get('/api/bug/getList', {
+          params: searchParam
+        })
           .then((res) => {
               if (res.status = 200) {
-                this.tableData = res.data.bugList;
+                let bugList = res.data.bugList;
+                if (bugList.length) {
+                  bugList.map(item => {
+                    let time = new Date(item.time);
+                    item.time = time.toString();
+                    return item;
+                  })
+                }
+                console.dir(bugList);
+                this.tableData = bugList;
                 this.pageTotal = res.data.totalLength / this.size;
-
+                this.errorPage = '';
+                this.errorKeyword = '';
               }
           })
           .catch(function (error) {
