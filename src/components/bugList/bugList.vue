@@ -47,6 +47,7 @@
       </el-table-column>
     </el-table>
     <el-pagination
+      v-if="pageTotal > 1"
       layout="prev, pager, next"
       :size = "10"
       :total="pageTotal"
@@ -68,6 +69,7 @@ endTime.setHours('23','59','59');
         endTime: endTime,
         size: 10,
         currentPage: 1,
+        pageTotal: 0,
         errorPage: '', //页面关键字
         errorKeyword: '',
         timeList: [{ // 按照时间筛选
