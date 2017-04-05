@@ -71,7 +71,7 @@
 npm install
 
 ## start server
-node app.js
+node server/app.js
 
 # serve with hot reload at localhost:8080 and open koa service.
 npm run dev
