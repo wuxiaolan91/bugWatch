@@ -5,7 +5,6 @@
   </div>
 </template >
 <script>
-
 export default {
     data() {
         return {
@@ -59,7 +58,7 @@ export default {
   created () {
 }, mounted () {
     var myChart = echarts.init(document.getElementById('compare-bug'));
-    this.$http.get('/api/bug/compareList')
+    this.$http.get('/api/bug/compareList1')
         .then(res => {
             if (res.status = 200) {
                 let bugList = res.data;
