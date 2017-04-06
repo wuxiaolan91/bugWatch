@@ -12,4 +12,5 @@ const ajaxSchema = new Schema({
   }
 });
 const ajaxModel = mongoose.model('Ajax', ajaxSchema);
+
 module.exports = ajaxModel;
