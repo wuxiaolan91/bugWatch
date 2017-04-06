@@ -63,7 +63,7 @@ export default {
   }, mounted () {
       var myChart = echarts.init(document.getElementById('page-bug'));
 
-      this.$http.get('/api/bug/bugTopList?type=page')
+      this.$http.get('/api/bug/bugTopList1?type=page')
         .then( res => {
             if (res.status == 200) {
                 let bugListObj = res.data;

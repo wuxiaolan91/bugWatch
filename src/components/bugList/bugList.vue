@@ -127,8 +127,7 @@ endTime.setHours('23','59','59');
                 console.dir(bugList);
                 this.tableData = bugList;
                 this.pageTotal = res.data.totalLength / this.size;
-                this.errorPage = '';
-                this.errorKeyword = '';
+                
               }
           })
           .catch(function (error) {

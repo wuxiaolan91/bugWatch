@@ -12,8 +12,11 @@
       <el-form-item label="错误页面">
         <el-input placeholder="请输入想要查看错误的具体页面"  v-model="errorPage"></el-input>
       </el-form-item>
+      <el-form-item label="错误接口">
+        <el-input placeholder="请输入页请输入想要查看的接口关键字"  v-model="url"></el-input>
+      </el-form-item>
       <el-form-item label="错误信息">
-        <el-input placeholder="请输入页请输入想要查看错误的具体关键字"  v-model="errorKeyword"></el-input>
+        <el-input placeholder="请输入页请输入想要查看的接口关键字"  v-model="errorKeyword"></el-input>
       </el-form-item>
        <el-form-item>
         <el-button type="primary" @click="onSearch">搜索</el-button>
@@ -75,7 +78,8 @@ export default {
         size: 10,
         currentPage: 1,
         pageTotal: 0,
-        errorPage: '', //页面关键字
+        errorPage: '', // 页面关键字
+        url: '', // 接口关键字
         errorKeyword: '',
         timeList: [{ // 按照时间筛选
           value: '1',
@@ -116,6 +120,9 @@ export default {
         if (this.errorKeyword) {
           searchParam.errorKeyword = this.errorKeyword;
         }
+        if (this.url) {
+          searchParam.url = this.url;
+        }
         this.$http.get('/api/bug/getAjaxList', {
           params: searchParam
         })
@@ -132,8 +139,10 @@ export default {
                 console.dir(bugList);
                 this.tableData = bugList;
                 this.pageTotal = res.data.totalLength / this.size;
-                this.errorPage = '';
-                this.errorKeyword = '';
+                // this.errorPage = '';
+                // this.errorKeyword = '';
+                // this.url = '';
+
               }
           })
           .catch(function (error) {
