@@ -58,7 +58,7 @@ export default {
   created () {
 }, mounted () {
     var myChart = echarts.init(document.getElementById('compare-bug'));
-    this.$http.get('/api/bug/compareList1')
+    this.$http.get('/api/bug/compareList')
         .then(res => {
             if (res.status = 200) {
                 let bugList = res.data;

@@ -1,15 +1,14 @@
 const Koa = require('koa');
 const app = new Koa();
 // const bodyParser = require('koa-bodyparser');
-const router = require('koa-router')();
-const mongoose = require('mongoose');
+const router = require('koa-router')(),
+      mongoose = require('mongoose'),
+      config = require('./config');
 
-const config = require('./config');
+const bugController = require('./controllers/bug.js'),
+      ajaxController = require('./controllers/ajax.js');
 
-const bugController = require('./controllers/bug.js');
-const ajaxController = require('./controllers/ajax.js');
-// const list = require("./controllers/list.js");
-// const mongo = require('./models/db.js');
+// config reset api router
 router.get('/bug/addWatch', bugController.bugWatch);
 router.get('/bug/getList', bugController.getList);
 router.get('/bug/compareList', bugController.compareList);

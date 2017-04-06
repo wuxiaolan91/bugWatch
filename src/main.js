@@ -9,18 +9,17 @@ import router from './router';
 
 // Add a response interceptor
 Axios.interceptors.response.use(function (response) {
-  debugger;
     // Do something with response data
     return response;
   }, function (error) {
-    debugger;
     Axios.get('/api/bug/addAjaxWatch', {
       params: {
-        pageUrl: location.href,
+        errorPage: location.href,
         url: error.config.url,
         message: error.message,
         error: error.stack,
-        status: error.status
+        status: error.status,
+        ua: navigator.userAgent
       }
     })
   .then(function(response) {

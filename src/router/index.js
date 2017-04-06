@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import App from '../App.vue';
 import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/bugList/bugList.vue';
-import Ajax from '@/components/Ajax/Ajax.vue';
+import Ajax from '@/components/Ajax/ajaxList.vue';
 import Email from '@/components/Email/Email.vue';
 import Performance from '@/components/Performance/Performance.vue';
 Vue.use(Router);
@@ -24,12 +24,9 @@ export default new Router({
       component: Dashboard
     },
     {
-      path: '/ajax', // bug的日志列表
-      component: App,
-      children: [{
-        path: '',
-        component: Ajax
-      }]
+      path: '/ajax', // ajax的日志列表(包括有问题的ajax或者特别慢的ajax记录)
+      name: 'ajax',
+      component: Ajax
     },
     {
       path: '/email', // bug的日志列表
