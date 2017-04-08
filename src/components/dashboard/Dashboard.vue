@@ -1,11 +1,14 @@
 <template>
   <div>
-    <router-link to="list">日志列表</router-link>
-    
-    <bug-compare></bug-compare>
-    <div id="top-wrap">
-      <page-bug ></page-bug>
-      <top-bug ></top-bug>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="bug时间比较图" name="first"></el-tab-pane>
+      <el-tab-pane label="bug页面排行榜" name="second"></el-tab-pane>
+      <el-tab-pane label="bugTop排行榜" name="third"></el-tab-pane>
+    </el-tabs>
+    <bug-compare v-show="activeName === 'first'"></bug-compare>
+    <div id="top-wrap" >
+      <page-bug v-show="activeName === 'second'"></page-bug>
+      <top-bug v-show="activeName === 'third'"></top-bug>
     </div>
   </div>
   
@@ -16,9 +19,18 @@ import pageBug from './pageBug.vue';
 import topBug from './topBug.vue';
 export default {
   data() {
-  return {
-    msg: 'Welcome to Your Vue.js App',
-  };
+    return {
+      activeName: 'first',
+      msg: 'Welcome to Your Vue.js App',
+    };
+},
+methods: {
+  handleClick (tab,event) {
+    
+  }
+},
+mounted () {
+  console.dir(performance);
 },
 components: {
   BugCompare,
@@ -28,8 +40,5 @@ components: {
 };
 </script>
 <style>
-  #top-wrap {
-    margin-top: 10%;
-    position: relative;
-  }
+
 </style>

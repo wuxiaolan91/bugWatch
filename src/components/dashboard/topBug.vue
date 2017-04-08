@@ -1,6 +1,6 @@
 <template>
   <div class="echarts">
-    <div id="top-bug" style="width: 48%;height:400px;"></div>
+    <div id="top-bug" style="width: 1700px;height:400px;"></div>
   </div>
   </div>
 </template>
@@ -13,8 +13,7 @@ export default {
       msg: 'Welcome to Your Vue.js App',
        option: {
                     title: {
-                        text: 'bugTop排行榜',
-                        subtext: 'bug类型'
+                        text: 'bugTop排行榜'
                     },
                     tooltip: {
                         trigger: 'axis'
@@ -65,15 +64,22 @@ export default {
     }
   }, mounted () {
     var myChart = echarts.init(document.getElementById('top-bug'));
-    myChart.setOption(this.option);
+    this.$http.get('/api/bug/bugTopList?type=bug')
+        .then( res => {
+            if (res.status == 200) {
+                let bugListObj = res.data;
+                console.log('bugListObj');
+                console.dir(bugListObj);
+                this.option.xAxis[0].data = bugListObj.chartPageList;
+                this.option.series[0].data = bugListObj.chartCountList;
+                myChart.setOption(this.option);
+            }
+            
+        })
   }
 }
 </script>
 
 <style scoped>
-#top-bug {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
+
 </style>

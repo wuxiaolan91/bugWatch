@@ -1,6 +1,6 @@
 <template>
   <div class="echarts">
-    <div id="page-bug" style="width:48%;height:400px;"></div>
+    <div id="page-bug" style="width:1500px;height:400px;"></div>
   </div>
 </template>
 
@@ -11,8 +11,7 @@ export default {
     return {
        option: {
         title: {
-            text: 'bug页面排行榜',
-            subtext: '页面'
+            text: 'bug页面排行榜'
         },
         tooltip: {
             trigger: 'axis'
@@ -34,7 +33,7 @@ export default {
         xAxis: [
             {
                 type: 'category',
-                data: ['index', 'login', 'repayment', 'register', 'auth']
+                data: []
             }
         ],
         yAxis: [
@@ -46,7 +45,7 @@ export default {
             {
                 name: 'bug次数',
                 type: 'bar',
-                data: [450, 320, 300, 200, 100],
+                data: [],
                 markPoint: {
                     data: [
                         { type: 'max', name: '最大值' }
@@ -62,17 +61,24 @@ export default {
       }
     }
   }, mounted () {
-       var myChart = echarts.init(document.getElementById('page-bug'));
-        myChart.setOption(this.option);
+      var myChart = echarts.init(document.getElementById('page-bug'));
+
+      this.$http.get('/api/bug/bugTopList?type=page')
+        .then( res => {
+            if (res.status == 200) {
+                let bugListObj = res.data;
+                this.option.xAxis[0].data = bugListObj.chartPageList;
+                this.option.series[0].data = bugListObj.chartCountList;
+                myChart.setOption(this.option);
+            }
+            
+        })
+        
+        
   }
 }
 </script>
 
 <style>
 
-#page-bug {
-    position: relative;
-    left: 0;
-    top: 0;
-}
 </style>

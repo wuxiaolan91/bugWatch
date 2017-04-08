@@ -1,16 +1,24 @@
-const Koa = require('koa');
+const Koa = require('koa')
+const router = require('koa-router')()
+const bugController = require('../controllers/bug.js')
+const ajaxController = require('../controllers/ajax.js')
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 app.use(bodyParser())
-const router = require('koa-router')()
-const bugController = require('../controllers/bug.js')
 const user = require('../controllers/user')
-app.use(router.routes(),router.allowedMethods())
-app.use(bodyParser())
 router.get('/bug/watch', bugController.bugWatch)
 router.get('/bug/email', () => {
   const email = require('../controllers/user')
 })
-router.post('/user', user.searchuser)
+router.get('/bug/addWatch', bugController.bugWatch);
+router.get('/bug/getList', bugController.getList);
+router.get('/bug/compareList', bugController.compareList);
+router.get('/bug/pageTopList', bugController.weekBugList);
+router.get('/bug/bugTopList', bugController.weekBugList);
+router.get('/bug/addAjaxWatch', ajaxController.report);
+router.get('/bug/getAjaxList', ajaxController.list);
+router.get('/user', user.searchuser)
 router.post('/user/delete', user.delete)
+app.use(router.routes());
+app.use(router.allowedMethods());
 module.exports = app

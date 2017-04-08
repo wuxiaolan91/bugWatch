@@ -66,14 +66,16 @@
       }
     },
     mounted () {
-      this.$http.post('/api/user').then((res) => {
+      this.$http.get('/api/user').then((res) => {
         this.items = res.data
       })
     },
     methods: {
       del (item, index) {
         this.$http.post('/api/user/delete', {id: item._id}).then((res) => {
-          this.items.splice(index, 1)
+          if (res == 1) {
+            this.items.splice(index, 1)
+          }
         })
       }
     }

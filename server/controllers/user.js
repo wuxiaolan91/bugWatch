@@ -6,10 +6,15 @@ exports.delete = function *() {
       console.log(err)
     }
   })
+  this.body = '1'
 }
 exports.searchuser = function *() {
   this.body = yield user.find({},  (err, res) => {
     if(err) return
   })
+  console.log(this.body)
+}
+/* 用户登录 */
+exports.login = function *() {
 }
 
