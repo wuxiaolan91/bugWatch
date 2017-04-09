@@ -1,3 +1,4 @@
+<style src="./assets/less/reset.less" lang="less"></style>
 <template>
   <div id="app">
     <div id="nav-wrap">

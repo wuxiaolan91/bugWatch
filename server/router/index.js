@@ -18,7 +18,7 @@ router.get('/bug/bugTopList', bugController.weekBugList);
 router.get('/bug/addAjaxWatch', ajaxController.report);
 router.get('/bug/getAjaxList', ajaxController.list);
 router.get('/user', user.searchuser)
-router.post('/user/delete', user.delete)
+router.post('/user/email', user.sendemail)
 app.use(router.routes());
 app.use(router.allowedMethods());
 module.exports = app
