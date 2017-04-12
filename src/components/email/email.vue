@@ -78,7 +78,7 @@
           {{item.name}}({{item.email}})
         </p>
       </div>
-      <textarea></textarea>
+      <textarea v-model="content"></textarea>
       <el-button @click="send()">发送</el-button>
     </div>
   </div>
@@ -95,7 +95,8 @@
         editable: false,
         selectable: false,
         selectitem: [],
-        emails: []
+        emails: [],
+        content: ''
       }
     },
     mounted () {
@@ -120,7 +121,7 @@
         }
       },
       send () {
-        this.$http.post('/api/user/email',{email: this.emails}).then((res) => {
+        this.$http.post('/api/user/email',{email: this.emails, content: this.content}).then((res) => {
           this.items = res.data
         })
       }

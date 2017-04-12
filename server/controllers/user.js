@@ -6,8 +6,8 @@ let transporter = nodemailer.createTransport({
   secureConnection: true, // 使用 SSL
   port: 465, // SMTP 端口
   auth: {
-    user: 'lyz1051500917@163.com',
-    pass: 'lyz1991L'
+    user: '',
+    pass: ''
   }
 });
  exports.sendemail = function *(mailOptions) {
