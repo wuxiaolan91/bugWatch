@@ -53,14 +53,14 @@
 8. 进入连接以后， 在连接点击右键， 选择 'Add Database', 输入数据库的名字，按回车，数据库就建好了
 9. 新建用户： 选择当前连接下的Admin数据库，再点击界面菜单栏的 "Users"， 或者用命令行建用户，就是进入 ”MongoDB"安装目录。然后输入（命令行建用户的方法可以忽略命令10）
 ```
-	db.createUser({user : "admin",pwd  : "111111"
-    ,roles : [
-        {
-            role : "userAdminAnyDatabase",
-            db   : "admin"
-        }
-    ]
- })
+db.createUser({user : "admin",pwd  : "111111"
+  ,roles : [
+      {
+          role : "userAdminAnyDatabase",
+          db   : "admin"
+      }
+  ]
+})
 ```
 
 10. 输入用户名和密码，点击回车。
