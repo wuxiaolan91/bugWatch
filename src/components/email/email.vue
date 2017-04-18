@@ -82,7 +82,6 @@
       <el-button @click="send()">发送</el-button>
     </div>
   </div>
-
 </template>
 <script>
   export default {

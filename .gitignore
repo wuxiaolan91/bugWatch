@@ -7,3 +7,4 @@ models/db.js
 server/config/local.config.js
 .idea/
 .vscode
+.gitconfig
