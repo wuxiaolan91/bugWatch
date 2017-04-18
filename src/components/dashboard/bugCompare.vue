@@ -1,9 +1,10 @@
 <template>
-    <div id="bug-compare" class="echarts">
+    <div id="bug-compare"
+         class="echarts">
         <div id="compare-bug" style="width:100%;height:400px;"></div>
     </div>
-  </div>
-</template >
+    </div>
+</template>
 <script>
 export default {
     data() {
@@ -14,25 +15,25 @@ export default {
                 },
                 tooltip: {
                     trigger: 'axis',
-                     axisPointer: {
+                    axisPointer: {
                         type: 'shadow'
-                     }
+                    }
                 },
                 toolbox: {
-                    show : true,
-                    feature : {
-                        dataView : {show: true, readOnly: false},
-                        magicType : {show: true, type: ['bar']},
-                        restore : {show: true},
-                        saveAsImage : {show: true}
+                    show: true,
+                    feature: {
+                        dataView: { show: true, readOnly: false },
+                        magicType: { show: true, type: ['bar'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
                     }
                 },
                 legend: {
                     data: ['昨天', '今天']
                 },
                 xAxis: {
-                    data: ['0am','1am','2am','3am','4am','5am','6am','7am','8am', '9am', '10am', '11am', '12am', 
-                        '1pm', '2pm','3pm','4pm','5pm','6pm','7pm','8pm','9pm','10pm','11pm']
+                    data: ['0am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12am',
+                        '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm']
                 },
                 yAxis: {
                 },
@@ -50,27 +51,24 @@ export default {
                         data: []
                         // data: [5, 3, 6, 6, 6, 3, 5, 3, 16, 10, 6, 3, 5, 3, 6, 6, 6, 3,5, 3, 6, 6, 10, 3]
                     }
-                    
+
                 ]
             }
         }
     },
-  created () {
-}, mounted () {
-    var myChart = echarts.init(document.getElementById('compare-bug'));
-    this.$http.get('/api/bug/compareList')
+    mounted () {
+        console.log(new Date())
+        var myChart = echarts.init(document.getElementById('compare-bug'));
+        this.$http.get('/api/bug/compareList')
         .then(res => {
             if (res.status = 200) {
                 let bugList = res.data;
                 this.option.series[0].data = bugList.yesterBugCountList;
-                this.option.series[1].data =  bugList.todayBugCountList;
+                this.option.series[1].data = bugList.todayBugCountList;
                 myChart.setOption(this.option);
             }
         })
-
-  }, methods: {
-      
-  }
+    }
 }
 </script>
 
