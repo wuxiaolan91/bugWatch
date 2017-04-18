@@ -1,25 +1,6 @@
-const Koa = require('koa');
-const app = new Koa();
-// const bodyParser = require('koa-bodyparser');
-const router = require('koa-router')(),
-      mongoose = require('mongoose'),
-      config = require('./config');
-
-const bugController = require('./controllers/bug.js'),
-      ajaxController = require('./controllers/ajax.js');
-
-// config reset api router
-router.get('/bug/addWatch', bugController.bugWatch);
-router.get('/bug/getList', bugController.getList);
-router.get('/bug/compareList', bugController.compareList);
-router.get('/bug/pageTopList', bugController.weekBugList);
-router.get('/bug/bugTopList', bugController.weekBugList);
-router.get('/bug/addAjaxWatch', ajaxController.report);
-router.get('/bug/getAjaxList', ajaxController.list);
-app.use(router.routes());
-app.use(router.allowedMethods());
-// app.use(bodyParser());
-
+const app = require('./router/index')
+let config = require('./config')
+const mongoose = require('mongoose')
 app.on('error', (err, ctx) => {
   console.log('Koa服务开启失败', err);
 });

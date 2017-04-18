@@ -4,7 +4,7 @@ import App from '../App.vue';
 import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/bugList/bugList.vue';
 import Ajax from '@/components/Ajax/ajaxList.vue';
-import Email from '@/components/Email/Email.vue';
+import Email from '@/components/email/email.vue';
 import Performance from '@/components/Performance/Performance.vue';
 Vue.use(Router);
 

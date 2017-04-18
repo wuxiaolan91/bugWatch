@@ -1,7 +1,8 @@
+<style src="./assets/less/reset.less" lang="less"></style>
 <template>
   <div id="app">
     <div id="nav-wrap">
-      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+      <el-menu default-active="2" class="el-menu-vertical-demo">
         <el-menu-item index="1">
           <router-link to="/dashboard"><i class="el-icon-message"></i>Dashboard
           </router-link>
@@ -20,7 +21,7 @@
     <div id="wrap">
       <router-view></router-view>
     </div>
-    
+
   </div>
 </template>
 

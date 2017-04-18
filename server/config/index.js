@@ -20,6 +20,6 @@ const all = {
 };
 // 根据环境变量合成配置
 // ==============================================
-module.exports = _.merge(
+module.exports = Object.assign(
   all,
-  require('./local.config.js') || {});
+  require('./local.config.js') || {})
