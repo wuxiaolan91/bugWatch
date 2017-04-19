@@ -17,18 +17,6 @@
     }
     fetch(`/api/bug/watch?${url}`, {
       method: 'GET'
-      // body: JSON.stringify({
-      //   time: new Date(),
-      //   url: location.url,
-      //   pathname: this.location.pathname,
-      //   screen: {
-      //       width: this.screen.width,
-      //       height: this.screen.height
-      //   },
-      //   message: message,
-      //   source: `${source} 行号：${lineno} 列号：${colno}`,
-      //   error: error
-      // })
     }).then(function(res) {
       // res instanceof Response == true.
       if (res.ok) {

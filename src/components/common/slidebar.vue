@@ -32,6 +32,9 @@
   <li>
     <router-link to="/email">发送邮件</router-link>
   </li>
+  <li>
+    <router-link to="/login">登录</router-link>
+  </li>
 </ul>
   </div>
 </template>

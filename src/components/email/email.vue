@@ -1,64 +1,3 @@
-<style lang="less" scoped>
-  .content {
-  .title {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  .search {
-    border-bottom: 1px solid #848484;
-    padding-bottom: 20px;
-    overflow: hidden;
-  }
-  .email {
-    .inputcontainer {
-      position: relative;
-      .input {
-        width: 100%;
-        height: 48px;
-        text-align: left;
-        padding-left: 20px;
-        line-height: 48px;
-        border: 1px solid #e6e6e6;
-      }
-      .email-plus {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        cursor: pointer;
-      }
-    }
-  }
-  .users{
-    width: 100%;
-    box-sizing: border-box;
-    padding: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: 1px solid #e6e6e6;
-    text-align: left;
-    position: relative;
-    p {
-      padding: 10px;
-    }
-    p:hover {
-      background-color: #3c8dbc;
-    }
-  }
-  .email-close {
-    position: absolute;
-    right: 30px;
-    top: 30px;
-    cursor: pointer;
-  }
-  textarea {
-    width: 100%;
-    height: auto;
-    resize: none;
-    min-height: 200px;
-    font-size: 24px;
-  }
-  }
-</style>
 <template>
   <div class="content">
     <p class="title">邮件通知</p>
@@ -127,3 +66,64 @@
     }
   }
 </script>
+<style lang="less" scoped>
+  .content {
+  .title {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  .search {
+    border-bottom: 1px solid #848484;
+    padding-bottom: 20px;
+    overflow: hidden;
+  }
+  .email {
+    .inputcontainer {
+      position: relative;
+      .input {
+        width: 100%;
+        height: 48px;
+        text-align: left;
+        padding-left: 20px;
+        line-height: 48px;
+        border: 1px solid #e6e6e6;
+      }
+      .email-plus {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        cursor: pointer;
+      }
+    }
+  }
+  .users{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px solid #e6e6e6;
+    text-align: left;
+    position: relative;
+    p {
+      padding: 10px;
+    }
+    p:hover {
+      background-color: #3c8dbc;
+    }
+  }
+  .email-close {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    cursor: pointer;
+  }
+  textarea {
+    width: 100%;
+    height: auto;
+    resize: none;
+    min-height: 200px;
+    font-size: 24px;
+  }
+  }
+</style>

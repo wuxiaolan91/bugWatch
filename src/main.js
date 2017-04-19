@@ -12,16 +12,17 @@ Axios.interceptors.response.use(function (response) {
     // Do something with response data
     return response;
   }, function (error) {
-    Axios.get('/api/bug/addAjaxWatch', {
-      params: {
-        errorPage: location.href,
-        url: error.config.url,
-        message: error.message,
-        error: error.stack,
-        status: error.status,
-        ua: navigator.userAgent
-      }
-    })
+   fetch("/login", {
+        method: "POST",
+        body: {
+          errorPage: location.href,
+          url: error.config.url,
+          message: error.message,
+          error: error.stack,
+          status: error.status,
+          ua: navigator.userAgent
+        }
+  })
   .then(function(response) {
     console.log('发出ajax错误监控');
     console.log(response.data);
@@ -38,6 +39,12 @@ Vue.prototype.$http = Axios;
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+debugger;
+router.beforeEach((to, from, next) => {
+  if (!localStorage.getItem('name')) {
+    next();
+  } 
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

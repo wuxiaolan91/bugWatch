@@ -108,7 +108,6 @@ export default {
         
       }, getList () {
         let self = this;
-        console.log('获取bug列表')
         var searchParam = {
           size: self.size,
           currentPage: self.currentPage,
