@@ -1,7 +1,9 @@
 <style src="./assets/less/reset.less" lang="less"></style>
 <template>
   <div id="app">
+    <Top></Top>
     <div id="nav-wrap">
+      
       <el-menu default-active="2" class="el-menu-vertical-demo">
         <el-menu-item index="1">
           <router-link to="/dashboard"><i class="el-icon-message"></i>Dashboard
@@ -26,33 +28,41 @@
 </template>
 
 <script>
+import Top from '@/components/common/header.vue';
 export default {
   name: 'app',
+  components: {
+    Top
+  }
 };
 </script>
 
 <style lang="less">
+@top: 50px;
+body {
+  margin: 0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 20px;
 }
 #wrap {
   position: relative;
   margin-left: 220px;
   right: 10px;
+  top: 10px;
 }
 #nav-wrap {
   display: inline-block;
   position: fixed;
   left: 0;
-  top: 0px;
+  top: @top;
   bottom: 0px;
   width: 200px;
-  padding-top: 20px;
+  padding-top: 10px;
   background-color: #eef1f6;
 }
 </style>

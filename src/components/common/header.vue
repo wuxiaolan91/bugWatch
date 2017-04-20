@@ -1,4 +1,69 @@
+
+<template>
+<header>
+  帮你监控网站的错误，性能
+    <div class="left">
+      <h1>bugWatch</h1>
+      <el-select v-model="projectValue" placeholder="请选择">
+        <el-option
+          v-for="item in projectList"
+          :label="item.name"
+          :value="item.projectId">
+        </el-option>
+      </el-select>
+    </div>
+  <div class="right">
+    <el-dropdown>
+      <span class="el-dropdown-link">
+        {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>
+          <router-link to="/project?type=list">项目设置</router-link>
+        </el-dropdown-item>
+        <el-dropdown-item>项目成员</el-dropdown-item>
+        <el-dropdown-item>
+          <router-link to="/project?type=add">添加项目</router-link>
+        </el-dropdown-item>
+        <el-dropdown-item >退出</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </div>
+</header>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      name: localStorage.name,
+      projectValue: '',
+      projectList: []
+    }
+  },
+  created () {
+    this.getProjectList();
+  }, methods: {
+          /**
+       *
+       */
+      getProjectList () {
+        this.$http.get('/api/project/list')
+          .then((res) => {
+            if (res.data) {
+              this.projectList = res.data;
+              if (this.getProjectList.length) {
+                this.projectValue = this.projectList[0].name;
+              }
+            }
+          })
+      }
+  }
+}
+</script>
 <style lang="less" scoped>
+.el-select {
+  float: none;
+}
   header {
     position: relative;
     z-index: 2;
@@ -10,7 +75,6 @@
     color: white;
 
     .left {
-      width: 230px;
       float: left;
     }
     .right {
@@ -20,14 +84,11 @@
       cursor: pointer;
     }
   }
+  h1 {
+    display: inline;
+    margin-left: 25px;
+    margin-right: 25px;
+    font-size: 36px;
+    vertical-align: middle;
+  }
 </style>
-<template>
-<header>
-    <div class="left">
-      前端bug系统
-    </div>
-  <div class="right">
-    登录
-  </div>
-</header>
-</template>

@@ -1,11 +1,17 @@
 const Koa = require('koa');
-const router = require('koa-router')();
-const bugController = require('../controllers/bug.js');
-const ajaxController = require('../controllers/ajax.js');
-const userController = require('../controllers/user.js');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 app.use(bodyParser());
+const router = require('koa-router')();
+
+// router
+const bugController = require('../controllers/bug.js');
+const ajaxController = require('../controllers/ajax.js');
+const userController = require('../controllers/user.js');
+// project
+const projectController = require('../controllers/project.js');
+router.post('/project/add', projectController.add);
+router.get('/project/list', projectController.list);
 const user = require('../controllers/user');
 router.get('/bug/watch', bugController.bugWatch);
 router.get('/bug/email', () => {

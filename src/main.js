@@ -39,11 +39,12 @@ Vue.prototype.$http = Axios;
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-debugger;
 router.beforeEach((to, from, next) => {
-  if (!localStorage.getItem('name')) {
+  if (localStorage.getItem('name') || to.path.indexOf('login') > -1) {
     next();
-  } 
+  } else {
+    next('/login');
+  }
 })
 /* eslint-disable no-new */
 new Vue({
