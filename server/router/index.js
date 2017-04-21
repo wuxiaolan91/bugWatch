@@ -13,6 +13,8 @@ const projectController = require('../controllers/project.js');
 router.post('/project/add', projectController.add);
 router.get('/project/list', projectController.list);
 const user = require('../controllers/user');
+
+// bug
 router.get('/bug/watch', bugController.bugWatch);
 router.get('/bug/email', () => {
   const email = require('../controllers/user');
@@ -26,6 +28,8 @@ router.get('/bug/addAjaxWatch', ajaxController.report);
 router.get('/bug/getAjaxList', ajaxController.list);
 // router.get('/user', user.searchuser);
 // router.post('/user/email', user.sendemail);
+
+// user
 router.post('/user/login', userController.login);
 
 app.use(router.routes());

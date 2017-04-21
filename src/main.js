@@ -6,7 +6,18 @@ import 'element-ui/lib/theme-default/index.css';
 import Axios from 'axios';
 import App from './App';
 import router from './router';
+console.log('hehehe')
 
+// Add a request interceptor
+Axios.interceptors.request.use(function (config) {
+  debugger;
+  config.headers.common['projectId'] = localStorage.getItem('projectId');
+    // Do something before request is sent
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
 // Add a response interceptor
 Axios.interceptors.response.use(function (response) {
     // Do something with response data
@@ -25,11 +36,7 @@ Axios.interceptors.response.use(function (response) {
   })
   .then(function(response) {
     console.log('发出ajax错误监控');
-    console.log(response.data);
-    console.log(response.status);
-    console.log(response.statusText);
-    console.log(response.headers);
-    console.log(response.config);
+   
   });
     // Do something with response error
     return Promise.reject(error);
@@ -46,6 +53,7 @@ router.beforeEach((to, from, next) => {
     next('/login');
   }
 })
+window.EventBus = new Vue();
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -53,3 +61,4 @@ new Vue({
   template: '<App/>',
   components: { App },
 });
+

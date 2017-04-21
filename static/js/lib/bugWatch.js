@@ -8,9 +8,9 @@
   */
   console.log('bug.js加载');
   window.onerror = function (message, source, lineno, colno, error) {
-    console.log('location.href');
-    console.log(location.href);
-    let url = `time=${new Date()}&message=${message}&source=${source}行号:${lineno}列号:${colno}&pageUrl=${encodeURIComponent(location.href)}
+    const projectId = localStorage.projectId;
+    console.log(projectId);
+    let url = `projectId=${projectId}&time=${new Date()}&message=${message}&source=${source}行号:${lineno}列号:${colno}&pageUrl=${encodeURIComponent(location.href)}
     `
     ;
     if (error) {
@@ -50,6 +50,7 @@
       }
     })
     .catch((error) => {
+      debugger;
       console.log(`这个接口出错了${  error}`);
     });
   };

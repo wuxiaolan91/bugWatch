@@ -3,7 +3,6 @@
   <div id="app">
     <Top></Top>
     <div id="nav-wrap">
-      
       <el-menu default-active="2" class="el-menu-vertical-demo">
         <el-menu-item index="1">
           <router-link to="/dashboard"><i class="el-icon-message"></i>Dashboard
@@ -33,6 +32,8 @@ export default {
   name: 'app',
   components: {
     Top
+  }, created () {
+    localStorage.projectId = '';
   }
 };
 </script>

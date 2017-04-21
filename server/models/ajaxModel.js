@@ -9,7 +9,7 @@ const ajaxSchema = new Schema({
   time: { // 报错的时间
     type: Date,
     default: Date.now,
-  }
+  },
 });
 const ajaxModel = mongoose.model('Ajax', ajaxSchema);
 

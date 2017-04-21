@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const bugSchema = new Schema({
+  projectId: String , // 报错的是哪个项目
   errorPage: String, // 报错的页面
   refferPage: String, // 报错的页面的上一个页面
   message: String, // window.onerror函数里的message

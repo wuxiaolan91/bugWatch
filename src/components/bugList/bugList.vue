@@ -101,6 +101,7 @@ endTime.setHours('23','59','59');
         let self = this;
         console.log('获取bug列表')
         var searchParam = {
+          projectId: localStorage.projectId,
           size: self.size,
           currentPage: self.currentPage,
           timeType: self.timeValue

@@ -57,17 +57,24 @@ export default {
         }
     },
     mounted () {
-        console.log(new Date())
-        var myChart = echarts.init(document.getElementById('compare-bug'));
-        this.$http.get('/api/bug/compareList')
-        .then(res => {
-            if (res.status = 200) {
-                let bugList = res.data;
-                this.option.series[0].data = bugList.yesterBugCountList;
-                this.option.series[1].data = bugList.todayBugCountList;
-                myChart.setOption(this.option);
-            }
-        })
+        this.getList();
+        EventBus.$on('projectChange', num => {
+        this.getList();
+      })
+        
+    }, methods: {
+        getList () {
+            let myChart = echarts.init(document.getElementById('compare-bug'));
+            this.$http.get('/api/bug/compareList')
+            .then(res => {
+                if (res.status = 200) {
+                    let bugList = res.data;
+                    this.option.series[0].data = bugList.yesterBugCountList;
+                    this.option.series[1].data = bugList.todayBugCountList;
+                    myChart.setOption(this.option);
+                }
+            })
+        }
     }
 }
 </script>

@@ -69,8 +69,8 @@ exports.bugWatch = function* () {
   const website = this.request.headers.website;
 
   const bugObj = {
+    projectId: this.query.projectId, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     ip,
-    website: '', // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     errorPage: this.query.pageUrl,
     refferPage: '',
     message: this.query.message,
@@ -85,7 +85,7 @@ exports.bugWatch = function* () {
     },
   ];
 
-  if (website.indexOf(warnRule[0].website) > -1 && bugObj.message.indexOf(warnRule[0].keywords[0]) > -1) {
+  if (bugObj.errorPage.indexOf(warnRule[0].website) > -1 && bugObj.message.indexOf(warnRule[0].keywords[0]) > -1) {
     console.log('调用邮件发布');
     const mailOptions = {
       from: 'lyz1051500917@163.com', // sender address
@@ -98,7 +98,7 @@ exports.bugWatch = function* () {
       <h2>报错堆栈信息</h2><p style="color:red;">${bugObj.error}</p>
       <h2>报错ua：</h2><p>${bugObj.ua}</p>`, // html body
     };
-    console.log('hehe');
+    console.log('发送邮件');
     console.log(email);
     email.sendemail(mailOptions);
   } else {
@@ -112,24 +112,16 @@ exports.bugWatch = function* () {
  */
 exports.getList = function* () { // 获取bug列表，还没有哪个地方用到
   const query = this.query;
-  const currentPage = query.currentPage;
-  const size = query.size;
+  const [currentPage, size, timeType] = query;
   const skip = (currentPage - 1) * size;
-  const timeType = query.timeType;
-  console.log('timeType' + timeType);
   const startTime = new Date();
   const endTime = new Date();
-  switch (timeType) {
-    case '7':
-      console.log('7')
-      startTime.setDate(startTime.getDate() - 7);
-      break;
-    case '30':
-      startTime.setDate(startTime.getDate() - 30);
-      break;
-  }
+  const diffTime = startTime.getDate() - timeType;
+  startTime.setDate(diffTime);
   startTime.setHours('00', '00', '01');
   endTime.setHours('23', '59', '59');
+  console.log('projectId');
+  console.log(projectId);
   const filterObj = {
     time: {
       $gte: new Date(startTime),
@@ -159,6 +151,7 @@ exports.getList = function* () { // 获取bug列表，还没有哪个地方用�
  *  得到本周所有的bug列表
  */
 exports.weekBugList = function* () { // 显示一周内报错最多的页面
+  const projectId = this.header.projectid;
   const type = this.query.type;
   const date = new Date(); // 今天
   const sevenDayStart = new Date();
@@ -166,6 +159,7 @@ exports.weekBugList = function* () { // 显示一周内报错最多的页面
   sevenDayStart.setHours('00', '00', '01');
   date.setHours('24', '00', '00');
   const twoDaybugList = yield bugModel.find({
+    projectId,
     time: {
       $gte: sevenDayStart,
       $lte: date,
@@ -184,7 +178,9 @@ exports.compareList = function* () { // 显示昨天和今天每个时间段的b
   yesterDay.setDate(todaytoday - 1);
   yesterDay.setHours('00', '00', '01');
   date.setHours('24', '00', '00');
+  const projectId = this.header.projectid;
   const twoDaybugList = yield bugModel.find({
+    projectId: projectId,
     time: {
       $gte: yesterDay,
       $lte: date,
