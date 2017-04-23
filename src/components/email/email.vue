@@ -1,64 +1,4 @@
-<style lang="less" scoped>
-  .content {
-  .title {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  .search {
-    border-bottom: 1px solid #848484;
-    padding-bottom: 20px;
-    overflow: hidden;
-  }
-  .email {
-    .inputcontainer {
-      position: relative;
-      .input {
-        width: 100%;
-        height: 48px;
-        text-align: left;
-        padding-left: 20px;
-        line-height: 48px;
-        border: 1px solid #e6e6e6;
-      }
-      .email-plus {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        cursor: pointer;
-      }
-    }
-  }
-  .users{
-    width: 100%;
-    box-sizing: border-box;
-    padding: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: 1px solid #e6e6e6;
-    text-align: left;
-    position: relative;
-    p {
-      padding: 10px;
-    }
-    p:hover {
-      background-color: #3c8dbc;
-    }
-  }
-  .email-close {
-    position: absolute;
-    right: 30px;
-    top: 30px;
-    cursor: pointer;
-  }
-  textarea {
-    width: 100%;
-    height: auto;
-    resize: none;
-    min-height: 200px;
-    font-size: 24px;
-  }
-  }
-</style>
+<style lang="less" src="./email.less" scoped></style>
 <template>
   <div class="content">
     <p class="title">邮件通知</p>
@@ -67,8 +7,8 @@
     </div>
     <div class="email" v-show="editable">
       <div class="inputcontainer">
-      收件人<div class="input" contenteditable="true" @keydown="del($event)">
-        <span v-for="item in selectitem">{{item.name}}({{item.email}});</span>
+      <span>收件人</span><div class="input" contenteditable="true" @keydown="del($event)">
+        <span v-for="item in selectitem" class="user">{{item.name}}({{item.email}});</span>
         </div>
       <i class="el-icon-plus email-plus" @click="selectable = true"> </i>
       </div>
@@ -77,6 +17,9 @@
         <p v-for="item in items" @click="select(item)">
           {{item.name}}({{item.email}})
         </p>
+      </div>
+      <div class="inputcontainer">
+        <input type="text" v-model="title" class="title">
       </div>
       <textarea v-model="content"></textarea>
       <el-button @click="send()">发送</el-button>
@@ -89,7 +32,7 @@
       return {
         items: [],
         user: {
-          email: ''
+          email: '27272722@163.com' // 实际上这个值是用户登陆时候，获得的，这里只是虚拟数字
         },
         editable: false,
         selectable: false,
@@ -120,7 +63,8 @@
         }
       },
       send () {
-        this.$http.post('/api/user/email',{email: this.emails, content: this.content}).then((res) => {
+        console.log('lalal')
+        this.$http.post('/api/user/email',{email: this.emails, content: this.content, title: this.title, from: this.user.email}).then((res) => {
           this.items = res.data
         })
       }
