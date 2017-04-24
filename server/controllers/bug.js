@@ -111,10 +111,9 @@ exports.bugWatch = function* () {
  * 得到bug列表
  */
 exports.getList = function* () { // 获取bug列表，还没有哪个地方用到
-  debugger;
   const query = this.query || {};
-  const projectId = this.request.header.projectid;
-  console.log(projectId +' 是项目id')
+  const projectId = this.header.projectid;
+  console.log(projectId +' 是项目id-ss')
   const currentPage = query.currentPage;
   let size = query.size;
   let timeType = query.timeType;
@@ -126,7 +125,8 @@ exports.getList = function* () { // 获取bug列表，还没有哪个地方用�
   startTime.setDate(diffTime);
   startTime.setHours('00', '00', '01');
   endTime.setHours('23', '59', '59');
-  const filterObj = {
+  let filterObj = {
+    projectId: projectId,
     time: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
