@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ajaxSchema = new Schema({
+  projectId: String,
   errorPage: String,
   url: String,
   message: String,

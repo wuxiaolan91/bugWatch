@@ -131,6 +131,7 @@ export default {
         });
     }
   }, mounted() {
+    this.getList();
     EventBus.$on('projectChange', projectId => {
       this.getList();
     })

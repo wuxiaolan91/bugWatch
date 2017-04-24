@@ -24,7 +24,9 @@ router.get('/bug/getList', bugController.getList);
 router.get('/bug/compareList', bugController.compareList);
 router.get('/bug/pageTopList', bugController.weekBugList);
 router.get('/bug/bugTopList', bugController.weekBugList);
-router.get('/bug/addAjaxWatch', ajaxController.report);
+
+// ajax
+router.post('/bug/addAjaxWatch', ajaxController.report);
 router.get('/bug/getAjaxList', ajaxController.list);
 // router.get('/user', user.searchuser);
 // router.post('/user/email', user.sendemail);

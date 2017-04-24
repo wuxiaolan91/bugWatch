@@ -113,20 +113,19 @@ exports.bugWatch = function* () {
 exports.getList = function* () { // 获取bug列表，还没有哪个地方用到
   const query = this.query || {};
   const projectId = this.header.projectid;
-  console.log(projectId +' 是项目id-ss')
   const currentPage = query.currentPage;
-  let size = query.size;
-  let timeType = query.timeType;
+  const size = query.size;
+  const timeType = query.timeType;
   let skip = currentPage - 1;
   skip *= size;
-  let startTime = new Date();
-  let endTime = new Date();
+  const startTime = new Date();
+  const endTime = new Date();
   const diffTime = startTime.getDate() - timeType;
   startTime.setDate(diffTime);
   startTime.setHours('00', '00', '01');
   endTime.setHours('23', '59', '59');
-  let filterObj = {
-    projectId: projectId,
+  const filterObj = {
+    projectId,
     time: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
@@ -183,7 +182,7 @@ exports.compareList = function* () { // 显示昨天和今天每个时间段的b
   yesterDay.setHours('00', '00', '01');
   date.setHours('24', '00', '00');
   const projectId = this.header.projectid;
-  console.log('项目compareid' + projectId)
+  console.log(`项目compareid${  projectId}`);
   const twoDaybugList = yield bugModel.find({
     projectId,
     time: {

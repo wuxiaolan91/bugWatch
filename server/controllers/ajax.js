@@ -3,21 +3,27 @@ const ajaxModel = require('../models/ajaxModel.js');
 
 let ajaxObj = {
   /**
-   * window.onerror监听到的bug上报
+   * 增加一条ajax错误记录
    * 
    */
   *report () {
-    const param = this.query;
+    const param = this.request.body;
+    console.log(this.header);
+    param.ua = this.header['user-agent'];
     const ajaxResult = yield new ajaxModel(param).save();
     this.body = ajaxResult;
   },
   /**
-   * 显示bug列表
+   * 显示ajax错误的列表
    * 
    */
   *list () {
     const query = this.query;
     const { currentPage, size, timeType } = query;
+    const projectId = this.header.projectid;
+    console.log('kai');
+    console.log(this.header);
+    const ua = this.header['user-agent'];
     const skip = (currentPage - 1) * size;
     const startTime = new Date();
     const endTime = new Date();
@@ -33,6 +39,7 @@ let ajaxObj = {
     endTime.setHours('23', '59', '59');
 
     const filterObj = {
+      projectId,
       time: {
         $gte: new Date(startTime),
         $lte: new Date(endTime),
@@ -47,8 +54,11 @@ let ajaxObj = {
     if (query.url) {
       filterObj.url = new RegExp(query.url);
     }
+    console.log('ajax筛选');
+    console.log(filterObj);
     const ajaxList = yield ajaxModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, data) => {
       if (err) {
+        console.log('ajax-list-接口错误');
         console.error(err);
       } else {
         return data;
