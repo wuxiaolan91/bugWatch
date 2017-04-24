@@ -1,3 +1,4 @@
+
 const ajaxModel = require('../models/ajaxModel.js');
 
 let ajaxObj = {

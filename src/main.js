@@ -10,7 +10,6 @@ console.log('hehehe')
 
 // Add a request interceptor
 Axios.interceptors.request.use(function (config) {
-  debugger;
   config.headers.common['projectId'] = localStorage.getItem('projectId');
     // Do something before request is sent
     return config;
@@ -22,18 +21,18 @@ Axios.interceptors.request.use(function (config) {
 Axios.interceptors.response.use(function (response) {
     // Do something with response data
     return response;
+    
   }, function (error) {
-   fetch("/login", {
-        method: "POST",
-        body: {
-          errorPage: location.href,
-          url: error.config.url,
-          message: error.message,
-          error: error.stack,
-          status: error.status,
-          ua: navigator.userAgent
-        }
-  })
+   fetch('/api/bug/addAjaxWatch', {
+      body: {
+        errorPage: location.href,
+        url: error.config.url,
+        message: error.message,
+        error: error.stack,
+        status: error.status,
+        ua: navigator.userAgent
+      }
+    })
   .then(function(response) {
     console.log('发出ajax错误监控');
    

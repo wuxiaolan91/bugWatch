@@ -9,7 +9,7 @@
           </router-link>
         </el-menu-item>
         <el-menu-item index="2">
-          <router-link to="/bugList"><i class="el-icon-menu"></i>日志列表</router-link>
+          <router-link to="/bugList"><i class="el-icon-menu"></i>js日志列表</router-link>
         </el-menu-item>
         <el-menu-item index="3">
           <router-link to="/ajax"><i class="el-icon-setting"></i>Ajax日志</router-link>
