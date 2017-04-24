@@ -3,9 +3,9 @@ import Router from 'vue-router';
 import App from '../App.vue';
 import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/bugList/bugList.vue';
-import Ajax from '@/components/Ajax/ajaxList.vue';
+import Ajax from '@/components/ajax/ajaxList.vue';
 import Email from '@/components/email/email.vue';
-import Performance from '@/components/Performance/Performance.vue';
+import Performance from '@/components/Performance/performance.vue';
 import Login from '@/components/user/login.vue';
 // project
 import Project from '@/components/project/projectList.vue';
