@@ -5,7 +5,7 @@ import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/bugList/bugList.vue';
 import Ajax from '@/components/ajax/ajaxList.vue';
 import Email from '@/components/email/email.vue';
-import Performance from '@/components/Performance/performance.vue';
+import Performance from '@/components/performance/performance.vue';
 import Login from '@/components/user/login.vue';
 // project
 import Project from '@/components/project/projectList.vue';
