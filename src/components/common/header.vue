@@ -25,7 +25,7 @@
         <el-dropdown-item>
           <router-link to="/project?type=add">添加项目</router-link>
         </el-dropdown-item>
-        <el-dropdown-item >退出</el-dropdown-item>
+        <el-dropdown-item ><span @click="exitBtn">退出</span></el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -47,6 +47,10 @@ export default {
     changeProject () {
       console.log('改变项目啦，来自改变项目的change事件');
        EventBus.$emit('projectChange', this.projectId)
+    },
+    exitBtn () {
+      localStorage.removeItem('name');
+      this.router.push('login');
     },
       /**
        * 显示页面头部的项目列表

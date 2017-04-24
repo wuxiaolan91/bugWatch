@@ -1,4 +1,5 @@
 const bugModel = require('../models/bugModel.js');
+const util = require('../lib/util.js');
 const email = require('./email.js');
 /**
  * 按照每个时间段筛选出昨天和今天的bug列表
@@ -78,6 +79,7 @@ exports.bugWatch = function* () {
     ua: this.request.header['user-agent'],
     date: this.query.time,
   };
+  bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
   const warnRule = [
     {
       website: 'localhost',

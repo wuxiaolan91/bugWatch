@@ -45,11 +45,7 @@ let router = new Router({
     },
     {
       path: '/performance', // 性能极客
-      component: App,
-      children: [{
-        path: '',
-        component: Performance
-      }]
+      component: App
     }
   ],
 });
