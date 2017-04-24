@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="ajax_list">
     <el-select v-model="timeValue" placeholder="请选择" @change="getList">
       <el-option
         v-for="item in timeList"
@@ -10,13 +10,13 @@
 
     <el-form :inline="true" label-width="80px">
       <el-form-item label="错误页面">
-        <el-input placeholder="请输入想要查看错误的具体页面"  v-model="errorPage"></el-input>
+        <el-input placeholder="请输入具体页面"  v-model="errorPage"></el-input>
       </el-form-item>
       <el-form-item label="错误接口">
-        <el-input placeholder="请输入页请输入想要查看的接口关键字"  v-model="url"></el-input>
+        <el-input placeholder="请输入接口关键字"  v-model="url"></el-input>
       </el-form-item>
       <el-form-item label="错误信息">
-        <el-input placeholder="请输入页请输入想要查看的接口关键字"  v-model="errorKeyword"></el-input>
+        <el-input placeholder="请输入接口关键字"  v-model="errorKeyword"></el-input>
       </el-form-item>
        <el-form-item>
         <el-button type="primary" @click="onSearch">搜索</el-button>
@@ -49,7 +49,7 @@
         label="错误堆栈"
        >
       </el-table-column>
-     
+
       <el-table-column
         prop="ua"
         label="useragent" style="width:150px">
@@ -105,8 +105,9 @@ export default {
           this.currentPage = currentPage;
           this.getList();
         }
-        
-      }, getList () {
+
+      },
+      getList () {
         let self = this;
         var searchParam = {
           size: self.size,
@@ -131,7 +132,11 @@ export default {
                 if (bugList.length) {
                   bugList.map(item => {
                     let time = new Date(item.time);
-                    item.time = time.toString();
+                    let hour = `${time.getHours()}` < 10 ? `0${time.getHours()}` : `${time.getHours()}`;
+                    let minutes = `${time.getMinutes()}` < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`;
+                    let seconds = `${time.getSeconds()}` < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`;
+
+                    item.time = `${time.getFullYear()}/${time.getMonth()+1}/${time.getDate()} ${hour}:${minutes}:${seconds}:${time.getMilliseconds()}`;
                     return item;
                   })
                 }
@@ -148,9 +153,8 @@ export default {
               console.log(error);
           });
       }
-    }, mounted () {
-    this.getList();
-  }, mounted () {
+    },
+  mounted () {
     this.getList();
   }
 }
