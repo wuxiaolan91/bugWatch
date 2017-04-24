@@ -56,19 +56,19 @@ export default {
           .then((res) => {
             if (res.data) {
               this.projectList = res.data;
-              if (this.getProjectList.length) {
+              console.dir(this.projectList);
+              if (this.projectList.length) {
                 // this.projectValue = this.projectList[0].name;
                 this.projectId = this.projectList[0].projectId;
+                console.log('64')
               }
             }
           })
       }
   }, watch: {
-    projectValue (value) {
+    projectId (value) {
       debugger;
-      console.log('项目改变了' + this.projectValue)
       console.log('value:' + value);
-      this.projectId = value;
       if (value) localStorage.setItem('projectId', value);
       
     }

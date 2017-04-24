@@ -195,7 +195,6 @@ exports.compareList = function* () { // 显示昨天和今天每个时间段的b
     if (err) {
       return console.error(err);
     }
-
     return bugList;
 
   });

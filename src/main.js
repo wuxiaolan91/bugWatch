@@ -6,8 +6,7 @@ import 'element-ui/lib/theme-default/index.css';
 import Axios from 'axios';
 import App from './App';
 import router from './router';
-console.log('hehehe')
-
+let projectId = localStorage.getItem('projectId'); // 项目id
 // Add a request interceptor
 Axios.interceptors.request.use(function (config) {
   config.headers.common['projectId'] = localStorage.getItem('projectId');
