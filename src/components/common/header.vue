@@ -4,7 +4,7 @@
   帮你监控网站的错误，性能
     <div class="left">
       <h1>bugWatch</h1>
-      <el-select v-model="projectValue" @change="changeProject" placeholder="请选择">
+      <el-select v-model="projectId" @change="changeProject" placeholder="请选择">
         <el-option
           v-for="item in projectList"
           :label="item.name"
@@ -57,7 +57,7 @@ export default {
             if (res.data) {
               this.projectList = res.data;
               if (this.getProjectList.length) {
-                this.projectValue = this.projectList[0].name;
+                // this.projectValue = this.projectList[0].name;
                 this.projectId = this.projectList[0].projectId;
               }
             }
@@ -65,8 +65,11 @@ export default {
       }
   }, watch: {
     projectValue (value) {
+      debugger;
       console.log('项目改变了' + this.projectValue)
-      if (value) localStorage.projectId = this.projectId;
+      console.log('value:' + value);
+      this.projectId = value;
+      if (value) localStorage.setItem('projectId', value);
       
     }
   }

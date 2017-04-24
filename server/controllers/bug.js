@@ -114,6 +114,7 @@ exports.getList = function* () { // 获取bug列表，还没有哪个地方用�
   debugger;
   const query = this.query || {};
   const projectId = this.request.header.projectid;
+  console.log(projectId +' 是项目id')
   const currentPage = query.currentPage;
   let size = query.size;
   let timeType = query.timeType;
@@ -182,6 +183,7 @@ exports.compareList = function* () { // 显示昨天和今天每个时间段的b
   yesterDay.setHours('00', '00', '01');
   date.setHours('24', '00', '00');
   const projectId = this.header.projectid;
+  console.log('项目compareid' + projectId)
   const twoDaybugList = yield bugModel.find({
     projectId,
     time: {
