@@ -1,5 +1,5 @@
 <template>
-  <div ia="ajax_list">
+  <div id="ajax_list">
     <el-select v-model="timeValue"
                placeholder="请选择"
                @change="getAjaxList">
@@ -16,11 +16,11 @@
                   v-model="errorPage"></el-input>
       </el-form-item>
       <el-form-item label="错误接口">
-        <el-input placeholder="请输入页接口关键字"
+        <el-input placeholder="请输入接口关键字"
                   v-model="url"></el-input>
       </el-form-item>
       <el-form-item label="错误信息">
-        <el-input placeholder="请输入页接口关键字"
+        <el-input placeholder="请输入接口关键字"
                   v-model="errorKeyword"></el-input>
       </el-form-item>
       <el-form-item>
