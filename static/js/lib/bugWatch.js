@@ -6,10 +6,8 @@
       colno:发生错误的列号
       error: Error对象
   */
-  console.log('bug.js加载');
   window.onerror = function (message, source, lineno, colno, error) {
     const projectId = localStorage.projectId;
-    console.log(projectId);
     let url = `projectId=${projectId}&time=${new Date()}&message=${message}&source=${source}行号:${lineno}列号:${colno}&pageUrl=${encodeURIComponent(location.href)}
     `
     ;

@@ -62,9 +62,10 @@ export default {
               this.projectList = res.data;
               console.dir(this.projectList);
               if (this.projectList.length) {
-                this.projectId = this.projectId || this.projectList[0].projectId;
+                if (!this.projectId) {
+                  this.projectId = this.projectList[0].projectId;
+                }
                 localStorage.setItem('projectId', this.projectId);
-                console.log('64')
               }
             }
           })

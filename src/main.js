@@ -9,7 +9,6 @@ import router from './router';
 // Add a request interceptor
 Axios.interceptors.request.use(function (config) {
   let projectId = localStorage.getItem('projectId');
-  console.log('从缓存里拿到项目id' + projectId);
   config.headers.common['projectId'] = projectId;
   // Do something before request is sent
   return config;

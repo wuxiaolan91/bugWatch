@@ -62,17 +62,21 @@ export default {
       }
     }
   }, mounted() {
-   	this.getList();
+   	this.getPageList();
 		EventBus.$on('projectChange', num => {
-			this.getList();
+			this.getPageList();
 		})
   }, methods: {
-    getList() {
-      var myChart = echarts.init(document.getElementById('page-bug'));
+    getPageList() {
+      let pageBug = document.getElementById('page-bug');
+      if (!pageBug) return;
+      var myChart = echarts.init(pageBug);
       this.$http.get('/api/bug/bugTopList?type=page')
         .then(res => {
           if (res.status == 200) {
             let bugListObj = res.data;
+            console.log('bugListObj - 来自接口bugTopList?type=page::');
+            console.dir(bugListObj);
             this.option.xAxis[0].data = bugListObj.chartPageList;
             this.option.series[0].data = bugListObj.chartCountList;
             myChart.setOption(this.option);

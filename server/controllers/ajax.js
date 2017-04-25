@@ -58,8 +58,9 @@ let ajaxObj = {
     console.log(filterObj);
     const ajaxList = yield ajaxModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, data) => {
       if (err) {
-        console.log('ajax-list-接口错误');
-        console.error(err);
+        this.body = err;
+       return err;
+       
       } else {
         return data;
       }
