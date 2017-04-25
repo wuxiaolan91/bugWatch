@@ -1,3 +1,9 @@
+/**
+ * 
+ * 
+ * @param {String} userAgent 用户代理的字符串
+ * @returns {String} platform 用户的平台
+ */
 function getPlatform(userAgent) {
   let platform = '';
   let ua = userAgent;
