@@ -131,7 +131,7 @@ export default {
                 let minutes = `${time.getMinutes()}` < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`;
                 let seconds = `${time.getSeconds()}` < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`;
 
-                item.time = `${time.getFullYear()}/${time.getMonth()+1}/${time.getDate()} ${hour}:${minutes}:${seconds}:${time.getMilliseconds()}`;
+                item.time = `${time.getFullYear()}/${time.getMonth()+1}/${time.getDate()} ${hour}:${minutes}:${seconds}`;
                 return item;
               })
             }
