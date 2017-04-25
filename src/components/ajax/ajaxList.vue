@@ -125,6 +125,7 @@ export default {
         params: searchParam
       })
         .then(res => {
+          debugger;
           this.loading = false;
           if (res.status = 200) {
             let bugList = res.data.bugList;

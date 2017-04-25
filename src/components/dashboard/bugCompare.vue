@@ -56,14 +56,14 @@ export default {
 		}
 	},
 	mounted() {
-		this.getList();
+		this.getCompareList();
 		EventBus.$on('projectChange', num => {
 			console.log('event  bus - bugCompare')
-			this.getList();
+			this.getCompareList();
 		})
 
 	}, methods: {
-		getList() {
+		getCompareList() {
 			let myChart = echarts.init(document.getElementById('compare-bug'));
 			this.loading = true;
 			this.$http.get('/api/bug/compareList')
