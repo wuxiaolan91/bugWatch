@@ -8,9 +8,9 @@
     prop="name"
     label="项目">
   </el-table-column>
- 
+
 </el-table>
-  
+
 </div>
 </template>
 
@@ -22,14 +22,14 @@
       }
     },
     created  () {
-      debugger;
+      // debugger;
       const type = this.$route.query.type;
       this.getProjectList();
       if (type == 'add') {
         this.OpenAddProject();
       }
-      
-      
+
+
     },
     methods: {
       /**
@@ -39,16 +39,16 @@
         this.$prompt('请输入项目的名字', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
-         
+
         }).then(({ value }) => {
-          debugger;
+          // debugger;
           this.addProject(value);
-          
+
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '取消输入'
-          });       
+          });
         });
       },
       addProject (projectName) {
@@ -63,7 +63,7 @@
                 type: 'success',
                 message: '你的项目是: ' + projectName
               });
-              debugger;
+              // debugger;
               this.projectList.push(newProject);
             }
           })

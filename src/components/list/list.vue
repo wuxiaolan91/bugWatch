@@ -8,7 +8,7 @@
         错误: {{ bug.error }}
         错误类型: {{ bug.errorType }}
         错误页面: {{ bug.pageUrl }}
-        
+
       </li>
     </ul>
   </div>
@@ -29,11 +29,11 @@
       console.log('获取bug列表')
       this.$http.get('/api/getBugList')
         .then((res) => {
-            debugger;
+            // debugger;
             if (res.status = 200) {
               this.list = res.data;
             }
-            
+
         })
         .catch(function (error) {
             console.log(error);

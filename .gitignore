@@ -8,3 +8,6 @@ server/config/local.config.js
 .idea/
 .vscode
 .gitconfig
+
+config/index.js
+server/config/index.js

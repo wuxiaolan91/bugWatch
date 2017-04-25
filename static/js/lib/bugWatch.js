@@ -50,7 +50,7 @@
       }
     })
     .catch((error) => {
-      debugger;
+      // debugger;
       console.log(`这个接口出错了${  error}`);
     });
   };
