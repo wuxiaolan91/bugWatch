@@ -33,7 +33,7 @@ export default {
              localStorage.setItem('name', user.name);
              this.$router.push('/');
           } else {
-            alert(res.data);
+            alert('登录失败，请确认你的账号和密码是否正确');
           }
          
         }
