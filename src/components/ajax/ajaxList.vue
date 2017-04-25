@@ -125,7 +125,6 @@ export default {
         params: searchParam
       })
         .then(res => {
-          debugger;
           this.loading = false;
           if (res.status = 200) {
             let bugList = res.data.bugList;
@@ -140,7 +139,6 @@ export default {
                 return item;
               })
             }
-            console.dir(bugList);
             this.ajaxBugList = bugList;
             this.pageTotal = res.data.bugList.length / this.size;
             console.log('ajaxBugList');
@@ -154,7 +152,9 @@ export default {
   },
   mounted() {
    this.getAjaxList();
+   console.log('156');
     EventBus.$on('projectChange', projectId => {
+     console.log('158');
      this.getAjaxList();
     })
   }
