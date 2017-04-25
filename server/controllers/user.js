@@ -37,7 +37,10 @@ exports.searchuser = function *() {
 exports.login = function *(ctx) {
   let body = this.request.body;
   this.body = yield user.find(body, (err, res) => {
-    if (err) return;
+    console.log('登录接口返回');
+    if (err) {
+      return '登录失败';
+    }
     if (res.length) {
       let user = res[0];
       this.body = {
