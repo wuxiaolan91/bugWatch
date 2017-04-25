@@ -29,11 +29,14 @@ export default {
           // debugger;
           if (res.data.length) {
             const user = res.data[0];
-             alert('登录成功');
+             this.$message({
+              message: '登录成功',
+              type: 'success'
+            });
              localStorage.setItem('name', user.name);
              this.$router.push('/');
           } else {
-            alert('登录失败，请确认你的账号和密码是否正确');
+             this.$message.error('登录失败，请确认你的账号和密码是否正确');
           }
 
         }
