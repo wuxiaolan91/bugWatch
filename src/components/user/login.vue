@@ -26,7 +26,7 @@ export default {
     onSubmit () {
       this.$http.post('/api/user/login',this.form).then(res => {
         if (res.status == 200) {
-          debugger;
+          // debugger;
           if (res.data.length) {
             const user = res.data[0];
              alert('登录成功');
@@ -35,7 +35,7 @@ export default {
           } else {
             alert(res.data);
           }
-         
+
         }
       });
     }

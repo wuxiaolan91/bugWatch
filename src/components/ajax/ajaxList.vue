@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ia="ajax_list">
     <el-select v-model="timeValue"
                placeholder="请选择"
                @change="getAjaxList">
@@ -8,19 +8,19 @@
                  :value="item.value">
       </el-option>
     </el-select>
-  
+
     <el-form :inline="true"
              label-width="80px">
       <el-form-item label="错误页面">
-        <el-input placeholder="请输入想要查看错误的具体页面"
+        <el-input placeholder="请输入具体页面"
                   v-model="errorPage"></el-input>
       </el-form-item>
       <el-form-item label="错误接口">
-        <el-input placeholder="请输入页请输入想要查看的接口关键字"
+        <el-input placeholder="请输入页接口关键字"
                   v-model="url"></el-input>
       </el-form-item>
       <el-form-item label="错误信息">
-        <el-input placeholder="请输入页请输入想要查看的接口关键字"
+        <el-input placeholder="请输入页接口关键字"
                   v-model="errorKeyword"></el-input>
       </el-form-item>
       <el-form-item>
@@ -28,7 +28,7 @@
                    @click="onSearch">搜索</el-button>
       </el-form-item>
     </el-form>
-  
+
     <el-table :data="ajaxBugList"
               style="width: 100%">
       <el-table-column prop="errorPage"
@@ -46,7 +46,7 @@
       <el-table-column prop="error"
                        label="错误堆栈">
       </el-table-column>
-  
+
       <el-table-column prop="ua"
                        label="useragent"
                        style="width:150px">
@@ -89,7 +89,8 @@ export default {
       value: '',
       ajaxBugList: []
     }
-  }, methods: {
+  },
+  methods: {
     onSearch() {
      this.getAjaxList();
     },
@@ -98,10 +99,10 @@ export default {
         return;
       } else {
         this.currentPage = currentPage;
-       this.getAjaxList();
+        this.getAjaxList();
       }
-
-    }, getAjaxList() {
+    },
+    getAjaxList() {
       let self = this;
       var searchParam = {
         size: self.size,
@@ -123,7 +124,17 @@ export default {
         .then(res => {
           if (res.status = 200) {
             let bugList = res.data.bugList;
+            if (bugList.length) {
+              bugList.map(item => {
+                let time = new Date(item.time);
+                let hour = `${time.getHours()}` < 10 ? `0${time.getHours()}` : `${time.getHours()}`;
+                let minutes = `${time.getMinutes()}` < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`;
+                let seconds = `${time.getSeconds()}` < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`;
 
+                item.time = `${time.getFullYear()}/${time.getMonth()+1}/${time.getDate()} ${hour}:${minutes}:${seconds}`;
+                return item;
+              })
+            }
             console.dir(bugList);
             this.ajaxBugList = bugList;
             this.pageTotal = res.data.bugList.length / this.size;
@@ -135,9 +146,8 @@ export default {
           console.log(error);
         });
     }
-  }, mounted() {
-   this.getAjaxList();
-  }, mounted() {
+  },
+  mounted() {
    this.getAjaxList();
     EventBus.$on('projectChange', projectId => {
      this.getAjaxList();

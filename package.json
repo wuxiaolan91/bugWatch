@@ -4,7 +4,7 @@
   "description": "bugWatch,bug监测平台",
   "author": "吴晓兰 <wuxiaolan91@163.com>",
   "private": true,
-  "keywords":["fontend", "bug", "watch", "performance"],
+  "keywords":["frontend", "bug", "watch", "performance"],
   "maintainers": [
     {
       "name": "吴晓兰 wuxiaolan91@163.com"
