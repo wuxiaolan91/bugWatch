@@ -1,7 +1,8 @@
 <template>
 		<div id="compare-bug"
 			v-loading.body="loading"
-		     style="width:100%;height:400px;"></div>
+		     style="width:100%;height:400px;">
+		</div>
 </template>
 <script>
 export default {
@@ -64,13 +65,17 @@ export default {
 
 	}, methods: {
 		getCompareList() {
-			let myChart = echarts.init(document.getElementById('compare-bug'));
+			let compareBug = document.getElementById('compare-bug');
+			if (!compareBug) return;
+			let myChart = echarts.init(compareBug);
 			this.loading = true;
 			this.$http.get('/api/bug/compareList')
 				.then(res => {
 					this.loading = false;
 					if (res.status = 200) {
 						let bugList = res.data;
+						console.log('来自接口compareList?type=bug-bugListObj - ::');
+            console.dir(bugList);
 						this.option.series[0].data = bugList.yesterBugCountList;
 						this.option.series[1].data = bugList.todayBugCountList;
 						myChart.setOption(this.option);

@@ -64,19 +64,24 @@ export default {
       }
     }
   }, mounted() {
-    this.getList();
+    this.getTopList();
     EventBus.$on('projectChange', num => {
-      this.getList();
+      this.getTopList();
     })
 
   }, methods: {
-    getList() {
-      var myChart = echarts.init(document.getElementById('top-bug'));
+    /**
+     * 得到本周排名前5的bug列表
+     */
+    getTopList() {
+      let topBug = document.getElementById('top-bug');
+      if (!topBug) return;
+      var myChart = echarts.init(topBug);
       this.$http.get('/api/bug/bugTopList?type=bug')
         .then(res => {
           if (res.status == 200) {
             let bugListObj = res.data;
-            console.log('bugListObj');
+            console.log('bugListObj - 来自接口bugTopList?type=bug---84');
             console.dir(bugListObj);
             this.option.xAxis[0].data = bugListObj.chartPageList;
             this.option.series[0].data = bugListObj.chartCountList;
