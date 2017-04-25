@@ -99,9 +99,8 @@ export default {
         return;
       } else {
         this.currentPage = currentPage;
-       this.getAjaxList();
+        this.getAjaxList();
       }
-
     },
     getAjaxList() {
       let self = this;
