@@ -8,8 +8,10 @@ const router = require('koa-router')();
 const bugController = require('../controllers/bug.js');
 const ajaxController = require('../controllers/ajax.js');
 const userController = require('../controllers/user.js');
-// project
+const ruleController = require('../controllers/rule.js');
 const projectController = require('../controllers/project.js');
+// project
+
 router.post('/project/add', projectController.add);
 router.get('/project/list', projectController.list);
 const user = require('../controllers/user');
@@ -34,6 +36,9 @@ router.get('/bug/getAjaxList', ajaxController.list);
 // user
 router.post('/user/login', userController.login);
 
+// rule
+router.post('/rule/addRule', ruleController.addRule);
+router.get('/rule/getRuleList', ruleController.getRuleList);
 app.use(router.routes());
 app.use(router.allowedMethods());
 module.exports = app;

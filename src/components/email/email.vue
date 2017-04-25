@@ -1,129 +1,99 @@
 <template>
-  <div class="content">
-    <p class="title">邮件通知</p>
-    <div class="search">
-      <el-button @click="editable = true">写邮件</el-button>
-    </div>
-    <div class="email" v-show="editable">
-      <div class="inputcontainer">
-      收件人<div class="input" contenteditable="true" @keydown="del($event)">
-        <span v-for="item in selectitem">{{item.name}}({{item.email}});</span>
-        </div>
-      <i class="el-icon-plus email-plus" @click="selectable = true"> </i>
-      </div>
-      <div class="users"  v-show="selectable">
-        <i class=" el-icon-close email-close" @click="selectable = false"></i>
-        <p v-for="item in items" @click="select(item)">
-          {{item.name}}({{item.email}})
-        </p>
-      </div>
-      <textarea v-model="content"></textarea>
-      <el-button @click="send()">发送</el-button>
-    </div>
-  </div>
+<div>
+  <el-form :inline="true"
+             label-width="80px">
+      <el-form-item label="收件人">
+        <el-input placeholder="请输入邮件地址"
+          v-model="email"
+                  ></el-input>
+      </el-form-item>
+      <el-form-item label="错误页面关键词">
+        <el-input placeholder="比如register.html,dashboard"
+                  v-model="keyword"></el-input>
+      </el-form-item>
+     
+      <el-form-item>
+        <el-button type="primary"
+                   @click="onAddRule">添加</el-button>
+      </el-form-item>
+    </el-form>
+    <el-table :data="ruleList"
+              v-loading.body="loading"
+              style="width: 100%">
+      <el-table-column prop="email"
+                       label="邮件地址">
+      </el-table-column>
+      <el-table-column prop="keyword"
+                       label="邮件规则">
+      </el-table-column>
+      
+
+      <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+      <template scope="scope">
+        <el-button  @click.native.prevent="delRule(scope.$index, scope)" type="text" size="small">删除</el-button>
+        <el-button type="text" size="small">编辑</el-button>
+      </template>
+    </el-table-column>
+    </el-table>
+</div>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        items: [],
-        user: {
-          email: ''
-        },
-        editable: false,
-        selectable: false,
-        selectitem: [],
-        emails: [],
-        content: ''
-      }
-    },
-    mounted () {
-      this.getuser()
-    },
-    methods: {
-      getuser (name = '') {
-        this.$http.get('/api/user', {params: { name: name}}).then((res) => {
-          this.items = res.data
-        })
-      },
-      select (item) {
-        if (this.emails.indexOf(item) == -1) {
-          this.selectitem.push(item)
-          this.emails.push(item.email)
+export default {
+  data () {
+    return {
+      loading: false,
+      email: '',
+      keyword: '', // 添加新规则的关键词
+      ruleList: []
+    }
+  }, created () {
+    this.getRuleList();
+  }, methods: {
+    onAddRule () {
+      let newRule = {
+          email: this.email,
+          keyword: this.keyword
+      };
+      this.$http.post('/api/rule/addRule', newRule)
+      .then(res => {
+        if (res.data) {
+            this.$message({
+            message: '添加规则成功',
+            type: 'success'
+          });
+          this.ruleList.unshift(newRule);
+          this.email = '';
+          this.keyword = '';
+        } else {
+          this.$message.error('添加规则失败');
         }
-      },
-      del (e) {
-        e.preventDefault()
-        if (e.keyCode == 8) {
-          this.selectitem.splice(this.selectitem.length - 1, 1)
+        
+      })
+    },
+    delRule (a, rule) {
+      console.log(rule.row._id);
+    },
+    /**
+     * 获取规则列表
+     */
+    getRuleList () {
+      this.$http.get('/api/rule/getRuleList')
+      .then(res => {
+        if (res.data) {
+          
+          this.ruleList = res.data;
+        } else {
+           
         }
-      },
-      send () {
-        this.$http.post('/api/user/email',{email: this.emails, content: this.content}).then((res) => {
-          this.items = res.data
-        })
-      }
+       
+      })
     }
   }
+}
 </script>
-<style lang="less" scoped>
-  .content {
-  .title {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  .search {
-    border-bottom: 1px solid #848484;
-    padding-bottom: 20px;
-    overflow: hidden;
-  }
-  .email {
-    .inputcontainer {
-      position: relative;
-      .input {
-        width: 100%;
-        height: 48px;
-        text-align: left;
-        padding-left: 20px;
-        line-height: 48px;
-        border: 1px solid #e6e6e6;
-      }
-      .email-plus {
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        cursor: pointer;
-      }
-    }
-  }
-  .users{
-    width: 100%;
-    box-sizing: border-box;
-    padding: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: 1px solid #e6e6e6;
-    text-align: left;
-    position: relative;
-    p {
-      padding: 10px;
-    }
-    p:hover {
-      background-color: #3c8dbc;
-    }
-  }
-  .email-close {
-    position: absolute;
-    right: 30px;
-    top: 30px;
-    cursor: pointer;
-  }
-  textarea {
-    width: 100%;
-    height: auto;
-    resize: none;
-    min-height: 200px;
-    font-size: 24px;
-  }
-  }
+<style>
+
 </style>
