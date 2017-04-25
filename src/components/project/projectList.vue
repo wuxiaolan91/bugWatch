@@ -3,7 +3,7 @@
   <el-button id="add-project-btn" type="text" @click="OpenAddProject">添加项目</el-button>
   <el-table
   :data="projectList"
-  style="width: 100%">
+  style="width: 500px;margin:0 auto;">
     <el-table-column
     prop="name"
     label="项目">

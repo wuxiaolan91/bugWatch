@@ -1,80 +1,85 @@
 <template>
   <div class="echarts">
-    <div id="page-bug" style="width:1500px;height:400px;"></div>
+    <div id="page-bug"
+         style="width:1500px;height:400px;"></div>
   </div>
 </template>
 
 <script>
 // import ECharts modules manually to reduce bundle size
 export default {
-  data () {
+  data() {
     return {
-       option: {
+      option: {
         title: {
-            text: 'bug页面排行榜'
+          text: 'bug页面排行榜'
         },
         tooltip: {
-            trigger: 'axis'
+          trigger: 'axis'
         },
         legend: {
-            data: ['页面']
+          data: ['页面']
         },
         toolbox: {
-            show: true,
-            feature: {
-                mark: { show: true },
-                dataView: { show: true, readOnly: false },
-                magicType: { show: true, type: ['line', 'bar'] },
-                restore: { show: true },
-                saveAsImage: { show: true }
-            }
+          show: true,
+          feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
         },
         calculable: true,
         xAxis: [
-            {
-                type: 'category',
-                data: []
-            }
+          {
+            type: 'category',
+            data: []
+          }
         ],
         yAxis: [
-            {
-                type: 'value'
-            }
+          {
+            type: 'value'
+          }
         ],
         series: [
-            {
-                name: 'bug次数',
-                type: 'bar',
-                data: [],
-                markPoint: {
-                    data: [
-                        { type: 'max', name: '最大值' }
-                    ]
-                },
-                markLine: {
-                    data: [
-                        { type: 'average', name: '平均值' }
-                    ]
-                }
+          {
+            name: 'bug次数',
+            type: 'bar',
+            data: [],
+            markPoint: {
+              data: [
+                { type: 'max', name: '最大值' }
+              ]
+            },
+            markLine: {
+              data: [
+                { type: 'average', name: '平均值' }
+              ]
             }
+          }
         ]
       }
     }
-  }, mounted () {
+  }, mounted() {
+   	this.getList();
+		EventBus.$on('projectChange', num => {
+			this.getList();
+		})
+  }, methods: {
+    getList() {
       var myChart = echarts.init(document.getElementById('page-bug'));
-
       this.$http.get('/api/bug/bugTopList?type=page')
-        .then( res => {
-            if (res.status == 200) {
-                let bugListObj = res.data;
-                this.option.xAxis[0].data = bugListObj.chartPageList;
-                this.option.series[0].data = bugListObj.chartCountList;
-                myChart.setOption(this.option);
-            }
-            
+        .then(res => {
+          if (res.status == 200) {
+            let bugListObj = res.data;
+            this.option.xAxis[0].data = bugListObj.chartPageList;
+            this.option.series[0].data = bugListObj.chartCountList;
+            myChart.setOption(this.option);
+          }
+
         })
-        
-        
+    }
   }
 }
 </script>

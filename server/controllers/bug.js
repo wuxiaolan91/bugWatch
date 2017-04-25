@@ -1,4 +1,5 @@
 const bugModel = require('../models/bugModel.js');
+const util = require('../lib/util.js');
 const email = require('./email.js');
 /**
  * 按照每个时间段筛选出昨天和今天的bug列表
@@ -78,6 +79,7 @@ exports.bugWatch = function* () {
     ua: this.request.header['user-agent'],
     date: this.query.time,
   };
+  bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
   const warnRule = [
     {
       website: 'localhost',
@@ -111,18 +113,21 @@ exports.bugWatch = function* () {
  * 得到bug列表
  */
 exports.getList = function* () { // 获取bug列表，还没有哪个地方用到
-  const query = this.query;
-  const [currentPage, size, timeType] = query;
-  const skip = (currentPage - 1) * size;
+  const query = this.query || {};
+  const projectId = this.header.projectid;
+  const currentPage = query.currentPage;
+  const size = query.size;
+  const timeType = query.timeType;
+  let skip = currentPage - 1;
+  skip *= size;
   const startTime = new Date();
   const endTime = new Date();
   const diffTime = startTime.getDate() - timeType;
   startTime.setDate(diffTime);
   startTime.setHours('00', '00', '01');
   endTime.setHours('23', '59', '59');
-  console.log('projectId');
-  console.log(projectId);
   const filterObj = {
+    projectId,
     time: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
@@ -179,8 +184,9 @@ exports.compareList = function* () { // 显示昨天和今天每个时间段的b
   yesterDay.setHours('00', '00', '01');
   date.setHours('24', '00', '00');
   const projectId = this.header.projectid;
+  console.log(`项目compareid${  projectId}`);
   const twoDaybugList = yield bugModel.find({
-    projectId: projectId,
+    projectId,
     time: {
       $gte: yesterDay,
       $lte: date,
@@ -190,7 +196,6 @@ exports.compareList = function* () { // 显示昨天和今天每个时间段的b
     if (err) {
       return console.error(err);
     }
-
     return bugList;
 
   });

@@ -6,40 +6,43 @@ import 'element-ui/lib/theme-default/index.css';
 import Axios from 'axios';
 import App from './App';
 import router from './router';
-console.log('hehehe')
-
 // Add a request interceptor
 Axios.interceptors.request.use(function (config) {
-  debugger;
-  config.headers.common['projectId'] = localStorage.getItem('projectId');
-    // Do something before request is sent
-    return config;
-  }, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  });
+  let projectId = localStorage.getItem('projectId');
+  console.log('从缓存里拿到项目id' + projectId);
+  config.headers.common['projectId'] = projectId;
+  // Do something before request is sent
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
 // Add a response interceptor
 Axios.interceptors.response.use(function (response) {
-    // Do something with response data
-    return response;
-  }, function (error) {
-   fetch("/login", {
-        method: "POST",
-        body: {
-          errorPage: location.href,
-          url: error.config.url,
-          message: error.message,
-          error: error.stack,
-          status: error.status,
-          ua: navigator.userAgent
-        }
-  })
-  .then(function(response) {
+  // Do something with response data
+  return response;
+
+}, function (error) {
+  fetch('/api/bug/addAjaxWatch', {
+      method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      projectId: localStorage.getItem('projectId'),
+      message: error.message,
+      url: error.config.url,
+      errorPage: location.href,
+      error: error.stack,
+      status: error.status
+    })
+   })
+  .then(function (response) {
     console.log('发出ajax错误监控');
-   
+
   });
-    // Do something with response error
-    return Promise.reject(error);
+// Do something with response error
+return Promise.reject(error);
   });
 
 Vue.prototype.$http = Axios;
