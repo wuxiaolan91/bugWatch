@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-form ref="form" :model="form" label-width="80px">
+  <el-form ref="form" :model="form" label-width="80px" v-loading.body="loading">
     <el-form-item label="用户名">
       <el-input v-model="form.name"></el-input>
     </el-form-item>
@@ -17,6 +17,7 @@
 export default {
   data () {
     return {
+      loading: false,
       form: {
         name: '',
         password: ''
@@ -24,16 +25,21 @@ export default {
     }
   }, methods: {
     onSubmit () {
+      this.loading = true;
       this.$http.post('/api/user/login',this.form).then(res => {
+        this.loading = false;
         if (res.status == 200) {
           // debugger;
           if (res.data.length) {
             const user = res.data[0];
-             alert('登录成功');
+             this.$message({
+              message: '登录成功',
+              type: 'success'
+            });
              localStorage.setItem('name', user.name);
              this.$router.push('/');
           } else {
-            alert(res.data);
+             this.$message.error('登录失败，请确认你的账号和密码是否正确');
           }
 
         }

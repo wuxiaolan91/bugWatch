@@ -30,6 +30,7 @@
     </el-form>
 
     <el-table :data="ajaxBugList"
+              v-loading.body="loading"
               style="width: 100%">
       <el-table-column prop="errorPage"
                        label="错误页面">
@@ -67,6 +68,7 @@ export default {
     let startTime = new Date(),
       endTime = new Date();
     return {
+      loading: false,
       timeValue: '1',
       startTime: startTime,
       endTime: endTime,
@@ -118,10 +120,12 @@ export default {
       if (this.url) {
         searchParam.url = this.url;
       }
+      this.loading = true;
       this.$http.get('/api/bug/getAjaxList', {
         params: searchParam
       })
         .then(res => {
+          this.loading = false;
           if (res.status = 200) {
             let bugList = res.data.bugList;
             if (bugList.length) {

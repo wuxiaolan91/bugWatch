@@ -1,15 +1,13 @@
 <template>
-	<div id="bug-compare"
-	     class="echarts">
 		<div id="compare-bug"
+			v-loading.body="loading"
 		     style="width:100%;height:400px;"></div>
-	</div>
-	</div>
 </template>
 <script>
 export default {
 	data() {
 		return {
+			loading: false,
 			option: {
 				title: {
 					text: '昨天，今天 24 小时bug比较图'
@@ -67,8 +65,10 @@ export default {
 	}, methods: {
 		getList() {
 			let myChart = echarts.init(document.getElementById('compare-bug'));
+			this.loading = true;
 			this.$http.get('/api/bug/compareList')
 				.then(res => {
+					this.loading = false;
 					if (res.status = 200) {
 						let bugList = res.data;
 						this.option.series[0].data = bugList.yesterBugCountList;

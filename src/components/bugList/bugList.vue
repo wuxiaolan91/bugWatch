@@ -25,7 +25,8 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData"
-              style="width: 100%">
+              style="width: 100%"
+               v-loading.body="loading">
       <el-table-column prop="errorPage"
                        label="错误页面">
       </el-table-column>
@@ -60,6 +61,7 @@ endTime.setHours('23', '59', '59');
 export default {
   data() {
     return {
+      loading: false,
       timeValue: '1',
       startTime: startTime,
       endTime: endTime,
@@ -107,10 +109,12 @@ export default {
       if (this.errorKeyword) {
         searchParam.errorKeyword = this.errorKeyword;
       }
+      this.loading = true;
       this.$http.get('/api/bug/getList', {
         params: searchParam
       })
         .then((res) => {
+          this.loading = false;
           if (res.status = 200) {
             let bugList = res.data.bugList;
             if (bugList.length) {
