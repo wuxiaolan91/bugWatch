@@ -1,5 +1,4 @@
 const userModel = require('../models/user.js');
-
 let nodemailer = require("nodemailer");
 
 let transporter = nodemailer.createTransport({
@@ -11,6 +10,7 @@ let transporter = nodemailer.createTransport({
     pass: ''
   }
 });
+
 exports.sendemail = function (mailOptions) {
   transporter.sendMail(mailOptions, function(error, info){
     if(error){

@@ -7,8 +7,6 @@ const projectObj = {
   * add() {
     const param = this.request.body;
     const project = yield new projectModel(param).save();
-    console.log('project');
-    console.log(project);
     this.body = project;
   },
   /**

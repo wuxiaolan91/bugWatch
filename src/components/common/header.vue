@@ -21,11 +21,11 @@
         <el-dropdown-item>
           <router-link to="/project?type=list">项目列表</router-link>
         </el-dropdown-item>
-        <el-dropdown-item>项目成员</el-dropdown-item>
+        <!--<el-dropdown-item>项目成员</el-dropdown-item>-->
         <el-dropdown-item>
           <router-link to="/project?type=add">添加项目</router-link>
         </el-dropdown-item>
-        <el-dropdown-item ><span @click="exitBtn">退出</span></el-dropdown-item>
+        <!--<el-dropdown-item ><span @click="exitBtn">退出</span></el-dropdown-item>-->
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -64,8 +64,9 @@ export default {
               if (this.projectList.length) {
                 if (!this.projectId) {
                   this.projectId = this.projectList[0].projectId;
+                  localStorage.setItem('projectId', this.projectId);
                 }
-                localStorage.setItem('projectId', this.projectId);
+                
               }
             }
           })
