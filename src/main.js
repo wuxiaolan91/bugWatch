@@ -7,42 +7,44 @@ import Axios from 'axios';
 import App from './App';
 import router from './router';
 // Add a request interceptor
-Axios.interceptors.request.use(function (config) {
-  let projectId = localStorage.getItem('projectId');
-  config.headers.common['projectId'] = projectId;
+Axios.interceptors.request.use((config) => {
+  config.headers.common.projectId = localStorage.getItem('projectId');
   // Do something before request is sent
   return config;
-}, function (error) {
+}, (error) => {
   // Do something with request error
   return Promise.reject(error);
 });
 // Add a response interceptor
-Axios.interceptors.response.use(function (response) {
+Axios.interceptors.response.use((response) => {
   // Do something with response data
   return response;
 
-}, function (error) {
+}, (error) => {
+  debugger;
+  let url = '';
+  if( error.config) url = error.config.url;
   fetch('/api/bug/addAjaxWatch', {
-      method: 'POST',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       projectId: localStorage.getItem('projectId'),
       message: error.message,
-      url: error.config.url,
+      url: url,
       errorPage: location.href,
       error: error.stack,
-      status: error.status
+      status: error.status,
     })
-   })
-  .then(function (response) {
-    console.log('发出ajax错误监控');
+  })
+    .then((response) => {
+      console.log('发出ajax错误监控');
 
-  });
-// Do something with response error
-return Promise.reject(error);
-  });
+    });
+  // Do something with response error
+  return Promise.reject(error);
+});
 
 Vue.prototype.$http = Axios;
 
@@ -54,7 +56,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next('/login');
   }
-})
+});
 window.EventBus = new Vue();
 /* eslint-disable no-new */
 new Vue({
