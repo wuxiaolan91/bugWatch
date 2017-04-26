@@ -2,6 +2,7 @@
 <div>
   <el-button id="add-project-btn" type="text" @click="OpenAddProject">添加项目</el-button>
   <el-table
+  v-body-loading="loading"
   :data="projectList"
   style="width: 500px;margin:0 auto;">
     <el-table-column
@@ -18,6 +19,7 @@
   export default {
     data () {
       return {
+        loading: false,
         projectList: [] // 项目列表
       }
     },
@@ -81,8 +83,10 @@
        *
        */
       getProjectList () {
+        this.loading = true;
         this.$http.get('/api/project/list')
           .then((res) => {
+            this.loading = false;
             if (res.data) {
               this.projectList = res.data;
             }

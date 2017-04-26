@@ -65,12 +65,11 @@ function bugListByFilter(type, bugList) {
  * bugWatch
  */
 exports.bugWatch = function* () {
-  console.log('上报bug');
   const ip = this.request.ip;
   const website = this.request.headers.website;
 
   const bugObj = {
-    projectId: this.query.projectId, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
+    projectId: this.header.projectid, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     ip,
     errorPage: this.query.pageUrl,
     refferPage: '',
