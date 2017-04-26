@@ -7,7 +7,7 @@
     </el-tabs>
 
     <bug-compare v-show="activeName === 'first'"></bug-compare>
-    
+
     <div id="top-wrap" >
       <page-bug v-show="activeName === 'second'"></page-bug>
       <top-bug v-show="activeName === 'third'"></top-bug>
@@ -31,5 +31,8 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+#top-wrap {
+  overflow: auto;
+}
 </style>
