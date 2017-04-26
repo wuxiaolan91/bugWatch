@@ -38,6 +38,7 @@ router.post('/user/login', userController.login);
 
 // rule
 router.post('/rule/addRule', ruleController.addRule);
+router.get('/rule/removeRule', ruleController.removeRule);
 router.get('/rule/getRuleList', ruleController.getRuleList);
 app.use(router.routes());
 app.use(router.allowedMethods());

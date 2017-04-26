@@ -73,8 +73,27 @@ export default {
         
       })
     },
-    delRule (a, rule) {
+    /**
+     * 删除一条rule
+     */
+    delRule (index, rule) {
+      debugger;
       console.log(rule.row._id);
+      let ruleId = rule.row._id;
+      this.$http.get('/api/rule/removeRule', {
+        ruleId
+      })
+      .then(res => {
+        if (res.data.ok) {
+          this.$message({
+            message: '删除规则成功',
+            type: 'success'
+          });
+          this.ruleList.splice(index,1);
+        } else {
+          this.$message.error('删除规则失败');
+        }
+      })
     },
     /**
      * 获取规则列表

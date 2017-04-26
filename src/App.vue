@@ -15,7 +15,7 @@
           <router-link to="/ajax"><i class="el-icon-setting"></i>Ajax日志</router-link>
         </el-menu-item>
         <el-menu-item index="4">
-          <router-link to="/email"><i class="el-icon-setting"></i>邮件通知</router-link>
+          <router-link to="/rule"><i class="el-icon-setting"></i>邮件通知</router-link>
         </el-menu-item>
       </el-menu>
     </div>

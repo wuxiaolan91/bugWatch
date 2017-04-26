@@ -4,7 +4,7 @@ import App from '../App.vue';
 import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/bugList/bugList.vue';
 import Ajax from '@/components/ajax/ajaxList.vue';
-import Email from '@/components/email/email.vue';
+import Rule from '@/components/rule/rule.vue';
 import Performance from '@/components/performance/performance.vue';
 import Login from '@/components/user/login.vue';
 // project
@@ -40,8 +40,8 @@ let router = new Router({
       component: Ajax
     },
     {
-      path: '/email', // bug的日志列表
-      component: Email
+      path: '/rule', // bug报警的规则页面
+      component: Rule
     },
     {
       path: '/performance', // 性能极客
