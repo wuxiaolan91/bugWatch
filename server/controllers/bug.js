@@ -90,25 +90,24 @@ exports.addBug = function* () {
     date: this.query.time,
   };
   bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
-  const warnRule = ruleList;
-
-  if (warnRule.length && bugObj.message.indexOf(warnRule[0].keyword[0]) > -1) {
-    console.log('调用邮件发布', ruleList[0].email);
-    const mailOptions = {
-      from: '15600018324@163.com', // sender address
-      to: ruleList[0].email, // list of receivers
-      subject: `报错啦，来自 bugWatch 的邮件：${bugObj.errorPage}报错信息：${bugObj.message}`, // Subject line
-      text: `${bugObj}报错啦：${bugObj.message}`, // plaintext body
-      html: `<h2>报错网站：</h2><p>${website}</p>
-      <h2>页面地址：</h2><p>${bugObj.errorPage}</p>
-      <h2>报错时间：</h2><p>${bugObj.date}</p>
-      <h2>报错堆栈信息</h2><p style="color:red;">${bugObj.error}</p>
-      <h2>报错ua：</h2><p>${bugObj.ua}</p>`, // html body
-    };
-    console.log('发送邮件');
-    console.log(email);
-    email.sendemail(mailOptions);
-  } else {
+  ruleList.forEach((item, index) => {
+    if (bugObj.errorPage.indexOf(item.keyword[0]) > -1) {
+      console.log('调用邮件发布', item.email);
+      const mailOptions = {
+        from: '15600018324@163.com', // sender address
+        to: item.email, // list of receivers
+        subject: `报错啦，来自 bugWatch 的邮件：${bugObj.errorPage}报错信息：${bugObj.message}`, // Subject line
+        text: `${bugObj}报错啦：${bugObj.message}`, // plaintext body
+        html: `<h2>报错网站：</h2><p>${website}</p>
+        <h2>页面地址：</h2><p>${bugObj.errorPage}</p>
+        <h2>报错时间：</h2><p>${bugObj.date}</p>
+        <h2>报错堆栈信息</h2><p style="color:red;">${bugObj.error}</p>
+        <h2>报错ua：</h2><p>${bugObj.ua}</p>`, // html body
+      };
+      email.sendemail(mailOptions);
+    }
+  })
+  if (ruleList.length < 1) {
     console.log('没有匹配的规则');
   }
   const bug = yield new bugModel(bugObj).save();

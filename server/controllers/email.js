@@ -1,5 +1,5 @@
 const userModel = require('../models/user.js');
-let nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer");
 const emailAuth = require('../config/local.config.js');
 let transporter = nodemailer.createTransport({
   host: "smtp.163.com", // 主机
@@ -9,10 +9,10 @@ let transporter = nodemailer.createTransport({
 });
 
 exports.sendemail = function (mailOptions) {
-  transporter.sendMail(mailOptions, function(error, info){
+  transporter.sendMail(mailOptions, (error, info) => {
     if(error){
-      console.log('发送邮件失败' +error);
+      console.log(mailOptions.to + '发送邮件失败' + error);
     }else{
-      console.log('邮件消息发送: ' + info.response);
+      console.log(mailOptions.to + '邮件消息发送: ' + info.response);
     }})
 }

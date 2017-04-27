@@ -51,7 +51,6 @@ let ajaxObj = {
     if (query.url) {
       filterObj.url = new RegExp(query.url);
     }
-    console.log('ajax筛选');
     const ajaxList = yield ajaxModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, data) => {
       if (err) {
         this.body = err;
