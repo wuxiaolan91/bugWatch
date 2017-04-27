@@ -16,6 +16,7 @@
     }
     fetch(`/api/bug/addBug?${url}`, {
       headers: {
+        projectId: localStorage.getItem('projectId') || '',
         website: location.host,
       },
       method: 'GET',

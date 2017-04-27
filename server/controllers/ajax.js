@@ -8,7 +8,6 @@ let ajaxObj = {
    */
   *report () {
     const param = this.request.body;
-    console.log(this.header);
     param.ua = this.header['user-agent'];
     const ajaxResult = yield new ajaxModel(param).save();
     this.body = ajaxResult;
@@ -21,8 +20,6 @@ let ajaxObj = {
     const query = this.query;
     const { currentPage, size, timeType } = query;
     const projectId = this.header.projectid;
-    console.log('kai');
-    console.log(this.header);
     const ua = this.header['user-agent'];
     const skip = (currentPage - 1) * size;
     const startTime = new Date();
@@ -55,7 +52,6 @@ let ajaxObj = {
       filterObj.url = new RegExp(query.url);
     }
     console.log('ajax筛选');
-    console.log(filterObj);
     const ajaxList = yield ajaxModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, data) => {
       if (err) {
         this.body = err;

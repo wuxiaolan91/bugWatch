@@ -26,6 +26,7 @@ export default {
   }, methods: {
     onSubmit () {
       this.loading = true;
+      localStorage.removeItem('projectId');
       this.$http.post('/api/user/login',this.form).then(res => {
         this.loading = false;
         if (res.status == 200) {

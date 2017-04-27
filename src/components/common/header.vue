@@ -14,7 +14,7 @@
       </el-select>
     </div>
     <div class="right">
-      <el-dropdown>
+      <el-dropdown @commond="handleCommond">
         <span class="el-dropdown-link">
           {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
         </span>
@@ -26,7 +26,10 @@
           <el-dropdown-item>
             <router-link to="/project?type=add">添加项目</router-link>
           </el-dropdown-item>
-          <!--<el-dropdown-item ><span @click="exitBtn">退出</span></el-dropdown-item>-->
+          <el-dropdown-item>
+            <router-link to="/addUser">添加用户</router-link>
+          </el-dropdown-item>
+          <el-dropdown-item commond="exit"><span @click="exitBtn">退出</span></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -49,9 +52,17 @@ export default {
       console.log('改变项目啦，来自改变项目的change事件');
       EventBus.$emit('projectChange', this.projectId)
     },
-    exitBtn() {
-      localStorage.removeItem('name');
-      this.router.push('login');
+    exitBtn () {
+      alert('退啊')
+     localStorage.removeItem('name');
+        this.$router.push('/login');
+    },
+    handleCommond(commond) {
+      if (commond == 'exit') {
+        localStorage.removeItem('name');
+        this.$router.push('/login');
+      }
+      
     },
     /**
      * 显示页面头部的项目列表
@@ -74,6 +85,11 @@ export default {
             }
           }
         })
+    }
+  },
+  events: {
+    exitBtn () {
+      alert('退啊2')
     }
   }, watch: {
     projectId(value) {

@@ -16,6 +16,6 @@ exports.sendemail = function (mailOptions) {
     if(error){
       console.log('发送邮件失败' +error);
     }else{
-      console.log('Message sent: ' + info.response);
+      console.log('邮件消息发送: ' + info.response);
     }})
 }

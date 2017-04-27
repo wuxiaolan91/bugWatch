@@ -7,6 +7,7 @@ import Ajax from '@/components/ajax/ajaxList.vue';
 import Rule from '@/components/rule/rule.vue';
 import Performance from '@/components/performance/performance.vue';
 import Login from '@/components/user/login.vue';
+import AddUser from '@/components/user/addUser.vue';
 // project
 import Project from '@/components/project/projectList.vue';
 Vue.use(Router);
@@ -21,7 +22,7 @@ let router = new Router({
       name: 'list',
       component: List,
     },
-     {
+    {
       path: '/project', // 项目列表
       name: 'project',
       component: Project,
@@ -29,6 +30,10 @@ let router = new Router({
     {
       path: '/dashboard', // bug的日志列表
       component: Dashboard
+    },
+    {
+      path: '/addUser', // 添加用户
+      component: AddUser
     },
      {
       path: '/login', // 登录
@@ -46,7 +51,8 @@ let router = new Router({
     {
       path: '/performance', // 性能极客
       component: App
-    }
+    },
+
   ],
 });
 export default router;

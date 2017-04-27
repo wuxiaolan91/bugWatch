@@ -50,7 +50,8 @@ Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 router.beforeEach((to, from, next) => {
-  if (localStorage.getItem('name') || to.path.indexOf('login') > -1) {
+  const path = to.path;
+  if (localStorage.getItem('name') || path.indexOf('login') > -1 || path.indexOf('addUser') > -1) {
     next();
   } else {
     next('/login');

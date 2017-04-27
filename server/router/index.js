@@ -35,7 +35,7 @@ router.get('/bug/getAjaxList', ajaxController.list);
 
 // user
 router.post('/user/login', userController.login);
-
+router.post('/user/addUser', userController.addUser);
 // rule
 router.post('/rule/addRule', ruleController.addRule);
 router.get('/rule/removeRule', ruleController.removeRule);
