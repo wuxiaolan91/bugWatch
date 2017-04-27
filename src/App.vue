@@ -60,7 +60,7 @@ body {
 #wrap {
   position: fixed;
   left: @navWidth + 10px;
-  right: 10px;
+  right: 0;
   top: @top + 10px;
 }
 

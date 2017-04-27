@@ -110,7 +110,7 @@ export default {
         searchParam.errorKeyword = this.errorKeyword;
       }
       this.loading = true;
-      this.$http.get('/api/bug/getList', {
+      this.$http.get('/api/bug/getBugList', {
         params: searchParam
       })
         .then((res) => {

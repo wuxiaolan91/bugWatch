@@ -21,7 +21,6 @@ Axios.interceptors.response.use((response) => {
   return response;
 
 }, (error) => {
-  debugger;
   let url = '';
   if( error.config) url = error.config.url;
   fetch('/api/bug/addAjaxWatch', {

@@ -65,7 +65,7 @@ function bugListByFilter(type, bugList) {
 /**
  * bugWatch
  */
-exports.bugWatch = function* () {
+exports.addBug = function* () {
   const ip = this.request.ip;
   const website = this.request.headers.website;
 
@@ -112,7 +112,7 @@ exports.bugWatch = function* () {
 /**
  * 得到bug列表
  */
-exports.getList = function* () { // 获取bug列表，还没有哪个地方用到
+exports.getBugList = function* () { // 获取bug列表，还没有哪个地方用到
   const query = this.query || {};
   const projectId = this.header.projectid;
   const currentPage = query.currentPage;

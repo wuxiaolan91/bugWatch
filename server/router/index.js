@@ -18,12 +18,11 @@ router.get('/project/getProjectList', projectController.getProjectList);
 const user = require('../controllers/user');
 
 // bug
-router.get('/bug/watch', bugController.bugWatch);
+router.get('/bug/addBug', bugController.addBug);
 router.get('/bug/email', () => {
   const email = require('../controllers/user');
 });
-router.get('/bug/addWatch', bugController.bugWatch);
-router.get('/bug/getList', bugController.getList);
+router.get('/bug/getBugList', bugController.getBugList);
 router.get('/bug/compareList', bugController.compareList);
 router.get('/bug/pageTopList', bugController.weekBugList);
 router.get('/bug/bugTopList', bugController.weekBugList);

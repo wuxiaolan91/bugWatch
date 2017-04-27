@@ -14,7 +14,7 @@
     if (error) {
       url = `${url}&error=${error.stack}&errorType=${error.name}`;
     }
-    fetch(`/api/bug/addWatch?${url}`, {
+    fetch(`/api/bug/addBug?${url}`, {
       headers: {
         website: location.host,
       },
