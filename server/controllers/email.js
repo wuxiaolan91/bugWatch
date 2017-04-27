@@ -1,14 +1,11 @@
 const userModel = require('../models/user.js');
 let nodemailer = require("nodemailer");
-
+const emailAuth = require('../config/local.config.js');
 let transporter = nodemailer.createTransport({
   host: "smtp.163.com", // 主机
   secureConnection: true, // 使用 SSL
   port: 465, // SMTP 端口
-  auth: {
-    user: '',
-    pass: ''
-  }
+  auth: emailAuth.fromEmailAuth
 });
 
 exports.sendemail = function (mailOptions) {

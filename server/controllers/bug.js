@@ -93,10 +93,10 @@ exports.addBug = function* () {
   const warnRule = ruleList;
 
   if (warnRule.length && bugObj.message.indexOf(warnRule[0].keyword[0]) > -1) {
-    console.log('调用邮件发布');
+    console.log('调用邮件发布', ruleList[0].email);
     const mailOptions = {
-      from: 'lyz1051500917@163.com', // sender address
-      to: 'wuiaolan@wecash.net', // list of receivers
+      from: '15600018324@163.com', // sender address
+      to: ruleList[0].email, // list of receivers
       subject: `报错啦，来自 bugWatch 的邮件：${bugObj.errorPage}报错信息：${bugObj.message}`, // Subject line
       text: `${bugObj}报错啦：${bugObj.message}`, // plaintext body
       html: `<h2>报错网站：</h2><p>${website}</p>

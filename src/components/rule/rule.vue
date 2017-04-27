@@ -4,11 +4,14 @@
              label-width="80px">
       <el-form-item label="收件人">
         <el-input placeholder="请输入邮件地址"
-                  v-model="email"></el-input>
+                  autofocus="true"
+                  v-model="email">
+        </el-input>
       </el-form-item>
       <el-form-item label="错误页面关键词">
-        <el-input placeholder="比如register.html,dashboard"
-                  v-model="keyword"></el-input>
+        <el-input placeholder="register.html,dashboard"
+                  v-model="keyword">
+        </el-input>
       </el-form-item>
   
       <el-form-item>
