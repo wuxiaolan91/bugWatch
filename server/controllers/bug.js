@@ -28,6 +28,7 @@ function bugListByFilter(type, bugList) {
   const pageListObj = {}; // 错误的页面
   const chartPageList = []; // 最后传给echarts的数据
   const chartCountList = []; // 图表里需要的报错页面数组
+  console.log('bugList', bugList);
   bugList.forEach((item) => {
     const page = type == 'page' ? item.errorPage : item.message;
     pageListObj[page] = typeof pageListObj[page] === 'undefined' ? 1 : pageListObj[page] + 1;
@@ -169,8 +170,10 @@ exports.weekBugList = function* () { // 显示一周内报错最多的页面
       $lte: date,
     },
   }).sort().exec((err, bugList) => {
+    console.log('获取本周bug列表- 查询返回')
     this.body = bugListByFilter(type, bugList);
   });
+  console.log('会执行到这里嘛？175')
 };
 /**
  * 得到昨天和今天每个小时段的bug数量列表

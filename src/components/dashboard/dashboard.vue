@@ -6,12 +6,9 @@
       <el-tab-pane label="bugTop排行榜" name="third"></el-tab-pane>
     </el-tabs>
 
-    <bug-compare v-show="activeName === 'first'"></bug-compare>
-
-    <div id="top-wrap" >
-      <page-bug v-show="activeName === 'second'"></page-bug>
-      <top-bug v-show="activeName === 'third'"></top-bug>
-    </div>
+    <bug-compare v-if="activeName === 'first'"></bug-compare>
+    <page-bug v-if="activeName === 'second'"></page-bug>
+    <top-bug v-if="activeName === 'third'"></top-bug>
   </div>
 </template>
 <script>
@@ -31,8 +28,5 @@ export default {
   },
 };
 </script>
-<style scoped>
-#top-wrap {
-  overflow: auto;
-}
+<style>
 </style>

@@ -1,8 +1,7 @@
 <template>
-  <div class="echarts">
     <div id="top-bug"
-         style="width: 1700px;height:400px;"></div>
-  </div>
+      v-loading.body="loading"
+         style="width:100%;height:400px;"></div>
   </div>
 </template>
 
@@ -11,6 +10,7 @@
 export default {
   data() {
     return {
+      loading: false,
       msg: 'Welcome to Your Vue.js App',
       option: {
         title: {
@@ -77,8 +77,10 @@ export default {
       let topBug = document.getElementById('top-bug');
       if (!topBug) return;
       var myChart = echarts.init(topBug);
+      this.loading = true;
       this.$http.get('/api/bug/bugTopList?type=bug')
         .then(res => {
+          this.loading = false;
           if (res.status == 200) {
             let bugListObj = res.data;
             console.log('bugListObj - 来自接口bugTopList?type=bug---84');

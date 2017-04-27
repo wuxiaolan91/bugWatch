@@ -3,7 +3,8 @@
   <div id="app">
     <Top></Top>
     <div id="nav-wrap">
-      <el-menu default-active="2" class="el-menu-vertical-demo">
+      <el-menu default-active="2"
+               class="el-menu-vertical-demo">
         <el-menu-item index="1">
           <router-link to="/dashboard"><i class="el-icon-message"></i>Dashboard
           </router-link>
@@ -22,7 +23,7 @@
     <div id="wrap">
       <router-view></router-view>
     </div>
-
+  
   </div>
 </template>
 
@@ -32,10 +33,13 @@ export default {
   name: 'app',
   components: {
     Top
-  }, created () {
-    localStorage.projectId = '';
   }
-};
+  ,
+  created () {
+  }
+}
+
+;
 </script>
 
 <style lang="less">
@@ -44,6 +48,7 @@ export default {
 body {
   margin: 0;
 }
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -51,19 +56,21 @@ body {
   text-align: center;
   color: #2c3e50;
 }
+
 #wrap {
   position: fixed;
   left: @navWidth + 10px;
   right: 10px;
   top: 60px;
 }
+
 #nav-wrap {
   display: inline-block;
   position: fixed;
   left: 0;
   top: @top;
   bottom: 0px;
-  
+
   width: @navWidth;
   padding-top: 10px;
   background-color: #eef1f6;
