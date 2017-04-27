@@ -56,7 +56,7 @@ export default {
        * 显示页面头部的项目列表
        */
       getProjectList () {
-        this.$http.get('/api/project/list')
+        this.$http.get('/api/project/getProjectList')
           .then((res) => {
             if (res.data) {
               this.projectList = res.data;

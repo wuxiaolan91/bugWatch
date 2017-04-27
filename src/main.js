@@ -21,8 +21,8 @@ Axios.interceptors.response.use((response) => {
   return response;
 
 }, (error) => {
-  debugger;
-  let url = '';
+  console.log(`接口返回报错:${error.config.url}---error.message`);
+  let url = ''; // error ajax url 
   if( error.config) url = error.config.url;
   fetch('/api/bug/addAjaxWatch', {
     method: 'POST',

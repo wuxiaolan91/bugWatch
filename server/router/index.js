@@ -13,7 +13,7 @@ const projectController = require('../controllers/project.js');
 // project
 
 router.post('/project/add', projectController.add);
-router.get('/project/list', projectController.list);
+router.get('/project/getProjectList', projectController.getProjectList);
 const user = require('../controllers/user');
 
 // bug

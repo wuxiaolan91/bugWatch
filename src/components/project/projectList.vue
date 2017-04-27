@@ -84,7 +84,7 @@
        */
       getProjectList () {
         this.loading = true;
-        this.$http.get('/api/project/list')
+        this.$http.get('/api/project/getProjectList')
           .then((res) => {
             this.loading = false;
             if (res.data) {

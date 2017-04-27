@@ -13,12 +13,11 @@ const projectObj = {
    * 展示项目列表
    *
    */
-  * list() {
+  * getProjectList() {
     const list = yield projectModel.find({}).sort({ _id: -1 }).exec((err, data) => {
       if (err) this.body = err;
       this.body = data;
     });
   },
 };
-module.exports.add = projectObj.add;
-module.exports.list = projectObj.list;
+module.exports = projectObj;
