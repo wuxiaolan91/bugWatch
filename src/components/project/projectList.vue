@@ -34,7 +34,6 @@
       }
     },
     created  () {
-      // debugger;
       const type = this.$route.query.type;
       this.getProjectList();
       if (type == 'add') {
@@ -53,7 +52,6 @@
           cancelButtonText: '取消'
 
         }).then(({ value }) => {
-          // debugger;
           this.addProject(value);
 
         }).catch(() => {
@@ -76,7 +74,6 @@
                 message: '你的项目是: ' + projectName
               });
               if (this.projectList.length <1) {
-                debugger;
                 localStorage.setItem('projectId', res.projectId);
                 this.$router.push('/');
               }
