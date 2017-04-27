@@ -40,6 +40,7 @@ export default {
 
 <style lang="less">
 @top: 50px;
+@navWidth: 200px;
 body {
   margin: 0;
 }
@@ -51,8 +52,8 @@ body {
   color: #2c3e50;
 }
 #wrap {
-  position: relative;
-  margin-left: 220px;
+  position: fixed;
+  left: @navWidth + 10px;
   right: 10px;
   top: 60px;
 }
@@ -62,7 +63,8 @@ body {
   left: 0;
   top: @top;
   bottom: 0px;
-  width: 200px;
+  
+  width: @navWidth;
   padding-top: 10px;
   background-color: #eef1f6;
 }
