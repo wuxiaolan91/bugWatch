@@ -26,14 +26,11 @@ const ruleObj = {
     
     const projectId = this.header.projectid;
     const ruleId = this.query.ruleId;
-    console.log('body', this.query.ruleId);
-    console.log('ruleId--', this.request);
     const newRule = yield ruleModel.remove({
       projectId: projectId,
       _id: ruleId
       }, (err, data) => {
       if (err) this.body = err;
-      console.log('del success')
       this.body = data;
     })
   }
