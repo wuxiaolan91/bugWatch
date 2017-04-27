@@ -54,7 +54,7 @@ body {
   position: relative;
   margin-left: 220px;
   right: 10px;
-  top: 10px;
+  top: 60px;
 }
 #nav-wrap {
   display: inline-block;

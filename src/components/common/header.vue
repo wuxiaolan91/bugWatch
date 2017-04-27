@@ -66,7 +66,7 @@ export default {
                   this.projectId = this.projectList[0].projectId;
                   localStorage.setItem('projectId', this.projectId);
                 }
-                
+
               }
             }
           })
@@ -75,7 +75,7 @@ export default {
     projectId (value) {
       console.log('value:' + value);
       if (value) localStorage.setItem('projectId', value);
-      
+
     }
   }
 }
@@ -85,9 +85,10 @@ export default {
   float: none;
 }
   header {
-    position: relative;
+    position: fixed;
     z-index: 2;
-    min-height: 50px;
+    height: 50px;
+    width: 100%;
     line-height: 50px;
     font-size: 20px;
     background-color: #3c8dbc;
