@@ -91,8 +91,7 @@ export default {
         params: {
           ruleId
         }
-      })
-        .then(res => {
+      }).then(res => {
           if (res.data.ok) {
             this.$message({
               message: '删除规则成功',

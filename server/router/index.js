@@ -12,8 +12,9 @@ const ruleController = require('../controllers/rule.js');
 const projectController = require('../controllers/project.js');
 // project
 
-router.post('/project/add', projectController.add);
-router.get('/project/list', projectController.list);
+router.post('/project/addProject', projectController.addProject);
+router.get('/project/removeProject', projectController.removeProject);
+router.get('/project/getProjectList', projectController.getProjectList);
 const user = require('../controllers/user');
 
 // bug

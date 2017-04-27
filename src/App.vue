@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="less">
-@top: 50px;
+@top: 70px;
 @navWidth: 200px;
 body {
   margin: 0;
@@ -61,7 +61,7 @@ body {
   position: fixed;
   left: @navWidth + 10px;
   right: 10px;
-  top: 60px;
+  top: @top + 10px;
 }
 
 #nav-wrap {

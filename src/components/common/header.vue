@@ -1,7 +1,7 @@
 
 <template>
 <header>
-  帮你监控网站的错误，性能
+  <!--<p id="website-desc">帮你监控错误，性能<p>-->
     <div class="left">
       <h1>bugWatch</h1>
       <el-select v-model="projectId" @change="changeProject" placeholder="默认网站">
@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       name: localStorage.name,
-      projectId: '',
+      projectId: localStorage.getItem('projectId'),
       projectList: []
     }
   },
@@ -56,7 +56,7 @@ export default {
        * 显示页面头部的项目列表
        */
       getProjectList () {
-        this.$http.get('/api/project/list')
+        this.$http.get('/api/project/getProjectList')
           .then((res) => {
             if (res.data) {
               this.projectList = res.data;
@@ -67,6 +67,9 @@ export default {
                   localStorage.setItem('projectId', this.projectId);
                 }
 
+              } else {
+                this.$message('您还没有添加过项目，需要先添加一个项目');
+                this.$router.push('/project?type=add')
               }
             }
           })
@@ -81,25 +84,34 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+#website-desc {
+  width: 250px;
+  margin: 0 auto;
+  line-height: 70px;
+}
 .el-select {
+  margin-bottom: 0;
   float: none;
 }
   header {
     position: fixed;
     z-index: 2;
-    height: 50px;
+    height: 70px;
     width: 100%;
-    line-height: 50px;
-    font-size: 20px;
+    line-height: 30px;
     background-color: #3c8dbc;
     overflow: hidden;
     color: white;
-
+    .left, .right {
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
     .left {
       float: left;
     }
     .right {
-      float: right;
+      right: 0;
       color: white;
       padding-right: 30px;
       cursor: pointer;
@@ -108,8 +120,8 @@ export default {
   h1 {
     display: inline;
     margin-left: 25px;
-    margin-right: 25px;
-    font-size: 36px;
+    margin-right: 50px;
+    font-size: 1.5rem;
     vertical-align: middle;
   }
 </style>
