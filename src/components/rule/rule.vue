@@ -4,7 +4,6 @@
              label-width="80px">
       <el-form-item label="收件人">
         <el-input placeholder="请输入邮件地址"
-                  autofocus="true"
                   v-model="email">
         </el-input>
       </el-form-item>
@@ -13,10 +12,10 @@
                   v-model="keyword">
         </el-input>
       </el-form-item>
-  
       <el-form-item>
-        <el-button type="primary"
-                   @click="onAddRule">添加</el-button>
+        <el-button
+          type="primary"
+          @click="onAddRule">添加</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="ruleList"
@@ -52,9 +51,9 @@ export default {
       keyword: '', // 添加新规则的关键词
       ruleList: []
     }
-  }, created() {
+  }, created () {
     this.getRuleList();
-		EventBus.$on('projectChange', num => {
+		EventBus.$on('projectChange', projectId => {
 			this.getRuleList();
 		})
   }, methods: {
