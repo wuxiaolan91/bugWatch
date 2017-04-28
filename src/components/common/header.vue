@@ -45,7 +45,7 @@ export default {
     }
   },
   created() {
-    this.projectId = localStorage.getItem('projectId');
+    // this.projectId = localStorage.getItem('projectId');
     this.getProjectList();
   }, methods: {
     changeProject() {
@@ -80,6 +80,7 @@ export default {
               }
 
             } else {
+              localStorage.removeItem('projectId');
               this.$message('您还没有添加过项目，需要先添加一个项目');
               this.$router.push('/project?type=add')
             }
@@ -94,7 +95,7 @@ export default {
   }, watch: {
     projectId(value) {
       console.log('value:' + value);
-      if (value) localStorage.setItem('projectId', value);
+      if (value!= undefined) localStorage.setItem('projectId', value);
 
     }
   }

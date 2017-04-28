@@ -16,7 +16,6 @@
       const ignoreList = ignore.split(',');
       let isIgnore = false;
       for (var i = 0; i < ignoreList.length; i++) {
-        debugger;
         let ignoreKeyword = ignoreList[i];
         if (message.indexOf(ignoreKeyword) > -1) {
           return;
@@ -63,7 +62,6 @@
         }
       })
       .catch((error) => {
-        // debugger;
         console.log(`这个接口出错了${  error}`);
       });
     };
