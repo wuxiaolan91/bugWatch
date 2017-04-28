@@ -37,6 +37,7 @@ export default {
               message: '登录成功',
               type: 'success'
             });
+            localStorage.setItem('userInfo', JSON.stringify(user));
              localStorage.setItem('name', user.name);
              this.$router.push('/');
           } else {

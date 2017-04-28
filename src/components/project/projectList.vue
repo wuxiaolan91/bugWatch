@@ -2,22 +2,32 @@
 <div>
   <el-button id="add-project-btn" type="text" @click="OpenAddProject">添加项目</el-button>
   <el-table
-  v-loading.body="loading"
-  :data="projectList"
-  style="width: 500px;margin:0 auto;">
+    v-loading.body="loading"
+    :data="projectList"
+    stripe
+    style="width: 100%"
+    >
     <el-table-column
     prop="name"
-    label="项目">
+    width="150"
+    label="项目名(比如百度)">
   </el-table-column>
-  <el-table-column fixed="right"
-                       label="操作"
-                       width="100">
+  <el-table-column
+    prop="projectId"
+    label="项目id">
+  </el-table-column>
+  <el-table-column
+    fixed="right"
+    label="操作"
+    width="100">
         <template scope="scope">
-          <el-button @click.native.prevent="delProject(scope.$index, scope)"
-                     type="text"
-                     size="small">删除</el-button>
-          <el-button type="text"
-                     size="small">编辑</el-button>
+          <el-button 
+            @click.native.prevent="delProject(scope.$index, scope)"
+            type="text"
+            size="small">删除</el-button>
+          <el-button
+            type="text"
+            size="small">编辑</el-button>
         </template>
       </el-table-column>
 </el-table>
@@ -47,7 +57,7 @@
        * 打开增加项目的弹窗
        */
       OpenAddProject() {
-        this.$prompt('请输入项目的名字', '提示', {
+        this.$prompt('请输入项目的名字', '添加新项目', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
 

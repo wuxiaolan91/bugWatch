@@ -118,7 +118,7 @@ header {
   height: 70px;
   width: 100%;
   line-height: 30px;
-  background-color: #3c8dbc;
+  background-color: #20a0ff;
   overflow: hidden;
   color: white;
   .left,

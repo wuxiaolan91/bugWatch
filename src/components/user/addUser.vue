@@ -1,13 +1,16 @@
 <template>
 <div>
-  <el-form ref="form" :model="form" label-width="80px" v-loading.body="loading">
+  <el-form ref="form" :model="user" label-width="80px" v-loading.body="loading">
     <el-form-item label="用户名">
-      <el-input v-model="form.name"></el-input>
+      <el-input v-model="user.name"></el-input>
+    </el-form-item>
+    <el-form-item label="邮箱">
+      <el-input type="email" v-model="user.email"></el-input>
     </el-form-item>
     <el-form-item label="密码">
-      <el-input v-model="form.password"></el-input>
+      <el-input v-model="user.password"></el-input>
     </el-form-item>
-    <el-form-item label="密码">
+    <el-form-item label="角色">
        <el-select v-model="roleList[0].value" placeholder="角色">
       <el-option
         v-for="item in roleList"
@@ -27,8 +30,9 @@ export default {
   data () {
     return {
       loading: false,
-      form: {
+      user: {
         name: '',
+        email: '',
         password: '',
         role: 1
       },
@@ -44,12 +48,13 @@ export default {
     }
   }, methods: {
     onSubmit () {
-      this.$http.post('/api/user/addUser', this.form).then(res => {
+      this.$http.post('/api/user/addUser', this.user).then(res => {
         if (res._id) {
           this.$message('添加用户成功');
-          this.form.name = '';
-          this.form.password = '';
-          this.form.role = '1';
+          this.user.name = '';
+          this.user.email = '';
+          this.user.password = '';
+          this.user.role = '1';
           
         } else {
           this.$message.error('添加用户不成功' + res);
