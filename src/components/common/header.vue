@@ -95,7 +95,7 @@ export default {
   }, watch: {
     projectId(value) {
       console.log('value:' + value);
-      if (value!= undefined) localStorage.setItem('projectId', value);
+      if (value) localStorage.setItem('projectId', value);
 
     }
   }

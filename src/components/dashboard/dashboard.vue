@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" >
+    <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="bug时间比较图" name="first"></el-tab-pane>
       <el-tab-pane label="bug页面排行榜" name="second"></el-tab-pane>
       <el-tab-pane label="bugTop排行榜" name="third"></el-tab-pane>
@@ -20,6 +20,12 @@ export default {
     return {
       activeName: 'first'
     };
+  },
+  methods: {
+    handleClick: (tab, event) => {
+      console.log('切换项目-来自tab')
+      EventBus.$emit('projectChange', localStorage.getItem('projectId'));
+    }
   },
   components: {
     BugCompare,

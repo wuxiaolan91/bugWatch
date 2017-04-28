@@ -52,6 +52,11 @@ Vue.use(ElementUI);
 router.beforeEach((to, from, next) => {
   const path = to.path;
   if (localStorage.getItem('name') || path.indexOf('login') > -1 || path.indexOf('addUser') > -1) {
+    let projectId = localStorage.getItem('projectId');
+    if (projectId) {
+      EventBus.$emit('projectChange', projectId);
+    }
+    
     next();
   } else {
     next('/login');
