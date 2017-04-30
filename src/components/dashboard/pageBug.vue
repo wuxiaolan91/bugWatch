@@ -1,8 +1,7 @@
 <template>
-  <div class="echarts">
     <div id="page-bug"
-         style="width:1500px;height:400px;"></div>
-  </div>
+      v-loading.body="loading"
+         style="width:100%;height:400px;"></div>
 </template>
 
 <script>
@@ -10,16 +9,18 @@
 export default {
   data() {
     return {
+      loading:false,
       option: {
         title: {
           text: 'bug页面排行榜'
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          	axisPointer: {
+						type: 'shadow'
+					}
         },
-        legend: {
-          data: ['页面']
-        },
+      
         toolbox: {
           show: true,
           feature: {
@@ -29,6 +30,9 @@ export default {
             restore: { show: true },
             saveAsImage: { show: true }
           }
+        },
+        legend: {
+          data: ['页面']
         },
         calculable: true,
         xAxis: [
@@ -46,7 +50,7 @@ export default {
           {
             name: 'bug次数',
             type: 'bar',
-            data: [],
+            data: [0,0,0,0,0],
             markPoint: {
               data: [
                 { type: 'max', name: '最大值' }
@@ -71,12 +75,16 @@ export default {
       let pageBug = document.getElementById('page-bug');
       if (!pageBug) return;
       var myChart = echarts.init(pageBug);
+      this.loading = true;
       this.$http.get('/api/bug/bugTopList?type=page')
         .then(res => {
+          this.loading = false;
           if (res.status == 200) {
             let bugListObj = res.data;
             console.log('bugListObj - 来自接口bugTopList?type=page::');
             console.dir(bugListObj);
+            // bugListObj.chartPageList.length = 5;
+            // bugListObj.chartCountList.length = 5;
             this.option.xAxis[0].data = bugListObj.chartPageList;
             this.option.series[0].data = bugListObj.chartCountList;
             myChart.setOption(this.option);
@@ -89,5 +97,7 @@ export default {
 </script>
 
 <style>
-
+#page-bug {
+  width: 100%;
+}
 </style>

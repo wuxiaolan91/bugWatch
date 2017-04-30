@@ -21,8 +21,7 @@ Axios.interceptors.response.use((response) => {
   return response;
 
 }, (error) => {
-  console.log(`接口返回报错:${error.config.url}---error.message`);
-  let url = ''; // error ajax url 
+  let url = '';
   if( error.config) url = error.config.url;
   fetch('/api/bug/addAjaxWatch', {
     method: 'POST',
@@ -51,7 +50,13 @@ Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 router.beforeEach((to, from, next) => {
-  if (localStorage.getItem('name') || to.path.indexOf('login') > -1) {
+  const path = to.path;
+  if (localStorage.getItem('name') || path.indexOf('login') > -1 || path.indexOf('addUser') > -1) {
+    let projectId = localStorage.getItem('projectId');
+    if (projectId) {
+      EventBus.$emit('projectChange', projectId);
+    }
+    
     next();
   } else {
     next('/login');

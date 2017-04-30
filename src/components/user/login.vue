@@ -26,6 +26,7 @@ export default {
   }, methods: {
     onSubmit () {
       this.loading = true;
+      localStorage.removeItem('projectId');
       this.$http.post('/api/user/login',this.form).then(res => {
         this.loading = false;
         if (res.status == 200) {
@@ -36,6 +37,7 @@ export default {
               message: '登录成功',
               type: 'success'
             });
+            localStorage.setItem('userInfo', JSON.stringify(user));
              localStorage.setItem('name', user.name);
              this.$router.push('/');
           } else {

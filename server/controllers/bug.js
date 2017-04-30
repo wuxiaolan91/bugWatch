@@ -1,4 +1,5 @@
 const bugModel = require('../models/bugModel.js');
+const ruleModel = require('../models/ruleModel.js');
 const util = require('../lib/util.js');
 const email = require('./email.js');
 /**
@@ -28,6 +29,7 @@ function bugListByFilter(type, bugList) {
   const pageListObj = {}; // 错误的页面
   const chartPageList = []; // 最后传给echarts的数据
   const chartCountList = []; // 图表里需要的报错页面数组
+  console.log('bugList', bugList);
   bugList.forEach((item) => {
     const page = type == 'page' ? item.errorPage : item.message;
     pageListObj[page] = typeof pageListObj[page] === 'undefined' ? 1 : pageListObj[page] + 1;
@@ -62,12 +64,21 @@ function bugListByFilter(type, bugList) {
   };
 }
 /**
- * bugWatch
+ * 添加一个bug
  */
-exports.bugWatch = function* () {
+exports.addBug = function* () {
   const ip = this.request.ip;
   const website = this.request.headers.website;
+  const projectId = this.header.projectid;
+  // 获取规则列表
 
+  const ruleList = yield ruleModel.find({
+    projectId
+  }).sort({ _id: -1 }).exec((err, data) => {
+    if (err) this.body = err;
+    return data;
+  });
+  console.log('ruleList', ruleList);
   const bugObj = {
     projectId: this.header.projectid, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     ip,
@@ -79,30 +90,24 @@ exports.bugWatch = function* () {
     date: this.query.time,
   };
   bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
-  const warnRule = [
-    {
-      website: 'localhost',
-      keywords: ['sss'],
-    },
-  ];
-
-  if (bugObj.errorPage.indexOf(warnRule[0].website) > -1 && bugObj.message.indexOf(warnRule[0].keywords[0]) > -1) {
-    console.log('调用邮件发布');
-    const mailOptions = {
-      from: 'lyz1051500917@163.com', // sender address
-      to: 'wuiaolan@wecash.net', // list of receivers
-      subject: `报错啦，来自 bugWatch 的邮件：${bugObj.errorPage}报错信息：${bugObj.message}`, // Subject line
-      text: `${bugObj}报错啦：${bugObj.message}`, // plaintext body
-      html: `<h2>报错网站：</h2><p>${website}</p>
-      <h2>页面地址：</h2><p>${bugObj.errorPage}</p>
-      <h2>报错时间：</h2><p>${bugObj.date}</p>
-      <h2>报错堆栈信息</h2><p style="color:red;">${bugObj.error}</p>
-      <h2>报错ua：</h2><p>${bugObj.ua}</p>`, // html body
-    };
-    console.log('发送邮件');
-    console.log(email);
-    email.sendemail(mailOptions);
-  } else {
+  ruleList.forEach((item, index) => {
+    if (bugObj.errorPage.indexOf(item.keyword[0]) > -1) {
+      console.log('调用邮件发布', item.email);
+      const mailOptions = {
+        from: '15600018324@163.com', // sender address
+        to: item.email, // list of receivers
+        subject: `报错啦，来自 bugWatch 的邮件：${bugObj.errorPage}报错信息：${bugObj.message}`, // Subject line
+        text: `${bugObj}报错啦：${bugObj.message}`, // plaintext body
+        html: `<h2>报错网站：</h2><p>${website}</p>
+        <h2>页面地址：</h2><p>${bugObj.errorPage}</p>
+        <h2>报错时间：</h2><p>${bugObj.date}</p>
+        <h2>报错堆栈信息</h2><p style="color:red;">${bugObj.error}</p>
+        <h2>报错ua：</h2><p>${bugObj.ua}</p>`, // html body
+      };
+      email.sendemail(mailOptions);
+    }
+  })
+  if (ruleList.length < 1) {
     console.log('没有匹配的规则');
   }
   const bug = yield new bugModel(bugObj).save();
@@ -111,7 +116,7 @@ exports.bugWatch = function* () {
 /**
  * 得到bug列表
  */
-exports.getList = function* () { // 获取bug列表，还没有哪个地方用到
+exports.getBugList = function* () { // 获取bug列表，还没有哪个地方用到
   const query = this.query || {};
   const projectId = this.header.projectid;
   const currentPage = query.currentPage;
@@ -169,8 +174,10 @@ exports.weekBugList = function* () { // 显示一周内报错最多的页面
       $lte: date,
     },
   }).sort().exec((err, bugList) => {
+    console.log('获取本周bug列表- 查询返回')
     this.body = bugListByFilter(type, bugList);
   });
+  console.log('会执行到这里嘛？175')
 };
 /**
  * 得到昨天和今天每个小时段的bug数量列表
@@ -183,7 +190,6 @@ exports.compareList = function* () { // 显示昨天和今天每个时间段的b
   yesterDay.setHours('00', '00', '01');
   date.setHours('24', '00', '00');
   const projectId = this.header.projectid;
-  console.log(`项目compareid${  projectId}`);
   const twoDaybugList = yield bugModel.find({
     projectId,
     time: {

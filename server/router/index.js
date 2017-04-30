@@ -12,17 +12,17 @@ const ruleController = require('../controllers/rule.js');
 const projectController = require('../controllers/project.js');
 // project
 
-router.post('/project/add', projectController.add);
+router.post('/project/addProject', projectController.addProject);
+router.get('/project/removeProject', projectController.removeProject);
 router.get('/project/getProjectList', projectController.getProjectList);
 const user = require('../controllers/user');
 
 // bug
-router.get('/bug/watch', bugController.bugWatch);
+router.get('/bug/addBug', bugController.addBug);
 router.get('/bug/email', () => {
   const email = require('../controllers/user');
 });
-router.get('/bug/addWatch', bugController.bugWatch);
-router.get('/bug/getList', bugController.getList);
+router.get('/bug/getBugList', bugController.getBugList);
 router.get('/bug/compareList', bugController.compareList);
 router.get('/bug/pageTopList', bugController.weekBugList);
 router.get('/bug/bugTopList', bugController.weekBugList);
@@ -35,7 +35,7 @@ router.get('/bug/getAjaxList', ajaxController.list);
 
 // user
 router.post('/user/login', userController.login);
-
+router.post('/user/addUser', userController.addUser);
 // rule
 router.post('/rule/addRule', ruleController.addRule);
 router.get('/rule/removeRule', ruleController.removeRule);
