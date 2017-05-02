@@ -10,11 +10,12 @@ const projectObj = {
     this.body = project;
   },
   * removeProject () {
-    
+
     const projectId = this.header.projectid;
     // const projectId = this.query.projectId;
-    const newProject = yield projectModel.remove(projectId, (err, data) => {
+    const newProject = yield projectModel.remove({projectId}, (err, data) => {
         if (err) this.body = err;
+
         this.body = data;
     })
   },
