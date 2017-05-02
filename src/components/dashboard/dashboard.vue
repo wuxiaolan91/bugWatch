@@ -1,14 +1,17 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" >
       <el-tab-pane label="bug时间比较图" name="first"></el-tab-pane>
       <el-tab-pane label="bug页面排行榜" name="second"></el-tab-pane>
       <el-tab-pane label="bugTop排行榜" name="third"></el-tab-pane>
     </el-tabs>
 
-    <bug-compare v-if="activeName === 'first'"></bug-compare>
-    <page-bug v-if="activeName === 'second'"></page-bug>
-    <top-bug v-if="activeName === 'third'"></top-bug>
+    <bug-compare v-show="activeName === 'first'"></bug-compare>
+    
+    <div id="top-wrap" >
+      <page-bug v-show="activeName === 'second'"></page-bug>
+      <top-bug v-show="activeName === 'third'"></top-bug>
+    </div>
   </div>
 </template>
 <script>
@@ -20,12 +23,6 @@ export default {
     return {
       activeName: 'first'
     };
-  },
-  methods: {
-    handleClick: (tab, event) => {
-      console.log('切换项目-来自tab')
-      EventBus.$emit('projectChange', localStorage.getItem('projectId'));
-    }
   },
   components: {
     BugCompare,
