@@ -65,11 +65,11 @@ const projectObj = {
     });
     const result = '';
     // const result = yeild projectModel.update({
-    //   _id: projectId
-    // }, {
-    //   userId: []
-    // });
-    this.body = result;
+    const newProject = yield projectModel.remove({projectId}, (err, data) => {
+        if (err) this.body = err;
+
+        this.body = data;
+    })
   },
   /**
    * 删除一个项目

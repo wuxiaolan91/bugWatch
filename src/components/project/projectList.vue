@@ -13,25 +13,29 @@
       label="项目名(比如百度)">
     </el-table-column>
     <el-table-column
-      prop="projectId"
-      label="项目id">
-    </el-table-column>
-    <el-table-column
-      fixed="right"
-      label="操作"
-      width="100">
-          <template scope="scope">
-            <el-button 
-              @click.native.prevent="delProject(scope.$index, scope)"
-              type="text"
-              size="small">删除</el-button>
-            <el-button
-              type="text"
-              size="small"
-              @click.native.prevent="editProject(scope.$index, scope)">编辑</el-button>
-          </template>
-        </el-table-column>
-  </el-table>
+    prop="name"
+    width="150"
+    label="项目名(比如百度)">
+  </el-table-column>
+  <el-table-column
+    prop="projectId"
+    label="项目id">
+  </el-table-column>
+  <el-table-column
+    fixed="right"
+    label="操作"
+    width="100">
+        <template scope="scope">
+          <el-button
+            @click.native.prevent="delProject(scope.$index, scope)"
+            type="text"
+            size="small">删除</el-button>
+          <el-button
+            type="text"
+            size="small">编辑</el-button>
+        </template>
+      </el-table-column>
+</el-table>
 
 </div>
 </template>
@@ -109,28 +113,52 @@
        * @project {Object} 当前项目的数据
        */
       delProject (index, project) {
-              debugger;
 
-      let projectId = this.projectList[index]._id;
-      this.$http.get('/api/project/removeProjectById', {
-        params: {
-          projectId
-        }
-      }).then(res => {
-          if (res.data.ok) {
-            this.$message({
-              message: '删除项目成功',
-              type: 'success'
-            });
-            this.projectList.splice(index, 1);
-            if (this.projectList.length == 0) {
-              localStorage.removeItem('projectId');
-              this.$router.push('/project?type=add');
+        this.$msgbox({
+          title: '删除项目',
+          message: `是否删除项目：${project.row.name}`,
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              let projectId = this.projectList[index].projectId;
+              this.$http.get('/api/project/removeProject', {
+                headers: {
+                  projectId
+                }
+              }).then(res => {
+                instance.confirmButtonLoading = false;
+                done();
+                if (res.data.ok) {
+
+                  this.$message({
+                    message: '删除项目成功',
+                    type: 'success'
+
+                  });
+                  this.projectList.splice(index, 1);
+                  if (this.projectList.length == 0) {
+                    localStorage.removeItem('projectId');
+                    this.$router.push('/project?type=add');
+                  }
+                } else {
+                  this.$message.error('删除项目失败');
+                }
+              }).catch(rej =>{
+                instance.confirmButtonLoading = false;
+                done();
+                this.$message.error('删除项目失败');
+              })
+            } else {
+              done();
             }
-          } else {
-            this.$message.error('删除项目失败');
           }
         })
+
+
       },
       /**
        * 生成一个项目id
