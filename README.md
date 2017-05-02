@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # bugwatch
 
 > 面向前端的一个监控平台。集错误监控，接口报错，性能分析，流量劫持分析于一身的前端监控平台
@@ -82,3 +83,13 @@ npm run build
 ```
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# bugWatch
+bug追踪，上报
+
+借用oneAPM的介绍
+
+实时分析真实用户用浏览器访问业务系统的性能
+
+支持Ajax，用户访问轨迹，页面加载分析
+>>>>>>> fae5beb59a91928b39ba216180ff7f29a513cac3
