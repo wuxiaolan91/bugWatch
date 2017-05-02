@@ -11,18 +11,15 @@ Axios.interceptors.request.use((config) => {
   config.headers.common.projectId = localStorage.getItem('projectId');
   // Do something before request is sent
   return config;
-}, (error) => {
+}, error =>
   // Do something with request error
-  return Promise.reject(error);
-});
+   Promise.reject(error));
 // Add a response interceptor
-Axios.interceptors.response.use((response) => {
+Axios.interceptors.response.use(response =>
   // Do something with response data
-  return response;
-
-}, (error) => {
+   response, (error) => {
   let url = '';
-  if( error.config) url = error.config.url;
+  if (error.config) url = error.config.url;
   fetch('/api/bug/addAjaxWatch', {
     method: 'POST',
     headers: {
@@ -31,11 +28,11 @@ Axios.interceptors.response.use((response) => {
     body: JSON.stringify({
       projectId: localStorage.getItem('projectId'),
       message: error.message,
-      url: url,
+      url,
       errorPage: location.href,
       error: error.stack,
       status: error.status,
-    })
+    }),
   })
     .then((response) => {
       console.log('发出ajax错误监控');
@@ -52,11 +49,11 @@ Vue.use(ElementUI);
 router.beforeEach((to, from, next) => {
   const path = to.path;
   if (localStorage.getItem('name') || path.indexOf('login') > -1 || path.indexOf('addUser') > -1) {
-    let projectId = localStorage.getItem('projectId');
+    const projectId = localStorage.getItem('projectId');
     if (projectId) {
       EventBus.$emit('projectChange', projectId);
     }
-    
+
     next();
   } else {
     next('/login');
