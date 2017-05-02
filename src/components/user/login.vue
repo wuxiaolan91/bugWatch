@@ -29,16 +29,18 @@ export default {
       localStorage.removeItem('projectId');
       this.$http.post('/api/user/login',this.form).then(res => {
         this.loading = false;
+        debugger;
         if (res.status == 200) {
           // debugger;
-          if (res.data.length) {
-            const user = res.data[0];
+          if (res.data) {
+            const user = res.data;
              this.$message({
               message: '登录成功',
               type: 'success'
             });
             localStorage.setItem('userInfo', JSON.stringify(user));
              localStorage.setItem('name', user.name);
+             localStorage.setItem('userId', user._id);
              this.$router.push('/');
           } else {
              this.$message.error('登录失败，请确认你的账号和密码是否正确');
