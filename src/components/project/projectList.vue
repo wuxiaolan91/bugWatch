@@ -12,13 +12,9 @@
       width="150"
       label="项目名(比如百度)">
     </el-table-column>
-    <el-table-column
-    prop="name"
-    width="150"
-    label="项目名(比如百度)">
-  </el-table-column>
+  
   <el-table-column
-    prop="projectId"
+    prop="_id"
     label="项目id">
   </el-table-column>
   <el-table-column
@@ -81,14 +77,13 @@
         const newProject = {
           name: projectName,
           projectId: this.addProjectId(),
-          userList: {
+          userList: [{
             userId: localStorage.getItem('userId'),
             roleId: 3
-          }
+          }]
         };
         this.$http.post('/api/project/addProject', newProject)
           .then((res) => {
-            debugger;
             if (res.status = 200) {
               let project = res.data;
               this.$message({

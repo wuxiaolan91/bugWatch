@@ -56,17 +56,18 @@ export default {
     this.getProjectById();
     this.getUserList();
   }, methods: {
+   
     getProjectById() {
       this.$http.get('/api/project/getProjectById', {
         params: {
           projectId: this.projectId
         }
-      }).then((res) => {
+      }).then(res => {
         let project = res.data;
         this.name = project.name;
         let userList = project.userList;
-        project.userList.forEach((item) => {
-          let roleName = this.showRole(item.roleId || item.role);
+        project.userList.forEach(item => {
+          let roleName = this.showRole(item.roleId);
           item.roleName = roleName;
         })
         this.projectUserList = project.userList;
@@ -78,7 +79,6 @@ export default {
     getUserList() {
       this.$http.get('/api/user/getUserList')
         .then((res) => {
-          debugger;
           this.loading = false;
           if (res.data) {
             this.userList = res.data;
@@ -87,10 +87,17 @@ export default {
 
     },
     addUserToProject () {
+      if (!this.selUser) {
+        this.$message.error('请先选择一位用户');
+        return;
+      }
       this.$http.get('/api/project/updateProject', {
-        _userId: this.user
+        params: {
+          projectId: this.projectId,
+          userId: this.selUser,
+          roleId: 1
+        }
       }).then(res => {
-        debugger;
         debugger;
       })
     },
@@ -101,14 +108,15 @@ export default {
     },
     showRole (roleId) {
       console.log('执行')
+      debugger;
       switch (roleId) {
-        case 1:
+        case '1':
           return 'user';
           break;
-        case 2:
+        case '2':
           return 'Administer';
           break;
-        case 3:
+        case '3':
           return 'Owner'
           break;
       }

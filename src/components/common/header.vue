@@ -9,27 +9,27 @@
                  placeholder="默认网站">
         <el-option v-for="item in projectList"
                    :label="item.name"
-                   :value="item.projectId">
+                   :value="item._id">
         </el-option>
       </el-select>
     </div>
     <div class="right">
-      <el-dropdown @commond="handleCommond">
+      <el-dropdown >
         <span class="el-dropdown-link">
-          {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
-        </span>
+            {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
+          </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>
+          <el-dropdown-item v-if="user.gradeId > 1">
             <router-link to="/projectList?type=list">项目列表</router-link>
           </el-dropdown-item>
           <!--<el-dropdown-item>项目成员</el-dropdown-item>-->
-          <el-dropdown-item>
+          <el-dropdown-item v-if="user.gradeId > 1">
             <router-link to="/projectList?type=add">添加项目</router-link>
           </el-dropdown-item>
-          <el-dropdown-item>
+          <el-dropdown-item v-if="user.gradeId==3">
             <router-link to="/addUser">添加用户</router-link>
           </el-dropdown-item>
-          <el-dropdown-item commond="exit"><span @click="exitBtn">退出</span></el-dropdown-item>
+          <el-dropdown-item ><span @click="exitBtn">退出</span></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -41,41 +41,52 @@ export default {
     return {
       name: localStorage.name,
       projectId: '',
+      user: {},
       projectList: []
     }
   },
   created() {
-    // this.projectId = localStorage.getItem('projectId');
-    this.getProjectList();
+    let userInfo = localStorage.getItem('userInfo');
+    this.user = userInfo ? JSON.parse(userInfo) : {};
+    if (this.user._id) {
+      this.getProjectList();
+    }
+    
   }, methods: {
     changeProject() {
       console.log('改变项目啦，来自改变项目的change事件');
       EventBus.$emit('projectChange', this.projectId)
     },
-    exitBtn () {
-      alert('退啊')
-     localStorage.removeItem('name');
-        this.$router.push('/login');
+    exitBtn() {
+      console.log('退出')
+      localStorage.clear();
+      this.$store.isLogin = false;
+      EventBus.$emit('isLogin', false)
+      this.$router.push('/login');
     },
     handleCommond(commond) {
       if (commond == 'exit') {
         localStorage.removeItem('name');
         this.$router.push('/login');
       }
-      
+
     },
     /**
      * 显示页面头部的项目列表
      */
     getProjectList() {
-      this.$http.get('/api/project/getProjectList')
+      this.$http.get('/api/project/getProjectList', {
+        params: {
+          userId: user._id
+        }
+      })
         .then((res) => {
           if (res.data) {
             this.projectList = res.data;
             console.dir(this.projectList);
             if (this.projectList.length) {
               if (!this.projectId) {
-                this.projectId = this.projectList[0].projectId;
+                this.projectId = this.projectList[0]._id;
                 localStorage.setItem('projectId', this.projectId);
               }
 
@@ -89,7 +100,7 @@ export default {
     }
   },
   events: {
-    exitBtn () {
+    exitBtn() {
       alert('退啊2')
     }
   }, watch: {
@@ -112,7 +123,11 @@ export default {
   margin-bottom: 0;
   float: none;
 }
-
+li {
+  span {
+    display: block;
+  }
+}
 header {
   position: fixed;
   z-index: 2;

@@ -108,7 +108,7 @@ exports.addBug = function* () {
     }
   })
   if (ruleList.length < 1) {
-    console.log('没有匹配的规则');
+    // console.log('没有匹配的规则');
   }
   const bug = yield new bugModel(bugObj).save();
   this.body = bug;
