@@ -62,7 +62,7 @@ export default {
 	},
 	mounted() {
 		console.log('bugCompare-mounted')
-		
+		this.getCompareList();
 		EventBus.$on('projectChange', num => {
 			console.log('event  bus - bugCompare')
 			this.getCompareList();
