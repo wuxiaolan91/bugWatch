@@ -125,7 +125,7 @@
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
               let projectId = this.projectList[index].projectId;
-              this.$http.get('/api/project/removeProject', {
+              this.$http.get('/api/project/removeProjectById', {
                 headers: {
                   projectId
                 }
