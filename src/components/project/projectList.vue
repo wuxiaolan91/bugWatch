@@ -32,6 +32,7 @@
             size="small">删除</el-button>
           <el-button
             type="text"
+            @click.native.prevent="editProject(scope.$index, scope)"
             size="small">编辑</el-button>
         </template>
       </el-table-column>
