@@ -122,6 +122,9 @@ export default {
 }
 </script>
 <style lang="less">
+.el-card {
+  margin-bottom: 20px;
+}
 ul {
   list-style: none;
   line-height: 2;
