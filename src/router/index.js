@@ -11,6 +11,7 @@ import AddUser from '@/components/user/addUser.vue';
 // project
 import ProjectList from '@/components/project/projectList.vue';
 import project from '@/components/project/project.vue';
+import Guide from '@/components/guide/guide.vue';
 Vue.use(Router);
 let router = new Router({
   routes: [
@@ -22,6 +23,11 @@ let router = new Router({
       path: '/bugList', // bug的日志列表
       name: 'list',
       component: List,
+    },
+    {
+      path: '/guide', // 新人指南
+      name: 'guide',
+      component: Guide
     },
     {
       path: '/projectList', // 项目列表
