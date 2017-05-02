@@ -20,11 +20,11 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>
-            <router-link to="/project?type=list">项目列表</router-link>
+            <router-link to="/projectList?type=list">项目列表</router-link>
           </el-dropdown-item>
           <!--<el-dropdown-item>项目成员</el-dropdown-item>-->
           <el-dropdown-item>
-            <router-link to="/project?type=add">添加项目</router-link>
+            <router-link to="/projectList?type=add">添加项目</router-link>
           </el-dropdown-item>
           <el-dropdown-item>
             <router-link to="/addUser">添加用户</router-link>
@@ -82,7 +82,7 @@ export default {
             } else {
               localStorage.removeItem('projectId');
               this.$message('您还没有添加过项目，需要先添加一个项目');
-              this.$router.push('/project?type=add')
+              this.$router.push('/projectList?type=add')
             }
           }
         })

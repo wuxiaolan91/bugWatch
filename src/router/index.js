@@ -9,7 +9,8 @@ import Performance from '@/components/performance/performance.vue';
 import Login from '@/components/user/login.vue';
 import AddUser from '@/components/user/addUser.vue';
 // project
-import Project from '@/components/project/projectList.vue';
+import ProjectList from '@/components/project/projectList.vue';
+import project from '@/components/project/project.vue';
 Vue.use(Router);
 let router = new Router({
   routes: [
@@ -23,9 +24,14 @@ let router = new Router({
       component: List,
     },
     {
+      path: '/projectList', // 项目列表
+      name: 'projectList',
+      component: ProjectList,
+    },
+    {
       path: '/project', // 项目列表
       name: 'project',
-      component: Project,
+      component: project,
     },
     {
       path: '/dashboard', // bug的日志列表

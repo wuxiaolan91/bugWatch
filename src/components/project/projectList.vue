@@ -7,30 +7,31 @@
     stripe
     style="width: 100%"
     >
+      <el-table-column
+      prop="name"
+      width="150"
+      label="项目名(比如百度)">
+    </el-table-column>
     <el-table-column
-    prop="name"
-    width="150"
-    label="项目名(比如百度)">
-  </el-table-column>
-  <el-table-column
-    prop="projectId"
-    label="项目id">
-  </el-table-column>
-  <el-table-column
-    fixed="right"
-    label="操作"
-    width="100">
-        <template scope="scope">
-          <el-button 
-            @click.native.prevent="delProject(scope.$index, scope)"
-            type="text"
-            size="small">删除</el-button>
-          <el-button
-            type="text"
-            size="small">编辑</el-button>
-        </template>
-      </el-table-column>
-</el-table>
+      prop="projectId"
+      label="项目id">
+    </el-table-column>
+    <el-table-column
+      fixed="right"
+      label="操作"
+      width="100">
+          <template scope="scope">
+            <el-button 
+              @click.native.prevent="delProject(scope.$index, scope)"
+              type="text"
+              size="small">删除</el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click.native.prevent="editProject(scope.$index, scope)">编辑</el-button>
+          </template>
+        </el-table-column>
+  </el-table>
 
 </div>
 </template>
@@ -73,23 +74,34 @@
       },
       addProject (projectName) {
         const newProject = {
-           name: projectName,
-          projectId: this.addProjectId()
+          name: projectName,
+          projectId: this.addProjectId(),
+          userList: {
+            userId: localStorage.getItem('userId'),
+            roleId: 3
+          }
         };
         this.$http.post('/api/project/addProject', newProject)
           .then((res) => {
+            debugger;
             if (res.status = 200) {
+              let project = res.data;
               this.$message({
                 type: 'success',
                 message: '你的项目是: ' + projectName
               });
               if (this.projectList.length <1) {
-                localStorage.setItem('projectId', res.projectId);
-                this.$router.push('/');
+                let projectId = project._id;
+                localStorage.setItem('projectId', projectId);
+                this.$router.push(`/project?id=${projectId}`);
               }
               this.projectList.push(newProject);
             }
           })
+      },
+      editProject (index, scope) {
+        
+        this.$router.push(`/project?id=${scope.row._id}`)
       },
       /**
        * 删除一个项目
@@ -100,7 +112,7 @@
               debugger;
 
       let projectId = this.projectList[index]._id;
-      this.$http.get('/api/project/removeProject', {
+      this.$http.get('/api/project/removeProjectById', {
         params: {
           projectId
         }

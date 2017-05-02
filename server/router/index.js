@@ -10,12 +10,20 @@ const ajaxController = require('../controllers/ajax.js');
 const userController = require('../controllers/user.js');
 const ruleController = require('../controllers/rule.js');
 const projectController = require('../controllers/project.js');
-// project
+// const user = require('../controllers/user');
+// user
 
-router.post('/project/addProject', projectController.addProject);
-router.get('/project/removeProject', projectController.removeProject);
+router.get('/user/getUserList', userController.getUserList);
+router.post('/user/login', userController.login);
+router.post('/user/addUser', userController.addUser);
+
+// project
 router.get('/project/getProjectList', projectController.getProjectList);
-const user = require('../controllers/user');
+router.post('/project/addProject', projectController.addProject);
+router.get('/project/getProjectById', projectController.getProjectById);
+router.get('/project/removeProjectById', projectController.removeProjectById);
+router.get('/project/updateProject', projectController.updateProject);
+
 
 // bug
 router.get('/bug/addBug', bugController.addBug);
@@ -33,9 +41,6 @@ router.get('/bug/getAjaxList', ajaxController.list);
 // router.get('/user', user.searchuser);
 // router.post('/user/email', user.sendemail);
 
-// user
-router.post('/user/login', userController.login);
-router.post('/user/addUser', userController.addUser);
 // rule
 router.post('/rule/addRule', ruleController.addRule);
 router.get('/rule/removeRule', ruleController.removeRule);
