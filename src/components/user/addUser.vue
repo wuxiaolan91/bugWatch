@@ -8,7 +8,9 @@
       <el-input type="email" v-model="user.email"></el-input>
     </el-form-item>
     <el-form-item label="密码">
-      <el-input v-model="user.password"></el-input>
+      <el-input
+        type="password"
+        v-model="user.password"></el-input>
     </el-form-item>
     <el-form-item label="角色">
        <el-select v-model="roleList[0].value" placeholder="角色">
@@ -34,7 +36,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        role: 1
+        roleId: 1
       },
       roleList: [
         {
@@ -49,15 +51,16 @@ export default {
   }, methods: {
     onSubmit () {
       this.$http.post('/api/user/addUser', this.user).then(res => {
-        if (res._id) {
+        if (res.data._id) {
           this.$message('添加用户成功');
           this.user.name = '';
           this.user.email = '';
           this.user.password = '';
-          this.user.role = '1';
+          this.user.roleId = '1'; // 1是普通用户
+          this.$router.push('/projectList?type=list')
           
         } else {
-          this.$message.error('添加用户不成功' + res);
+          this.$message.error('添加用户不成功' + res.data);
         }
       })
     }

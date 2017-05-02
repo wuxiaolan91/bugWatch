@@ -5,6 +5,11 @@ exports.searchuser = function* () {
     if (err) return;
   });
 };
+exports.getUserList = function* () {
+  this.body = yield userModel.find({}, (err, res) => {
+    if (err) return;
+  });
+};
 /**
  * 添加一个新用户
  */
@@ -35,14 +40,14 @@ exports.addUser = function* () {
 /* 用户登录 */
 exports.login = function* (ctx) {
   const body = this.request.body;
-  this.body = yield userModel.find(body, (err, res) => {
+  this.body = yield userModel.findOne(body, (err, res) => {
     console.log('登录接口返回');
     if (err) {
       return '登录失败';
     }
-    if (res.length) {
-      const user = res[0];
-      this.body = {
+    if (res) {
+      const user = res;
+      return {
         name: user.name,
       };
     } else {
