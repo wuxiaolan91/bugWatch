@@ -1,8 +1,8 @@
 <style src="./assets/less/reset.less" lang="less"></style>
 <template>
   <div id="app">
-    <Top></Top>
-    <div id="nav-wrap" class="left-bar">
+    <Top v-if="isLogin"></Top>
+    <div id="nav-wrap" class="left-bar" v-if="isLogin">
       <el-menu default-active="2" class="el-menu-vertical-demo">
         <el-menu-item index="1">
           <router-link to="/dashboard"><i class="el-icon-message"></i>Dashboard
@@ -29,11 +29,21 @@
 import Top from '@/components/common/header.vue';
 export default {
   name: 'app',
+  data () {
+    return {
+      isLogin: true
+    }
+  },
   components: {
     Top
   }
   ,
   created () {
+    const userId = localStorage.getItem('userId');
+    if (!userId) this.isLogin = false;
+    EventBus.$on('isLogin', isLogin => {
+      this.isLogin = isLogin;
+    })
   }
 }
 

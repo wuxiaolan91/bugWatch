@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel.js');
+const projectModel = require('../models/projectModel.js');
 
 exports.searchuser = function* () {
   this.body = yield userModel.find({}, (err, res) => {
@@ -40,7 +41,7 @@ exports.addUser = function* () {
 /* 用户登录 */
 exports.login = function* (ctx) {
   const body = this.request.body;
-  this.body = yield userModel.findOne(body, (err, res) => {
+  let result = yield userModel.findOne(body, (err, res) => {
     console.log('登录接口返回');
     if (err) {
       return '登录失败';
@@ -51,8 +52,9 @@ exports.login = function* (ctx) {
         name: user.name,
       };
     } else {
-      this.body = '用户名或者密码有误';
+      return  '用户名或者密码有误';
     }
   });
+  this.body = result;
 };
 

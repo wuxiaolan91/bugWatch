@@ -13,13 +13,13 @@
         v-model="user.password"></el-input>
     </el-form-item>
     <el-form-item label="角色">
-       <el-select v-model="roleList[0].value" placeholder="角色">
-      <el-option
-        v-for="item in roleList"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
+       <el-select v-model="user.gradeId" placeholder="角色">
+        <el-option
+          v-for="item in roleList"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
     </el-form-item>
      <el-form-item>
     <el-button type="primary" @click="onSubmit">登录</el-button>
@@ -36,7 +36,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        roleId: 1
+        gradeId: 1
       },
       roleList: [
         {
@@ -44,7 +44,7 @@ export default {
           value: 1
         }, {
           label: '管理员',
-          value: 2
+          value: 3
         }
       ]
     }
@@ -56,7 +56,7 @@ export default {
           this.user.name = '';
           this.user.email = '';
           this.user.password = '';
-          this.user.roleId = '1'; // 1是普通用户
+          this.user.gradeId = '1'; // 1是普通用户
           this.$router.push('/projectList?type=list')
           
         } else {
