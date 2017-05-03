@@ -7,13 +7,13 @@
 ## 接入指南
 1. 在你的 html 页面 引入这个 js 脚本
 
-```
-<script src="http://118.184.11.220/static/js/lib/bugWatch.js"></script>
+```javascript
+<script src="http://118.184.11.220/static/js/lib/bugWatch.js"></script> // 这个js文件3kb 大小
 ```
 2. 如果是想直接用我们提供的平台，那就去[网站](http://118.184.11.220)申请一个账号，在右上角添加一个项目，得到一个项目id。
 
 3. 在你的index.html 页面继续添加如下script.（推荐引用单独放在一个script里） 也可以直接添加到你的js里。
-```
+```javascript
 <script>
   bugWatch.report({
     projectId: '0f8935a3-789e-46ce-c70f-9553119e3f39', // 你在bugWatach管理界面添加项目的时候对应的项目id
@@ -26,7 +26,7 @@
 - nginx
 - webpack
 在你 config/index.js 找到 proxyTable, 增加下面代码里的api代理
-```
+```javascript
 proxyTable: {
   '/api': {
     target: 'http://localhost:3000',
@@ -115,14 +115,4 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-# bugWatch
-bug追踪，上报
-
-借用oneAPM的介绍
-
-实时分析真实用户用浏览器访问业务系统的性能
-
-支持Ajax，用户访问轨迹，页面加载分析
 
