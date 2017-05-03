@@ -6,7 +6,17 @@ const projectObj = {
   *
   */
   * getProjectList() {
-    const list = yield projectModel.find({}).sort({ _id: -1 }).exec((err, data) => {
+    let findObj = {};
+    const userId = this.query.userId;
+    if (userId) {
+
+      findObj = {
+        'userList.userId': {
+          $in: [userId],
+        },
+      };
+    }
+    const list = yield projectModel.find(findObj).sort({ _id: -1 }).exec((err, data) => {
       if (err) this.body = err;
       this.body = data;
     });
@@ -26,12 +36,13 @@ const projectObj = {
   */
   * getProjectById() {
     const projectId = this.query.projectId;
-    let userIdList = [];
-    let project = yield projectModel.findOne({
+    const userIdList = [];
+    const project = yield projectModel.findOne({
       _id: projectId,
     }).sort({ _id: -1 }).exec((err, data) => {
       if (err) this.body = err;
-      console.log('拿到这个项目的project信息', data);
+      if (!data) this.body = [];
+      console.log('data', data)
       if (data.userList) {
         data.userList.map((item) => {
           userIdList.push(item.userId);
@@ -40,31 +51,25 @@ const projectObj = {
       return data;
     });
     // 拿到项目有关的用户列表的详细信息
-    let userList = yield userModel.find({
+    const userList = yield userModel.find({
       _id: userIdList,
     }).lean().exec((err, docs) => {
       if (err) return err;
       return docs;
     });
-    let newUserList = [];
+    const newUserList = [];
     for (let i = 0; i < userList.length; i++) {
-      let item = userList[i];
+      const item = userList[i];
       let roleId = '';
-      project.userList.forEach(user => {
+      project.userList.forEach((user) => {
         if (item._id == user.userId) {
           roleId = user.roleId;
-          console.log('roleId', user.roleId);
           item.roleId = user.roleId;
         } else {
-          console.log('不相等');
         }
       });
-      console.log('item -- old', item);
-      item.ageId = 55;
-      console.log('item -- new', item);
       newUserList.push(item);
-    };
-    console.log('userList--新的呢', newUserList);
+    }
     project.userList = userList;
     this.body = project;
   },
@@ -87,7 +92,6 @@ const projectObj = {
       if (err) return err;
       return data;
     });
-    console.log('proejct', project);
     project.userList.push(newUser);
     const result = yield projectModel.update({ _id: projectId }, project, (err, res) => {
       if (err) return err;
@@ -103,7 +107,7 @@ const projectObj = {
    */
   * removeProjectById() {
 
-    const projectId = this.header.projectid;
+    const projectId = this.query.projectId;
     // const projectId = this.query.projectId;
     const newProject = yield projectModel.remove({
       projectId,

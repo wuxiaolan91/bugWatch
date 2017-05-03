@@ -1,185 +1,191 @@
 <template>
-<div>
-  <el-button id="add-project-btn" type="text" @click="OpenAddProject">添加项目</el-button>
-  <el-table
-    v-loading.body="loading"
-    :data="projectList"
-    stripe
-    style="width: 100%"
-    >
-      <el-table-column
-      prop="name"
-      width="150"
-      label="项目名(比如百度)">
-    </el-table-column>
+  <div>
+    <el-button id="add-project-btn"
+               type="text"
+               @click="OpenAddProject">添加项目</el-button>
+    <el-table v-loading.body="loading"
+              :data="projectList"
+              stripe
+              style="width: 100%">
+      <el-table-column prop="name"
+                       width="150"
+                       label="项目名(比如百度)">
+      </el-table-column>
   
-  <el-table-column
-    prop="_id"
-    label="项目id">
-  </el-table-column>
-  <el-table-column
-    fixed="right"
-    label="操作"
-    width="100">
+      <el-table-column prop="_id"
+                       label="项目id">
+      </el-table-column>
+      <el-table-column fixed="right"
+                       label="操作"
+                       width="100">
         <template scope="scope">
-          <el-button
-            @click.native.prevent="delProject(scope.$index, scope)"
-            type="text"
-            size="small">删除</el-button>
-          <el-button
-            type="text"
-            @click.native.prevent="editProject(scope.$index, scope)"
-            size="small">编辑</el-button>
+          <el-button @click.native.prevent="delProject(scope.$index, scope)"
+                     type="text"
+                     size="small">删除</el-button>
+          <el-button type="text"
+                     @click.native.prevent="editProject(scope.$index, scope)"
+                     size="small">编辑</el-button>
         </template>
       </el-table-column>
-</el-table>
-
-</div>
+    </el-table>
+  
+  </div>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        loading: false,
-        projectList: [] // 项目列表
-      }
-    },
-    created  () {
-      const type = this.$route.query.type;
-      this.getProjectList();
-      if (type == 'add') {
-        this.OpenAddProject();
-      }
+export default {
+  data() {
+    return {
+      loading: false,
+      user: {},
+      projectList: [] // 项目列表
+    }
+  },
+  created() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      console.log('user', this.user);
+      this.user = JSON.parse(userInfo);
+    }
+    const type = this.$route.query.type;
+    this.getProjectList();
+    if (type == 'add') {
+      this.OpenAddProject();
+    }
 
 
-    },
-    methods: {
-      /**
-       * 打开增加项目的弹窗
-       */
-      OpenAddProject() {
-        this.$prompt('请输入项目的名字', '添加新项目', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消'
+  },
+  methods: {
+    /**
+     * 打开增加项目的弹窗
+     */
+    OpenAddProject() {
+      this.$prompt('请输入项目的名字', '添加新项目', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
 
-        }).then(({ value }) => {
-          this.addProject(value);
+      }).then(({ value }) => {
+        this.addProject(value);
 
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
         });
-      },
-      addProject (projectName) {
-        const newProject = {
-          name: projectName,
-          projectId: this.addProjectId(),
-          userList: [{
-            userId: localStorage.getItem('userId'),
-            roleId: 3
-          }]
-        };
-        this.$http.post('/api/project/addProject', newProject)
-          .then((res) => {
-            if (res.status = 200) {
-              let project = res.data;
-              this.$message({
-                type: 'success',
-                message: '你的项目是: ' + projectName
-              });
-              if (this.projectList.length <1) {
-                let projectId = project._id;
-                localStorage.setItem('projectId', projectId);
-                this.$router.push(`/project?id=${projectId}`);
-              }
-              this.projectList.push(newProject);
+      });
+    },
+    addProject(projectName) {
+      const newProject = {
+        name: projectName,
+        projectId: this.addProjectId(),
+        userList: [{
+          userId: localStorage.getItem('userId'),
+          roleId: 3
+        }]
+      };
+      this.$http.post('/api/project/addProject', newProject)
+        .then((res) => {
+          if (res.status = 200) {
+            let project = res.data;
+            this.$message({
+              type: 'success',
+              message: '你的项目是: ' + projectName
+            });
+            if (this.projectList.length < 1) {
+              let projectId = project._id;
+              localStorage.setItem('projectId', projectId);
+              this.$router.push(`/project?id=${projectId}`);
             }
-          })
-      },
-      editProject (index, scope) {
-        
-        this.$router.push(`/project?id=${scope.row._id}`)
-      },
-      /**
-       * 删除一个项目
-       * @param {Number} 项目在项目列表里的索引
-       * @project {Object} 当前项目的数据
-       */
-      delProject (index, project) {
-
-        this.$msgbox({
-          title: '删除项目',
-          message: `是否删除项目：${project.row.name}`,
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          beforeClose: (action, instance, done) => {
-            if (action === 'confirm') {
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = '执行中...';
-              let projectId = this.projectList[index].projectId;
-              this.$http.get('/api/project/removeProjectById', {
-                headers: {
-                  projectId
-                }
-              }).then(res => {
-                instance.confirmButtonLoading = false;
-                done();
-                if (res.data.ok) {
-
-                  this.$message({
-                    message: '删除项目成功',
-                    type: 'success'
-
-                  });
-                  this.projectList.splice(index, 1);
-                  if (this.projectList.length == 0) {
-                    localStorage.removeItem('projectId');
-                    this.$router.push('/project?type=add');
-                  }
-                } else {
-                  this.$message.error('删除项目失败');
-                }
-              }).catch(rej =>{
-                instance.confirmButtonLoading = false;
-                done();
-                this.$message.error('删除项目失败');
-              })
-            } else {
-              done();
-            }
+            newProject._id = project._id;
+            this.projectList.push(newProject);
           }
         })
+    },
+    editProject(index, scope) {
 
+      this.$router.push(`/project?id=${scope.row._id}`)
+    },
+    /**
+     * 删除一个项目
+     * @param {Number} 项目在项目列表里的索引
+     * @project {Object} 当前项目的数据
+     */
+    delProject(index, project) {
 
-      },
-      /**
-       * 生成一个项目id
-       */
-      addProjectId () {
-        function S4() {
-          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+      this.$msgbox({
+        title: '删除项目',
+        message: `是否删除项目：${project.row.name}`,
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '执行中...';
+            let projectId = this.projectList[index].projectId;
+            this.$http.get('/api/project/removeProjectById', {
+              params: {
+                projectId
+              }
+            }).then(res => {
+              instance.confirmButtonLoading = false;
+              done();
+              if (res.data.ok) {
+
+                this.$message({
+                  message: '删除项目成功',
+                  type: 'success'
+
+                });
+                this.projectList.splice(index, 1);
+                if (this.projectList.length == 0) {
+                  localStorage.removeItem('projectId');
+                  this.$router.push('/projectList?type=list');
+                }
+              } else {
+                this.$message.error('删除项目失败');
+              }
+            }).catch(rej => {
+              instance.confirmButtonLoading = false;
+              done();
+              this.$message.error('删除项目失败');
+            })
+          } else {
+            done();
+          }
         }
-        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-      },
-      /**
-       *
-       */
-      getProjectList () {
-        this.loading = true;
-        this.$http.get('/api/project/getProjectList')
-          .then((res) => {
-            this.loading = false;
-            if (res.data) {
-              this.projectList = res.data;
-            }
-          })
+      })
+
+
+    },
+    /**
+     * 生成一个项目id
+     */
+    addProjectId() {
+      function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
       }
+      return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    },
+    /**
+     *
+     */
+    getProjectList() {
+      this.loading = true;
+      this.$http.get('/api/project/getProjectList', {
+       params: {
+          userId: this.user._id
+       }
+      })
+        .then((res) => {
+          this.loading = false;
+          if (res.data) {
+            this.projectList = res.data;
+          }
+        })
     }
   }
+}
 </script>
 <style lang="less">
 #add-project-btn {
