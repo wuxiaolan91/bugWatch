@@ -17,11 +17,12 @@
 <script>
   bugWatch.report({
     projectId: '0f8935a3-789e-46ce-c70f-9553119e3f39', // 你在bugWatach管理界面添加项目的时候对应的项目id
+ 		debug: true, // 如果在某个环境不想要开启测试，可以把这个值设置成false
     ignore: 'error20' // 你想要忽略的前端错误，如果是多个错误，用 *,* 分隔, 比如 *error1,error2*, 注意中间不要有空格
   });
 </script>
 ```
-3. 增加接口代理。
+4. 增加接口代理。
 - nginx
 - webpack
 在你 config/index.js 找到 proxyTable, 增加下面代码里的api代理
