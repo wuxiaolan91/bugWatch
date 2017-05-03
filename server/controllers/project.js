@@ -25,22 +25,21 @@ const projectObj = {
   * @param projectId {String} 项目id
   */
   * getProjectById() {
-    const id = this.query.projectId;
-    const userIdList = [];
-    console.log('id', id);
-    const project = yield projectModel.findOne({
-      _id: id,
+    const projectId = this.query.projectId;
+    let userIdList = [];
+    let project = yield projectModel.findOne({
+      _id: projectId,
     }).sort({ _id: -1 }).exec((err, data) => {
       if (err) this.body = err;
-      console.log('data-project信息', data);
+      console.log('拿到这个项目的project信息', data);
       if (data.userList) {
         data.userList.map((item) => {
           userIdList.push(item.userId);
         });
       }
-
       return data;
     });
+    // 拿到项目有关的用户列表的详细信息
     let userList = yield userModel.find({
       _id: userIdList,
     }, (err, res) => {
@@ -48,13 +47,13 @@ const projectObj = {
       return res;
     });
     let newUserList = [];
-    for (let i = 0; i< userList.length; i++){
+    for (let i = 0; i < userList.length; i++) {
       let item = userList[i];
       let roleId = '';
       project.userList.forEach(user => {
         if (item._id == user.userId) {
           roleId = user.roleId;
-         console.log('roleId',  user.roleId);
+          console.log('roleId', user.roleId);
           item.roleId = user.roleId;
         } else {
           console.log('不相等');
