@@ -50,6 +50,11 @@ export default {
     }
   }, methods: {
     onSubmit () {
+      if (!this.user.name || !this.user.email || !this.password) {
+        this.$message.warning('请先填完信息再点击提交');
+        
+        return;
+      }
       this.$http.post('/api/user/addUser', this.user).then(res => {
         if (res.data._id) {
           this.$message('添加用户成功');
