@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel.js');
+const companyModel = require('../models/companyModel.js');
 const projectModel = require('../models/projectModel.js');
 
 exports.searchuser = function* () {

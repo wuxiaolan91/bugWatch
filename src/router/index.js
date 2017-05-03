@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import App from '../App.vue';
+import Company from '@/components/company/company.vue';
+import AddCompany from '@/components/company/addCompany.vue';
 import Dashboard from '@/components/dashboard/dashboard.vue';
 import List from '@/components/bugList/bugList.vue';
 import Ajax from '@/components/ajax/ajaxList.vue';
@@ -13,7 +15,7 @@ import ProjectList from '@/components/project/projectList.vue';
 import project from '@/components/project/project.vue';
 import Guide from '@/components/guide/guide.vue';
 Vue.use(Router);
-let router = new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -25,9 +27,19 @@ let router = new Router({
       component: List,
     },
     {
+      path: '/company', // 公司界面
+      name: 'company',
+      component: Company,
+    },
+    {
+      path: '/addCompany', // 公司界面
+      name: 'addCompany',
+      component: AddCompany,
+    },
+    {
       path: '/guide', // 新人指南
       name: 'guide',
-      component: Guide
+      component: Guide,
     },
     {
       path: '/projectList', // 项目列表
@@ -41,28 +53,28 @@ let router = new Router({
     },
     {
       path: '/dashboard', // bug的日志列表
-      component: Dashboard
+      component: Dashboard,
     },
     {
       path: '/addUser', // 添加用户
-      component: AddUser
+      component: AddUser,
     },
-     {
+    {
       path: '/login', // 登录
-      component: Login
+      component: Login,
     },
     {
       path: '/ajax', // ajax的日志列表(包括有问题的ajax或者特别慢的ajax记录)
       name: 'ajax',
-      component: Ajax
+      component: Ajax,
     },
     {
       path: '/rule', // bug报警的规则页面
-      component: Rule
+      component: Rule,
     },
     {
       path: '/performance', // 性能极客
-      component: App
+      component: App,
     },
 
   ],

@@ -88,7 +88,7 @@ export default {
     },
     addUserToProject () {
       if (!this.selUser) {
-        this.$message.error('请先选择一位用户');
+        this.$message.warning('请先选择一位用户');
         return;
       }
       this.$http.get('/api/project/updateProject', {

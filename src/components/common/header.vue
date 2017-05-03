@@ -28,6 +28,9 @@
           <el-dropdown-item v-if="user.gradeId==3">
             <router-link to="/addUser">添加用户</router-link>
           </el-dropdown-item>
+          <el-dropdown-item v-if="user.gradeId==3">
+            <router-link to="/company">公司</router-link>
+          </el-dropdown-item>
           <el-dropdown-item ><span @click="exitBtn">退出</span></el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

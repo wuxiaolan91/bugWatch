@@ -1,6 +1,6 @@
 
 const ajaxModel = require('../models/ajaxModel.js');
-
+const util = require('../lib/util.js');
 let ajaxObj = {
   /**
    * 增加一条ajax错误记录
