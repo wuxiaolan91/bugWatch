@@ -16,10 +16,10 @@ function requiredProcessEnv(name) {
 const all = {
   env: requiredProcessEnv('NODE_ENV'),
   root: path.normalize(__dirname + '/../..'),
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 3000,
 };
 // 根据环境变量合成配置
 // ==============================================
 module.exports = Object.assign(
   all,
-  require('./local.config.js') || {})
+  require('./local.config.js') || {});
