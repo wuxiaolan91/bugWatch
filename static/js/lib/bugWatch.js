@@ -2,7 +2,7 @@
   let bugWatch = {};
   bugWatch.report = (config) => {
     let projectId = config.projectId;
-    
+    let debug = config.debug;
     if (!debug) return;
     let ignore = config.ignore || '';
     localStorage.setItem('bugwatchProjectId', config.projectId);
