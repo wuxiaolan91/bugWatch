@@ -1,7 +1,6 @@
 (function () {
   let bugWatch = {};
   bugWatch.report = (config) => {
-    debugger;
     let projectId = config.projectId;
     let debug = config.debug;
     if (debug == false) return;
