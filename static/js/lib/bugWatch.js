@@ -1,9 +1,10 @@
 (function () {
   let bugWatch = {};
   bugWatch.report = (config) => {
+    debugger;
     let projectId = config.projectId;
     let debug = config.debug;
-    if (!debug) return;
+    if (debug == false) return;
     let ignore = config.ignore || '';
     localStorage.setItem('bugwatchProjectId', config.projectId);
     /**
