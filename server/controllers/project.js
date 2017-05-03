@@ -42,9 +42,9 @@ const projectObj = {
     // 拿到项目有关的用户列表的详细信息
     let userList = yield userModel.find({
       _id: userIdList,
-    }, (err, res) => {
+    }).lean().exec((err, docs) => {
       if (err) return err;
-      return res;
+      return docs;
     });
     let newUserList = [];
     for (let i = 0; i < userList.length; i++) {

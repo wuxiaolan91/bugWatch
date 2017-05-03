@@ -60,7 +60,7 @@ export default {
     exitBtn() {
       console.log('退出')
       localStorage.clear();
-      this.$store.isLogin = false;
+      // this.$store.isLogin = false;
       EventBus.$emit('isLogin', false)
       this.$router.push('/login');
     },

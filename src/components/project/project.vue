@@ -107,16 +107,14 @@ export default {
       };
     },
     showRole (roleId) {
-      console.log('执行')
-      debugger;
       switch (roleId) {
-        case '1':
+        case 1:
           return 'user';
           break;
-        case '2':
+        case 2:
           return 'Administer';
           break;
-        case '3':
+        case 3:
           return 'Owner'
           break;
       }
