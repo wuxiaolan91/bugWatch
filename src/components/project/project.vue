@@ -107,6 +107,7 @@ export default {
       };
     },
     showRole (roleId) {
+      roleId = Number(roleId);
       switch (roleId) {
         case 1:
           return 'user';

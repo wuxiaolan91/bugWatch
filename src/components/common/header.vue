@@ -22,7 +22,6 @@
           <el-dropdown-item v-if="user.gradeId > 1">
             <router-link to="/projectList?type=list">项目列表</router-link>
           </el-dropdown-item>
-          <!--<el-dropdown-item>项目成员</el-dropdown-item>-->
           <el-dropdown-item v-if="user.gradeId > 1">
             <router-link to="/projectList?type=add">添加项目</router-link>
           </el-dropdown-item>
@@ -41,13 +40,20 @@ export default {
     return {
       name: localStorage.name,
       projectId: '',
-      user: {},
+      user: {
+        gradeId: 0
+      },
       projectList: []
     }
   },
-  created() {
+  created () {
     let userInfo = localStorage.getItem('userInfo');
-    this.user = userInfo ? JSON.parse(userInfo) : {};
+    if (userInfo) {
+      console.log('user', this.user);
+      this.user = JSON.parse(userInfo);
+    } else {
+      this.user = {};
+    }
     if (this.user._id) {
       this.getProjectList();
     }
@@ -75,12 +81,13 @@ export default {
      * 显示页面头部的项目列表
      */
     getProjectList() {
+      console.log('headeer组件 - 拿项目列表')
       this.$http.get('/api/project/getProjectList', {
         params: {
-          userId: user._id
+          userId: this.user._id
         }
       })
-        .then((res) => {
+        .then(res => {
           if (res.data) {
             this.projectList = res.data;
             console.dir(this.projectList);
@@ -99,11 +106,7 @@ export default {
         })
     }
   },
-  events: {
-    exitBtn() {
-      alert('退啊2')
-    }
-  }, watch: {
+  watch: {
     projectId(value) {
       console.log('value:' + value);
       if (value) localStorage.setItem('projectId', value);
