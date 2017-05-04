@@ -1,19 +1,18 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import App from '../App.vue';
-import Company from '@/components/company/company.vue';
-import AddCompany from '@/components/company/addCompany.vue';
-import Dashboard from '@/components/dashboard/dashboard.vue';
-import List from '@/components/bugList/bugList.vue';
-import Ajax from '@/components/ajax/ajaxList.vue';
-import Rule from '@/components/rule/rule.vue';
-import Performance from '@/components/performance/performance.vue';
-import Login from '@/components/user/login.vue';
-import AddUser from '@/components/user/addUser.vue';
-// project
-import ProjectList from '@/components/project/projectList.vue';
-import project from '@/components/project/project.vue';
-import Guide from '@/components/guide/guide.vue';
+const Dashboard = resolve => require(['@/components/dashboard/dashboard.vue'], resolve);
+const Company = resolve => require(['@/components/company/company.vue'], resolve);
+const AddCompany = resolve => require(['@/components/company/addCompany.vue'], resolve);
+const List = resolve => require(['@/components/bugList/bugList.vue'], resolve);
+const Ajax = resolve => require(['@/components/ajax/ajaxList.vue'], resolve);
+const Rule = resolve => require(['@/components/rule/rule.vue'], resolve);
+const Login = resolve => require(['@/components/user/login.vue'], resolve);
+
+const AddUser = resolve => require(['@/components/user/addUser.vue'], resolve);
+const ProjectList = resolve => require(['@/components/project/projectList.vue'], resolve);
+const project = resolve => require(['@/components/project/project.vue'], resolve);
+const Guide = resolve => require(['@/components/guide/guide.vue'], resolve);
 Vue.use(Router);
 const router = new Router({
   routes: [
