@@ -1,5 +1,6 @@
 <template>
 <div>
+  <project-card :name="name" :project-id="projectId"></project-card>
   <el-form ref="form" :model="user" label-width="80px" v-loading.body="loading">
     <el-form-item label="用户名">
       <el-input v-model="user.name"></el-input>
@@ -28,11 +29,14 @@
 </div>
 </template>
 <script>
+import projectCard from '../project/children/projectCard';
 export default {
   data () {
     return {
       loading: false,
       btnText: '添加用户',
+      name: '',
+      projectId: localStorage.getItem('projectId'),
       user: {
         name: '',
         email: '',
@@ -89,6 +93,8 @@ export default {
         }
       })
     }
+  }, components: {
+    projectCard
   }
 }
 </script>

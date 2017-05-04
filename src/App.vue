@@ -146,4 +146,7 @@ body {
   padding-top: 10px;
   background-color: #eef1f6;
 }
+.el-card {
+  margin-bottom: 2rem;
+}
 </style>

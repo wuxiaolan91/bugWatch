@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <ul>
-        <li>项目名{{ name }}</li>
-        <li>项目id:{{ projectId }}</li>
-        </ul>
-    </el-card>
+    <project-card :name="name" :project-id="projectId"></project-card>
     通过邮箱/姓名添加成员
     <el-select v-model="selUser" placeholder="请选择">
       <el-option
@@ -39,6 +34,7 @@
   </div>
 </template>
 <script>
+import projectCard from './children/projectCard.vue';
 export default {
   data() {
 
@@ -125,6 +121,8 @@ export default {
     }
   }, computed: {
 
+  }, components: {
+    projectCard
   }
 }
 </script>
