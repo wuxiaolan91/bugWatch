@@ -52,14 +52,11 @@ export default {
       companyId: '3355'
     }
   },created () {
+    
     this.getCompanyById();
   }, methods: {
     getCompanyById () {
-      this.$http.get('/api/company/getCompanyById', {
-        params: {
-          companyId: localStorage.getItem('companyId')
-        }
-      }).then(res => {
+      this.$http.get('/api/company/getCompanyById').then(res => {
         if (res.data) {
           let company = res.data;
           this.id = company._id;

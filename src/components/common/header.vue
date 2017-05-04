@@ -52,7 +52,6 @@ export default {
   created () {
     let userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
-      console.log('user', this.user);
       this.user = JSON.parse(userInfo);
     } else {
       this.user = {};
@@ -63,11 +62,9 @@ export default {
     
   }, methods: {
     changeProject() {
-      console.log('改变项目啦，来自改变项目的change事件');
       EventBus.$emit('projectChange', this.projectId)
     },
     exitBtn() {
-      console.log('退出')
       localStorage.clear();
       // this.$store.isLogin = false;
       EventBus.$emit('isLogin', false)
@@ -93,7 +90,6 @@ export default {
         .then(res => {
           if (res.data) {
             this.projectList = res.data;
-            console.dir(this.projectList);
             if (this.projectList.length) {
               if (!this.projectId) {
                 this.projectId = this.projectList[0]._id;
@@ -116,7 +112,6 @@ export default {
   },
   watch: {
     projectId(value) {
-      console.log('value:' + value);
       if (value) localStorage.setItem('projectId', value);
 
     }

@@ -54,6 +54,7 @@ export default {
     }
   }, created () {
    if (this.user.gradeId ==3) {
+     EventBus.$emit('isLogin', false)
      this.btnText = '注册';
    }
   }, methods: {
@@ -64,6 +65,7 @@ export default {
         return;
       }
       this.$http.post('/api/user/addUser', this.user).then(res => {
+        debugger;
         if (res.data._id) {
           const user = res.data;
           this.$message('添加用户成功');
