@@ -11,7 +11,18 @@
       </el-option>
     </el-select>
     <el-button id="add-project-btn" type="text" @click="addUserToProject">添加到项目</el-button>
-    <el-option
+
+    通过邮箱/姓名删除成员
+    <el-select v-model="delUser" placeholder="请选择">
+      <el-option
+        v-for="item in projectUserList"
+        :key="item._id"
+        :label="item.name"
+        :value="item._id">
+      </el-option>
+    </el-select>
+
+    <el-button id="add-project-btn" type="text" @click="delUserFromProject">从项目删除</el-button>
     <section>
       成员列表
       <el-table v-loading.body="loading"
@@ -42,6 +53,7 @@ export default {
       loading: false,
       projectId: '',
       selUser: '',
+      delUser:'',
       timeout: null,
       name: '',
       projectUserList: [],
@@ -52,7 +64,7 @@ export default {
     this.getProjectById();
     this.getUserList();
   }, methods: {
-   
+
     getProjectById() {
       this.$http.get('/api/project/getProjectById', {
         params: {
@@ -84,7 +96,7 @@ export default {
     },
     addUserToProject () {
       if (!this.selUser) {
-        this.$message.warning('请先选择一位用户');
+        this.$message.error('请先选择一位用户');
         return;
       }
       this.$http.get('/api/project/updateProject', {
@@ -95,6 +107,22 @@ export default {
         }
       }).then(res => {
         debugger;
+      })
+    },
+    delUserFromProject () {
+      if (!this.delUser) {
+        this.$message.error('请先选择一位用户');
+        return;
+      }
+
+      this.$http.get('api/project/delUserFromProject',{
+        params: {
+          projectId: this.projectId,
+          userId: this.delUser,
+          roleId: 1
+        }
+      }).then(res =>{
+         console.log(res)
       })
     },
     createStateFilter(queryString) {
@@ -130,11 +158,24 @@ export default {
 .el-card {
   margin-bottom: 20px;
 }
-ul {
+ul.project-describe {
   list-style: none;
-  line-height: 2;
+  display:flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-direction: column;
+  height:100%;
+
+
   li {
-    
+   i {
+     margin-right:3px
+   }
+    span {
+       margin-right:10px
+    }
   }
 }
+
+
 </style>

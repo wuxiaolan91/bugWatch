@@ -23,7 +23,6 @@ export default {
   },
   methods: {
     handleClick: (tab, event) => {
-      console.log('切换项目-来自tab')
       EventBus.$emit('projectChange', localStorage.getItem('projectId'));
     }
   },
