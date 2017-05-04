@@ -43,11 +43,16 @@ exports.addUser = function* () {
 exports.login = function* (ctx) {
   const body = this.request.body;
   let result = yield userModel.findOne(body, (err, res) => {
-    console.log('登录接口返回');
     if (err) {
-      return '登录失败';
+      console.log('47')
+      return  '登录失败lala';
     }
     if (res) {
+      console.log('res', res)
+     if (!res._id) {
+       console.log('没有啊')
+       this.body = '没有这个用户';
+     }
       const user = res;
       return {
         name: user.name,
@@ -56,6 +61,12 @@ exports.login = function* (ctx) {
       return  '用户名或者密码有误';
     }
   });
+  if (result == null) {
+    result = {
+      errorCode: 1,
+      message: '登录失败，请确认你的账号和密码是否正确'
+    };
+  };
   this.body = result;
 };
 

@@ -8,7 +8,12 @@ import App from './App';
 import router from './router';
 // Add a request interceptor
 Axios.interceptors.request.use((config) => {
-  config.headers.common.projectId = localStorage.getItem('projectId');
+  let projectId = localStorage.getItem('projectId');
+  let userId = localStorage.getItem('userId');
+  let companyId = localStorage.getItem('companyId');
+  config.headers.common.projectId = projectId;
+  if (userId) config.headers.common.userId = userId;
+  if (companyId) config.headers.common.companyId = companyId;
   // Do something before request is sent
   return config;
 }, error =>
@@ -48,7 +53,7 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 router.beforeEach((to, from, next) => {
   const path = to.path;
-  if (localStorage.getItem('name') || path.indexOf('login') > -1 || path.indexOf('addUser') > -1) {
+  if (localStorage.getItem('name') || path.indexOf('login') > -1 || path.indexOf('addUser') > -1 || path.indexOf('addCompany') > -1) {
     const projectId = localStorage.getItem('projectId');
     if (projectId) {
       EventBus.$emit('projectChange', projectId);

@@ -5,14 +5,18 @@ app.use(bodyParser());
 const router = require('koa-router')();
 
 // router
+const companyController = require('../controllers/company.js');
 const bugController = require('../controllers/bug.js');
 const ajaxController = require('../controllers/ajax.js');
 const userController = require('../controllers/user.js');
 const ruleController = require('../controllers/rule.js');
 const projectController = require('../controllers/project.js');
-// const user = require('../controllers/user');
-// user
 
+// company
+router.post('/company/addCompanyByCompanyName', companyController.addCompanyByCompanyName);
+router.get('/company/getCompanyById', companyController.getCompanyById);
+
+// user
 router.get('/user/getUserList', userController.getUserList);
 router.post('/user/login', userController.login);
 router.post('/user/addUser', userController.addUser);

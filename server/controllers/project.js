@@ -1,3 +1,4 @@
+const companyModel = require('../models/companyModel.js');
 const projectModel = require('../models/projectModel.js');
 const userModel = require('../models/userModel.js');
 const projectObj = {
@@ -26,8 +27,16 @@ const projectObj = {
    *
    */
   * addProject() {
+    let companyId = this.header.companyid;
     const param = this.request.body;
     const project = yield new projectModel(param).save();
+    const result = yield companyModel.update({
+      _id: companyId
+    }, {
+      $push: {
+        projectList: project._id
+      }
+    });
     this.body = project;
   },
   /**

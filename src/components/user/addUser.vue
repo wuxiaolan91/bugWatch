@@ -22,7 +22,7 @@
       </el-select>
     </el-form-item>
      <el-form-item>
-    <el-button type="primary" @click="onSubmit">登录</el-button>
+    <el-button type="primary" size="large" @click="onSubmit"> {{ btnText }}</el-button>
   </el-form-item>
   </el-form>
 </div>
@@ -32,11 +32,12 @@ export default {
   data () {
     return {
       loading: false,
+      btnText: '添加用户',
       user: {
         name: '',
         email: '',
         password: '',
-        gradeId: 1
+        gradeId: Number(this.$route.query.gradeId || 1)
       },
       roleList: [
         {
@@ -44,28 +45,45 @@ export default {
           value: 1
         }, {
           label: '管理员',
+          value: 2
+        }, {
+          label: '公司拥有者',
           value: 3
         }
       ]
     }
+  }, created () {
+   if (this.user.gradeId ==3) {
+     this.btnText = '注册';
+   }
   }, methods: {
     onSubmit () {
-      if (!this.user.name || !this.user.email || !this.password) {
+      if (!this.user.name || !this.user.email || !this.user.password) {
         this.$message.warning('请先填完信息再点击提交');
         
         return;
       }
       this.$http.post('/api/user/addUser', this.user).then(res => {
         if (res.data._id) {
+          const user = res.data;
           this.$message('添加用户成功');
           this.user.name = '';
           this.user.email = '';
           this.user.password = '';
-          this.user.gradeId = '1'; // 1是普通用户
-          this.$router.push('/projectList?type=list')
+          this.user.gradeId = 1; // 1是普通用户
+          if (user.gradeId < 3) {
+             this.$router.push('/projectList?type=list')
+          } else { // 如果用户是owner身份，那么就要跳到添加项目的页面去。
+             localStorage.setItem('userInfo', JSON.stringify(user));
+             localStorage.setItem('name', user.name);
+             localStorage.setItem('userId', user._id);
+            //  EventBus.$emit('isLogin', true);
+             this.$router.push('/addCompany');
+          }
+         
           
         } else {
-          this.$message.error('添加用户不成功' + res.data);
+          this.$message.error('添加用户不成功：' + res.data);
         }
       })
     }

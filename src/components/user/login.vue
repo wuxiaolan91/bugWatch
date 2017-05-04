@@ -13,7 +13,7 @@
         size="large" >登录</el-button>
     </el-form-item>
    <el-form-item>
-     <router-link id="add-company-btn" to="/addCompany">我还没有账号，去注册一家公司</router-link>
+     <router-link id="add-company-btn" to="/addUser?gradeId=3">我没有账号，我想要注册一家公司</router-link>
    </el-form-item>
   </el-form>
 </div>
@@ -42,7 +42,7 @@ export default {
       this.$http.post('/api/user/login',this.form).then(res => {
         this.loading = false;
         if (res.status == 200) {
-          if (res.data) {
+          if (res.data.errorCode != 1) {
             const user = res.data;
              this.$message({
               message: '登录成功',
@@ -51,6 +51,8 @@ export default {
             localStorage.setItem('userInfo', JSON.stringify(user));
              localStorage.setItem('name', user.name);
              localStorage.setItem('userId', user._id);
+              EventBus.$emit('isLogin', true)
+              this.$router.push('/');
              
              
           } else {
@@ -58,10 +60,7 @@ export default {
           }
 
         }
-      }).then(res => {
-        EventBus.$emit('isLogin', true)
-        this.$router.push('/');
-      })
+      });
     }
   }
 }

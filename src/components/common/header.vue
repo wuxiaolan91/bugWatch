@@ -101,9 +101,14 @@ export default {
               }
 
             } else {
-              localStorage.removeItem('projectId');
-              this.$message('您还没有添加过项目，需要先添加一个项目');
-              this.$router.push('/projectList?type=add')
+              if (localStorage.getItem('companyId')) {
+                 localStorage.removeItem('projectId');
+                this.$message('您还没有添加过项目，需要先添加一个项目');
+                this.$router.push('/projectList?type=add')
+              } else {
+                // this.$router.push('/projectList?type=add')
+              }
+             
             }
           }
         })

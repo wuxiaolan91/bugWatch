@@ -1,8 +1,9 @@
 <template>
   <div id="ajax_list">
     <el-select v-model="timeValue"
-               placeholder="请选择"
-               @change="getAjaxList">
+      placeholder="请选择"
+      @change="getAjaxList">
+
       <el-option v-for="item in timeList"
                  :label="item.label"
                  :value="item.value">
@@ -24,8 +25,10 @@
                   v-model="errorKeyword"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
-                   @click="onSearch">搜索</el-button>
+        <el-button
+          type="primary"
+          icon="search"
+          @click="onSearch">搜索</el-button>
       </el-form-item>
     </el-form>
 
