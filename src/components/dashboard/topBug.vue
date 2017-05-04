@@ -83,8 +83,6 @@ export default {
           this.loading = false;
           if (res.status == 200) {
             let bugListObj = res.data;
-            console.log('bugListObj - 来自接口bugTopList?type=bug---84');
-            console.dir(bugListObj);
             this.option.xAxis[0].data = bugListObj.chartPageList;
             this.option.series[0].data = bugListObj.chartCountList;
             myChart.setOption(this.option);

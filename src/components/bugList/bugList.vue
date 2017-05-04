@@ -99,7 +99,6 @@ export default {
 
     }, getList() {
       let self = this;
-      console.log('获取bug列表')
       var searchParam = {
         size: self.size,
         currentPage: self.currentPage,
@@ -126,7 +125,6 @@ export default {
                 return item;
               })
             }
-            console.dir(bugList);
             this.tableData = bugList;
             this.pageTotal = res.data.totalLength / this.size;
 

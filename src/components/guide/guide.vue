@@ -8,7 +8,6 @@
       projectId: '0f8935a3-789e-46ce-c70f-9553119e3f39',
       ignore: 'error20'
     });
-    console.log(error19);
   </script>
   </code>-->
 </div>

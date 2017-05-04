@@ -44,7 +44,6 @@ export default {
   created() {
     let userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
-      console.log('user', this.user);
       this.user = JSON.parse(userInfo);
     }
     const type = this.$route.query.type;

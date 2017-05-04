@@ -58,13 +58,10 @@ export default {
 		}
 	},
 	created() {
-		console.log('bugCompare-created');
 	},
 	mounted() {
-		console.log('bugCompare-mounted')
 		this.getCompareList();
 		EventBus.$on('projectChange', num => {
-			console.log('event  bus - bugCompare')
 			this.getCompareList();
 		})
 
@@ -79,8 +76,6 @@ export default {
 					this.loading = false;
 					if (res.status = 200) {
 						let bugList = res.data;
-						console.log('来自接口compareList?type=bug-bugListObj - ::');
-						console.dir(bugList);
 						option.series[0].data = bugList.yesterBugCountList;
 						option.series[1].data = bugList.todayBugCountList;
 						myChart.setOption(option);

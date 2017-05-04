@@ -144,20 +144,15 @@ export default {
             }
             this.ajaxBugList = bugList;
             this.pageTotal = res.data.bugList.length / this.size;
-            console.log('ajaxBugList');
-            console.log(this.ajaxBugList);
           }
         })
         .catch(function (error) {
-          console.log(error);
         });
     }
   },
   mounted() {
    this.getAjaxList();
-   console.log('156');
     EventBus.$on('projectChange', projectId => {
-     console.log('158');
      this.getAjaxList();
     })
   }
