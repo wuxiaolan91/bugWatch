@@ -27,6 +27,7 @@ router.post('/project/addProject', projectController.addProject);
 router.get('/project/getProjectById', projectController.getProjectById);
 router.get('/project/removeProjectById', projectController.removeProjectById);
 router.get('/project/updateProject', projectController.updateProject);
+router.get('/project/delUserFromProject', projectController.delUserFromProject);
 
 
 // bug
