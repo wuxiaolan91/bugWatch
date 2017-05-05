@@ -46,15 +46,24 @@ export default {
     if (userInfo) {
       this.user = JSON.parse(userInfo);
     }
-    const type = this.$route.query.type;
+    
     this.getProjectList();
-    if (type == 'add') {
-      this.OpenAddProject();
-    }
+    
 
 
   },
+  watch: {
+   '$route': 'fetchData'
+  },
   methods: {
+    fetchData () {
+      debugger;
+       const type = this.$route.query.type;
+      if (type == 'add') {
+        console.log('是公司')
+        this.OpenAddProject();
+      }
+    },
     /**
      * 打开增加项目的弹窗
      */
