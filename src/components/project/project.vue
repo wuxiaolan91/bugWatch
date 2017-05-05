@@ -12,17 +12,6 @@
     </el-select>
     <el-button id="add-project-btn" type="text" @click="addUserToProject">添加到项目</el-button>
 
-    通过邮箱/姓名删除成员
-    <el-select v-model="delUser" placeholder="请选择">
-      <el-option
-        v-for="item in projectUserList"
-        :key="item._id"
-        :label="item.name"
-        :value="item._id">
-      </el-option>
-    </el-select>
-
-    <el-button id="add-project-btn" type="text" @click="delUserFromProject">从项目删除</el-button>
     <section>
       成员列表
       <el-table v-loading.body="loading"
@@ -40,6 +29,16 @@
                          label="应用角色"
                          width="100">
         </el-table-column>
+        <el-table-column fixed="right"
+                         label="操作"
+                         width="100">
+          <template scope="scope">
+            <el-button @click.native.prevent="delUserFromProject(scope.$index, scope)"
+                       type="text"
+                       size="small">删除</el-button>
+
+          </template>
+        </el-table-column>
       </el-table>
     </section>
   </div>
@@ -53,7 +52,6 @@ export default {
       loading: false,
       projectId: '',
       selUser: '',
-      delUser:'',
       timeout: null,
       name: '',
       projectUserList: [],
@@ -79,6 +77,7 @@ export default {
           item.roleName = roleName;
         })
         this.projectUserList = project.userList;
+        console.log(this.projectUserList)
       })
     },
     /**
@@ -109,21 +108,46 @@ export default {
         debugger;
       })
     },
-    delUserFromProject () {
-      if (!this.delUser) {
-        this.$message.error('请先选择一位用户');
-        return;
-      }
+    delUserFromProject (index,item) {
+      console.log(item)
+      this.$msgbox({
+        title: '删除用户',
+        message: `是否删除用户：${item.row.name}`,
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose:(action, instance, done)=>{
+          if (action == 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '执行中...';
+            this.$http.get('api/project/delUserFromProject',{
+              params: {
+                projectId: this.projectId,
+                userId: item.row._id,
+                roleId: item.row.roleId
+              }
+            }).then(res =>{
+              instance.confirmButtonLoading = false;
+              console.log(res)
+              if(res.data.ok) {
+                this.projectUserList.splice(index,1)
+                this.$message.success('删除用户成功');
+              } else {
+                this.$message.error('删除用户失败');
+              }
 
-      this.$http.get('api/project/delUserFromProject',{
-        params: {
-          projectId: this.projectId,
-          userId: this.delUser,
-          roleId: 1
+              done()
+            }).catch(res =>{
+              this.$message.error('删除用户失败');
+              done();
+            })
+          } else {
+            done()
+          }
         }
-      }).then(res =>{
-         console.log(res)
       })
+
+
     },
     createStateFilter(queryString) {
       return (state) => {
