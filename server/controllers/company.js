@@ -37,9 +37,7 @@ let companyObj = {
       if (err) return err;
       return docs;
     });
-    console.log('用户表的userList', userList);
     result.userList = userList;
-    console.log('userList', result.userList);
     this.body = result;
   }
 };

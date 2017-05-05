@@ -11,7 +11,7 @@ Axios.interceptors.request.use((config) => {
   const projectId = localStorage.getItem('projectId');
   const userId = localStorage.getItem('userId');
   const companyId = localStorage.getItem('companyId');
-  config.headers.common.projectId = projectId;
+  if (projectId) config.headers.common.projectId = projectId;
   if (userId) config.headers.common.userId = userId;
   if (companyId) config.headers.common.companyId = companyId;
   // Do something before request is sent
@@ -23,9 +23,9 @@ Axios.interceptors.request.use((config) => {
 Axios.interceptors.response.use(response =>
   // Do something with response data
   response, (error) => {
-  let url = '';
-  if (error.config) url = error.config.url;
-  fetch('/api/bug/addAjaxWatch', {
+    let url = '';
+    if (error.config) url = error.config.url;
+    fetch('/api/bug/addAjaxWatch', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,13 +44,14 @@ Axios.interceptors.response.use(response =>
 
       });
     // Do something with response error
-  return Promise.reject(error);
-});
+    return Promise.reject(error);
+  });
 
 Vue.prototype.$http = Axios;
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+
 router.beforeEach((to, from, next) => {
   const path = to.path;
   const userId = localStorage.getItem('userId');
@@ -60,18 +61,20 @@ router.beforeEach((to, from, next) => {
     if (!userId) {
       next('/login');
     } else {
-      let projectId = localStorage.getItem('projectId');
-      if (!projectId) {
-        EventBus.$emit('projectChange', projectId);
+      debugger;
+      let companyId = localStorage.getItem('companyId');
+      if (to.path != '/addCompany' && !companyId) {
+        // this.$message('您还没有公司，请先添加公司');
+        next('/addCompany');
+      } else {
+        let projectId = localStorage.getItem('projectId');
+        if (!projectId) {
+          EventBus.$emit('projectChange', projectId);
+        }
+        next();
       }
-      next();
     }
-    // if (!localStorage.getItem('companyId')) {
-    //   router.push('/addCompany');
-    // }
-    
   }
-
 });
 window.EventBus = new Vue();
 /* eslint-disable no-new */

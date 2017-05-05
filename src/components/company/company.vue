@@ -11,6 +11,9 @@
         <div  class="text item">
           <span>公司id:</span> {{ id }}
         </div>
+        <div  class="text item">
+          <span>公司拥有者:</span> {{ ownerName }}
+        </div>
     </el-card>
     </el-tab-pane>
     <el-tab-pane label="公司成员" name="second">
@@ -47,6 +50,8 @@ export default {
     return {
       activeName: 'first',
       id: '',
+      ownerId: '',
+      ownerName: '', // 公司的拥有者
       companyName: '',
       userList: [],
       projectList: [],
@@ -65,7 +70,13 @@ export default {
           let company = res.data;
           this.id = company._id;
           this.companyName = company.companyName;
+          this.ownerId = company.ownerId;
           this.userList = company.userList;
+          this.userList.every(item => {
+            if (item._id = this.ownerId) {
+              this.ownerName = item.name;
+            }
+          })
           this.projectList = company.projectList;
         }
       })
