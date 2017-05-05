@@ -3,7 +3,8 @@
   <el-tabs v-model="activeName" >
     <el-tab-pane label="公司信息" name="first">
       
-      <el-card class="box-card">
+      <el-card class="box-card"
+        v-loading.body="loading">
         <div  class="text item">
           <span>公司名称：</span> {{ companyName }}
         </div>
@@ -18,13 +19,13 @@
         stripe
         style="width: 100%">
         <el-table-column
-          prop="userId"
-          label="用户id"
+          prop="name"
+          label="用户"
           >
         </el-table-column>
         <el-table-column
-          prop="roleId"
-          label="角色"
+          prop="email"
+          label="邮箱"
           >
         </el-table-column>
       </el-table>
@@ -49,14 +50,17 @@ export default {
       companyName: '',
       userList: [],
       projectList: [],
-      companyId: '3355'
+      companyId: '3355',
+      loading: false
     }
   },created () {
     
     this.getCompanyById();
   }, methods: {
     getCompanyById () {
+      this.loading =  true;
       this.$http.get('/api/company/getCompanyById').then(res => {
+        this.loading = false;
         if (res.data) {
           let company = res.data;
           this.id = company._id;

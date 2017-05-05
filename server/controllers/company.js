@@ -1,4 +1,5 @@
 const companyModel = require('../models/companyModel.js');
+const userModel = require('../models/userModel.js');
 let companyObj = {
   getCompanyById() {
 
@@ -21,12 +22,24 @@ let companyObj = {
   },
   * getCompanyById() {
     const companyId = this.header.companyid;
-    console.log('companyId', companyId)
-    const result = yield companyModel.findById(companyId, (err, res) => {
-      if (err) return err;
+    let userIdList = [];
+    let result = yield companyModel.findById(companyId).lean().exec((err, res) => {
+       if (err) return err;
       console.log('res', res);
       return res;
+    });;
+    result.userList.map((item) => {
+      userIdList.push(item.userId);
     });
+    let userList = yield userModel.find({
+      _id: userIdList,
+    }).exec((err, docs) => {
+      if (err) return err;
+      return docs;
+    });
+    console.log('用户表的userList', userList);
+    result.userList = userList;
+    console.log('userList', result.userList);
     this.body = result;
   }
 };

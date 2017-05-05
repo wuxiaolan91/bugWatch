@@ -51,7 +51,6 @@ const projectObj = {
     }).sort({ _id: -1 }).exec((err, data) => {
       if (err) this.body = err;
       if (!data) this.body = [];
-      console.log('data', data)
       if (data.userList) {
         data.userList.map((item) => {
           userIdList.push(item.userId);
