@@ -51,6 +51,9 @@ export default {
             localStorage.setItem('userInfo', JSON.stringify(user));
              localStorage.setItem('name', user.name);
              localStorage.setItem('userId', user._id);
+             if (user.companyId) {
+               localStorage.setItem('companyId', user.companyId);
+             }
               EventBus.$emit('isLogin', true)
               this.$router.push('/');
              

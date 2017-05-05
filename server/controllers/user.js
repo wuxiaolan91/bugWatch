@@ -27,13 +27,13 @@ exports.addUser = function* () {
     if (item.name == user.name) {
       isRepeat = true;
 
-      return;
+      
     }
-  })
+  });
   if (isRepeat) {
     this.body = '该名字的用户名已经存在，请重新申请';
   } else {
-    let newUser = yield userModel(user).save();
+    const newUser = yield userModel(user).save();
     newUser.password = '****';
     this.body = newUser;
   }
@@ -42,31 +42,28 @@ exports.addUser = function* () {
 /* 用户登录 */
 exports.login = function* (ctx) {
   const body = this.request.body;
-  let result = yield userModel.findOne(body, (err, res) => {
-    if (err) {
-      console.log('47')
-      return  '登录失败lala';
-    }
+  let result = yield userModel.findOne(body).lean().exec((err, res) => {
+    if (err) return  '登录失败lala';
     if (res) {
-      console.log('res', res)
-     if (!res._id) {
-       console.log('没有啊')
-       this.body = '没有这个用户';
-     }
+     if (!res._id) {this.body = '没有这个用户';}
       const user = res;
-      return {
-        name: user.name,
-      };
-    } else {
-      return  '用户名或者密码有误';
+      return { name: user.name};
     }
-  });
+      return  '用户名或者密码有误';
+  })
   if (result == null) {
     result = {
       errorCode: 1,
-      message: '登录失败，请确认你的账号和密码是否正确'
+      message: '登录失败，请确认你的账号和密码是否正确',
     };
-  };
+  } else {
+    let company = yield companyModel.findOne({ownerId: result._id}).exec((err, res) => {
+      console.log('查找这家用户是哪家公司的', res);
+      return res;
+    })
+    console.log('company', company);
+    result.companyId = company._id;
+  }
   this.body = result;
 };
 
