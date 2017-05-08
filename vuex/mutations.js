@@ -1,6 +1,6 @@
 export default {
-  changeProject(state, Object) {
+  changeProject: (state, Object) => {
     state.projectId = Object.projectId;
   }
 }
-;
+  ;
