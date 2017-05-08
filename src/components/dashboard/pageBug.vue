@@ -1,7 +1,8 @@
 <template>
-    <div id="page-bug"
-      v-loading.body="loading"
-         style="width:100%;height:400px;"></div>
+  <div id="page-bug"
+       v-loading.body="loading"
+       style="width:100%;height:400px;">
+  </div>
 </template>
 
 <script>
@@ -9,18 +10,18 @@
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
       option: {
         title: {
           text: 'bug页面排行榜'
         },
         tooltip: {
           trigger: 'axis',
-          	axisPointer: {
-						type: 'shadow'
-					}
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-      
+
         toolbox: {
           show: true,
           feature: {
@@ -50,7 +51,7 @@ export default {
           {
             name: 'bug次数',
             type: 'bar',
-            data: [0,0,0,0,0],
+            data: [0, 0, 0, 0, 0],
             markPoint: {
               data: [
                 { type: 'max', name: '最大值' }
@@ -65,11 +66,18 @@ export default {
         ]
       }
     }
-  }, mounted() {
-   	this.getPageList();
-		EventBus.$on('projectChange', num => {
-			this.getPageList();
-		})
+  },
+  watch: {
+    projectId() {
+      this.getPageList();
+    }
+  }, computed: {
+    projectId() {
+      return this.$store.state.projectId
+    }
+  },
+  mounted() {
+    this.getPageList();
   }, methods: {
     getPageList() {
       let pageBug = document.getElementById('page-bug');
