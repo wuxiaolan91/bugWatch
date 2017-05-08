@@ -1,5 +1,5 @@
 export default {
-  changeProject: (state, Object) => {
+  changeProject: function(state, Object) {
     state.projectId = Object.projectId;
   }
 }
