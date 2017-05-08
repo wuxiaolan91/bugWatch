@@ -60,6 +60,8 @@ export default {
    if (this.user.gradeId ==3) {
      EventBus.$emit('isLogin', false)
      this.btnText = '注册';
+   } else {
+     this.roleList.pop();
    }
   }, methods: {
     onSubmit () {
