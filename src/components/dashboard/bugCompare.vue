@@ -4,7 +4,6 @@
 		     v-loading.body="loading"
 		     style="width:100%;height:400px;">
 		</div>
-		哈哈{{ projectId }}
 	</div>
 </template>
 <script>
