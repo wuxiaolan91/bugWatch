@@ -153,9 +153,10 @@ const projectObj = {
   * removeProjectById() {
 
     const projectId = this.query.projectId;
+    if (!projectId) this.body = '请输入要删除的项目id';
     // const projectId = this.query.projectId;
     const newProject = yield projectModel.remove({
-      projectId,
+      _id: projectId,
     }, (err, data) => {
       if (err) this.body = err;
       this.body = data;
