@@ -7,7 +7,10 @@
       <el-table-column prop="_id" label="项目id"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template scope="scope">
-          <el-button @click.native.prevent="delProject(scope.$index, scope)" type="text" size="small">删除</el-button>
+          <el-button  type="text" size="small"
+            @click.native.prevent="delProject(scope.$index, scope)">
+            删除
+          </el-button>
           <el-button type="text" @click.native.prevent="editProject(scope.$index, scope)" size="small">编辑</el-button>
         </template>
       </el-table-column>

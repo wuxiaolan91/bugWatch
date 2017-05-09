@@ -33,9 +33,11 @@
                          label="操作"
                          width="100">
           <template scope="scope">
-            <el-button @click.native.prevent="delUserFromProject(scope.$index, scope)"
-                       type="text"
-                       size="small">删除</el-button>
+            <el-button
+              v-if="scope.row.roleId!=3"
+              @click.native.prevent="delUserFromProject(scope.$index, scope)"
+              type="text"
+              size="small">删除</el-button>
 
           </template>
         </el-table-column>
