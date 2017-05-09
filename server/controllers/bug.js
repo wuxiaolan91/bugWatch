@@ -30,11 +30,13 @@ function bugListByFilter(type, bugList) {
   const chartPageList = []; // 最后传给echarts的数据
   const chartCountList = []; // 图表里需要的报错页面数组
   console.log('bugList', bugList);
-  bugList.forEach((item) => {
-    const page = type == 'page' ? item.errorPage : item.message;
-    pageListObj[page] = typeof pageListObj[page] === 'undefined' ? 1 : pageListObj[page] + 1;
+  if (bugList && bugList.length) {
+     bugList.forEach((item) => {
+      const page = type == 'page' ? item.errorPage : item.message;
+      pageListObj[page] = typeof pageListObj[page] === 'undefined' ? 1 : pageListObj[page] + 1;
 
-  });
+    });
+  }
   const pageList = [];
   for (const key in pageListObj) { // 把数组变成对象，方便之后判断这个错误页面有没有
     pageList.push({
