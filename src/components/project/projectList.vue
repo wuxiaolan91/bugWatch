@@ -21,8 +21,7 @@
     data() {
       return {
         loading: false,
-        user: {},
-        projectList: [] // 项目列表
+        user: {}
       }
     },
     created() {
@@ -30,17 +29,18 @@
       if (userInfo) {
         this.user = JSON.parse(userInfo);
       }
-      
-      this.getProjectList();
-      
-      
+      // this.getProjectList();
+    },
+    computed: {
+      projectList () {
+        return this.$store.state.projectList;
+      }
     },
     watch: {
       '$route': 'fetchData'
     },
     methods: {
       fetchData () {
-        debugger;
         const type = this.$route.query.type;
         if (type == 'add') {
           console.log('是公司')
@@ -68,7 +68,7 @@
       addProject(projectName) {
         const newProject = {
           name: projectName,
-          projectId: this.addProjectId(),
+         
           userList: [{
             userId: localStorage.getItem('userId'),
             roleId: 3
@@ -87,7 +87,7 @@
               this.$router.push(`/project?id=${projectId}`);
             }
             newProject._id = project._id;
-            this.projectList.push(newProject);
+            this.$store.commit('addProject', newProject);
           }
         })
       },
@@ -115,7 +115,7 @@
               let projectId = this.projectList[index].projectId;
               this.$http.get('/api/project/removeProjectById', {
                 params: {
-                  projectId
+                  projectId: projectId
                 }
               }).then(res => {
                 instance.confirmButtonLoading = false;
@@ -127,7 +127,8 @@
                     type: 'success'
                     
                   });
-                  this.projectList.splice(index, 1);
+                  // this.projectList.splice(index, 1);
+                  this.$store.commit('deleteProject', project.row);
                   if (this.projectList.length == 0) {
                     localStorage.removeItem('projectId');
                     this.$router.push('/projectList?type=list');
