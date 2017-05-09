@@ -4,12 +4,14 @@
     <!--<p id="website-desc">帮你监控错误，性能<p>-->
     <div class="left">
       <h1>bugWatch</h1>
-      <el-select v-model="projectId"
-                 @change="changeProject"
-                 placeholder="默认网站">
-        <el-option v-for="item in projectList"
-                   :label="item.name"
-                   :value="item._id">
+      <el-select
+        v-model="projectId"
+        @change="changeProject"
+        placeholder="默认网站">
+        <el-option
+          v-for="item in projectList"
+          :label="item.name"
+          :value="item._id">
         </el-option>
       </el-select>
       
@@ -43,11 +45,10 @@ export default {
   data() {
     return {
       name: localStorage.name,
-      projectId: '',
+     
       user: {
         gradeId: 0
-      },
-      projectList: []
+      }
     }
   },
   created () {
@@ -61,6 +62,14 @@ export default {
       this.getProjectList();
     }
     
+  },
+  computed: {
+    projectId () {
+      return this.$store.state.projectId
+    },
+    projectList () {
+      return this.$store.state.projectList;
+    }
   }, methods: {
     changeProject(projectId) {
      
@@ -97,9 +106,7 @@ export default {
                
                 this.projectId = this.projectList[0]._id;
                 localStorage.setItem('projectId', this.projectId);
-                //  this.$store.commit('changeProject', {
-                //   projectId: this.projectId
-                // })
+                 this.$store.commit('getProjectList', this.projectList);
               }
 
             } else {
