@@ -4,6 +4,9 @@ let mutations =  {
   },
   getProjectList (state,List) {
     state.projectList = List;
+    if (List.length) {
+      state.projectId = List[0]._id;
+    }
   },
   addProject (state, Object) {
     state.projectList.push(Object);

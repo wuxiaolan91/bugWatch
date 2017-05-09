@@ -73,7 +73,6 @@ export default {
   }, methods: {
     changeProject(projectId) {
      
-      EventBus.$emit('projectChange', this.projectId)
     },
     exitBtn() {
       localStorage.clear();
@@ -100,15 +99,11 @@ export default {
       })
         .then(res => {
           if (res.data) {
-            this.projectList = res.data;
-            if (this.projectList.length) {
-              if (!this.projectId) {
-               
-                this.projectId = this.projectList[0]._id;
-                localStorage.setItem('projectId', this.projectId);
-                 this.$store.commit('getProjectList', this.projectList);
-              }
+            const projectList = res.data;
 
+            if (projectList.length) {
+                localStorage.setItem('projectId', this.projectId);
+                this.$store.commit('getProjectList', projectList);
             } else {
               if (localStorage.getItem('companyId')) {
                  localStorage.removeItem('projectId');
