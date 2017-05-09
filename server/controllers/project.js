@@ -10,7 +10,6 @@ const projectObj = {
     let findObj = {};
     const userId = this.query.userId;
     if (userId) {
-
       findObj = {
         'userList.userId': {
           $in: [userId],
@@ -27,15 +26,15 @@ const projectObj = {
    *
    */
   * addProject() {
-    let companyId = this.header.companyid;
+    const companyId = this.header.companyid;
     const param = this.request.body;
     const project = yield new projectModel(param).save();
     const result = yield companyModel.update({
-      _id: companyId
+      _id: companyId,
     }, {
       $push: {
-        projectList: project._id
-      }
+        projectList: project._id,
+      },
     });
     this.body = project;
   },
@@ -110,7 +109,7 @@ const projectObj = {
     this.body = result;
   },
 
-  * delUserFromProject () {
+  * delUserFromProject() {
     const projectId = this.query.projectId;
     const userId = this.query.userId;
     const roleId = this.query.roleId;
@@ -122,18 +121,18 @@ const projectObj = {
 
     const project = yield projectModel.findOne({
       _id: projectId,
-    }).sort({_id: -1}).exec((err, data) => {
+    }).sort({ _id: -1 }).exec((err, data) => {
       if (err) return err;
       return data;
     });
 
-    project.userList.forEach((item,index) =>{
-        if(item.roleId == newUser.roleId && item.userId == newUser.userId) {
-          let user = project.userList.splice(index,1);
-          console.log('user:',user)
-        } else {
+    project.userList.forEach((item, index) => {
+      if (item.roleId == newUser.roleId && item.userId == newUser.userId) {
+        const user = project.userList.splice(index, 1);
+        console.log('user:', user);
+      } else {
 
-        }
+      }
     });
 
     const result = yield projectModel.update({ _id: projectId }, project, (err, res) => {
@@ -142,8 +141,7 @@ const projectObj = {
       return res;
     });
 
-    this.body = result
-
+    this.body = result;
   },
 
   /**
@@ -151,7 +149,6 @@ const projectObj = {
    *
    */
   * removeProjectById() {
-
     const projectId = this.query.projectId;
     if (!projectId) this.body = '请输入要删除的项目id';
     // const projectId = this.query.projectId;
@@ -162,6 +159,5 @@ const projectObj = {
       this.body = data;
     });
   },
-
 };
 module.exports = projectObj;
