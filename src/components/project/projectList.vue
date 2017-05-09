@@ -29,7 +29,7 @@
       if (userInfo) {
         this.user = JSON.parse(userInfo);
       }
-      // this.getProjectList();
+      
     },
     computed: {
       projectList () {
@@ -101,7 +101,7 @@
        * @project {Object} 当前项目的数据
        */
       delProject(index, project) {
-        
+        let self = this;
         this.$msgbox({
           title: '删除项目',
           message: `是否删除项目：${project.row.name}`,
@@ -112,7 +112,11 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
-              let projectId = this.projectList[index].projectId;
+              debugger;
+              console.log('this.projectList', this.projectList);
+              let projectId = this.projectList[index]._id;
+              if (!projectId) this.$message.warning('没有找到你要删除的项目的id');
+              console.log('要删除的projectId', projectId);
               this.$http.get('/api/project/removeProjectById', {
                 params: {
                   projectId: projectId
