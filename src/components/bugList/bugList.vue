@@ -85,6 +85,16 @@ export default {
       value: '',
       tableData: []
     }
+  },
+  computed: {
+    projectId () {
+      return this.$store.state.projectId;
+    }
+  },
+  watch: {
+    projectId () {
+      this.getList();
+    }
   }, methods: {
     onSearch() {
       this.getList();
@@ -136,9 +146,7 @@ export default {
     }
   }, mounted() {
     this.getList();
-    EventBus.$on('projectChange', projectId => {
-      this.getList();
-    })
+    
   }
 }
 </script>

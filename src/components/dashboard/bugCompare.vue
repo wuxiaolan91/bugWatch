@@ -1,7 +1,9 @@
 <template>
-	<div id="compare-bug"
-	     v-loading.body="loading"
-	     style="width:100%;height:400px;">
+	<div>
+		<div id="compare-bug"
+		     v-loading.body="loading"
+		     style="width:100%;height:400px;">
+		</div>
 	</div>
 </template>
 <script>
@@ -50,6 +52,7 @@ let option = {
 
 	]
 };
+let myChart = null;
 export default {
 	data() {
 		return {
@@ -57,19 +60,35 @@ export default {
 
 		}
 	},
+	computed: {
+		projectId() {
+			return this.$store.state.projectId
+		}
+	},
+	watch: {
+		projectId() {
+			this.getCompareList();
+		}
+	},
 	created() {
+
 	},
 	mounted() {
+		let compareBug = document.getElementById('compare-bug');
+		if (!compareBug) {
+			console.log('没有这个图表id-返回')
+			return;
+		}
+		myChart = echarts.init(compareBug);
 		this.getCompareList();
-		EventBus.$on('projectChange', num => {
-			this.getCompareList();
-		})
+
+		// EventBus.$on('projectChange', num => {
+		// 	this.getCompareList();
+		// })
 
 	}, methods: {
 		getCompareList() {
-			let compareBug = document.getElementById('compare-bug');
-			if (!compareBug) return;
-			let myChart = echarts.init(compareBug);
+
 			this.loading = true;
 			this.$http.get('/api/bug/compareList')
 				.then(res => {

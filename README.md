@@ -29,8 +29,8 @@
 ```javascript
 proxyTable: {
   '/api': {
-    target: 'http://localhost:3000',
-    changeOrigin: true,
+    target: 'http://118.184.11.220:3000', // 如果是私有化部署则要设置成 http://localhost:3000
+    changeOrigin: true,
     pathRewrite: {
       '^/api': ''
    }

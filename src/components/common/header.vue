@@ -12,6 +12,7 @@
                    :value="item._id">
         </el-option>
       </el-select>
+      
     </div>
     <div class="right">
       <el-dropdown >
@@ -61,7 +62,8 @@ export default {
     }
     
   }, methods: {
-    changeProject() {
+    changeProject(projectId) {
+     
       EventBus.$emit('projectChange', this.projectId)
     },
     exitBtn() {
@@ -92,8 +94,12 @@ export default {
             this.projectList = res.data;
             if (this.projectList.length) {
               if (!this.projectId) {
+               
                 this.projectId = this.projectList[0]._id;
                 localStorage.setItem('projectId', this.projectId);
+                //  this.$store.commit('changeProject', {
+                //   projectId: this.projectId
+                // })
               }
 
             } else {
@@ -112,6 +118,9 @@ export default {
   },
   watch: {
     projectId(value) {
+       this.$store.commit('changeProject', {
+        projectId: this.projectId
+      })
       if (value) localStorage.setItem('projectId', value);
 
     }

@@ -6,9 +6,10 @@ import ElementUI from 'element-ui';
 import Axios from 'axios';
 import App from './App';
 import router from './router';
+import store from '../vuex';
 // Add a request interceptor
 Axios.interceptors.request.use((config) => {
-  const projectId = localStorage.getItem('projectId');
+  const projectId = store.state.projectId;
   const userId = localStorage.getItem('userId');
   const companyId = localStorage.getItem('companyId');
   if (projectId) {
@@ -68,7 +69,6 @@ router.beforeEach((to, from, next) => {
     if (!userId) {
       next('/login');
     } else {
-      // debugger;
       let companyId = localStorage.getItem('companyId');
       if (to.path != '/addCompany' && !companyId) {
         // this.$message('您还没有公司，请先添加公司');
@@ -88,6 +88,7 @@ window.EventBus = new Vue();
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: {App},
 });

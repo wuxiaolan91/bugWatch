@@ -63,11 +63,18 @@ export default {
         ]
       }
     }
-  }, mounted() {
-    this.getTopList();
-    EventBus.$on('projectChange', num => {
+  }, 
+  computed: {
+    projectId () {
+      return this.$store.state.projectId
+    }
+  },
+  watch: {
+    projectId () {
       this.getTopList();
-    })
+    }
+  },mounted() {
+    this.getTopList();
 
   }, methods: {
     /**

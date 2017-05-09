@@ -147,6 +147,11 @@ body {
   background-color: #eef1f6;
 }
 .el-card {
+
   margin-bottom: 2rem;
+  line-height: 2;
+  ul {
+    list-style: none;
+  }
 }
 </style>
