@@ -11,3 +11,11 @@ server/config/local.config.js
 
 config/index.js
 server/config/index.js
+
+config/local.config.js
+
+server/controllers/user.js
+
+src/components/project/projectList.vue
+
+src/main.js
