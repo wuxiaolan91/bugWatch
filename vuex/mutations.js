@@ -8,7 +8,8 @@ const mutationObj = {
       state.projectId = List[0]._id;
     }
   },
-  addProject: function(state, Object) {
+
+  addProject： function(state, Object) {
     state.projectList.push(Object);
     state.projectId = Object._id;
     state.projectName = Object.name;
@@ -22,3 +23,4 @@ const mutationObj = {
   },
 };
 export default mutationObj;
+
