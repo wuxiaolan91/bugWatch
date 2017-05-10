@@ -65,7 +65,6 @@ export default {
   }, methods: {
     getPageList() {
       let pageBug = document.getElementById('page-bug');
-      debugger;
       var chatWidth = pageBug.parentNode.offsetWidth;
       pageBug.style.width= chatWidth + 'px';
       if (!pageBug) return;
