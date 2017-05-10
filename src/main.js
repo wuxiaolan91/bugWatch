@@ -12,41 +12,48 @@ Axios.interceptors.request.use((config) => {
   const projectId = store.state.projectId;
   const userId = localStorage.getItem('userId');
   const companyId = localStorage.getItem('companyId');
-  if (projectId) config.headers.common.projectId = projectId;
-  if (userId) config.headers.common.userId = userId;
-  if (companyId) config.headers.common.companyId = companyId;
+  if (projectId) {
+    config.headers.common.projectId = projectId;
+  }
+  if (userId) {
+    config.headers.common.userId = userId;
+  }
+  if (companyId) {
+    config.headers.common.companyId = companyId;
+  }
   // Do something before request is sent
   return config;
 }, error =>
-    // Do something with request error
-    Promise.reject(error));
+  // Do something with request error
+  Promise.reject(error));
 // Add a response interceptor
 Axios.interceptors.response.use(response =>
   // Do something with response data
   response, (error) => {
-    let url = '';
-    if (error.config) url = error.config.url;
-    fetch('/api/bug/addAjaxWatch', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        projectId: localStorage.getItem('projectId'),
-        message: error.message,
-        url,
-        errorPage: location.href,
-        error: error.stack,
-        status: error.status,
-      }),
-    })
-      .then((response) => {
-        console.log('发出ajax错误监控');
-
-      });
-    // Do something with response error
-    return Promise.reject(error);
+  let url = '';
+  if (error.config) {
+    url = error.config.url;
+  }
+  fetch('/api/bug/addAjaxWatch', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      projectId: localStorage.getItem('projectId'),
+      message: error.message,
+      url,
+      errorPage: location.href,
+      error: error.stack,
+      status: error.status,
+    }),
+  }).then((response) => {
+    console.log('发出ajax错误监控');
+    
   });
+  // Do something with response error
+  return Promise.reject(error);
+});
 
 Vue.prototype.$http = Axios;
 
@@ -83,6 +90,6 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
+  components: {App},
 });
 

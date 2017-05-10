@@ -7,7 +7,6 @@
       <el-select
         :value="projectId"
         @input="changeProject"
-
         placeholder="默认网站">
         <el-option
           v-for="item in projectList"
@@ -105,7 +104,6 @@ export default {
 
             if (projectList.length) {
                 localStorage.setItem('projectId', this.projectId);
-                this.projectId = projectList[0]._id;
                 this.$store.commit('getProjectList', projectList);
             } else {
               if (localStorage.getItem('companyId')) {

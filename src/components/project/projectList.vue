@@ -114,6 +114,7 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '执行中...';
+
               let projectId = this.projectList[index]._id;
               if (!projectId) this.$message.warning('没有找到你要删除的项目的id');
               this.$http.get('/api/project/removeProjectById', {
