@@ -5,8 +5,8 @@
     <div class="left">
       <h1>bugWatch</h1>
       <el-select
-        v-model="projectId"
-        @change="changeProject"
+        :value="projectId"
+        @input="changeProject"
         placeholder="默认网站">
         <el-option
           v-for="item in projectList"
@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       name: localStorage.name,
-     
       user: {
         gradeId: 0
       }
@@ -65,14 +64,17 @@ export default {
   },
   computed: {
     projectId () {
-      return this.$store.state.projectId
+      return this.$store.state.projectId;
     },
     projectList () {
       return this.$store.state.projectList;
     }
-  }, methods: {
+  }
+  , methods: {
     changeProject(projectId) {
-     
+      this.$store.commit('changeProject', {
+          projectId: projectId
+        })
     },
     exitBtn() {
       localStorage.clear();
@@ -91,7 +93,6 @@ export default {
      * 显示页面头部的项目列表
      */
     getProjectList() {
-      console.log('headeer组件 - 拿项目列表')
       this.$http.get('/api/project/getProjectList', {
         params: {
           userId: this.user._id
