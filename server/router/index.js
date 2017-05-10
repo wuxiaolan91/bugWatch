@@ -1,7 +1,9 @@
 const Koa = require('koa');
+let cors = require('kcors');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 app.use(bodyParser());
+app.use(cors())
 const router = require('koa-router')();
 
 // router
