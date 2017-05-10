@@ -4,7 +4,8 @@ const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 app.use(bodyParser());
 app.use(cors({
-  allowMethods: 'GET,HEAD,PUT,POST,DELETE,OPTIONS,PATCH'
+  allowMethods: 'GET,HEAD,PUT,POST,DELETE,OPTIONS,PATCH',
+  allowHeaders: 'projectId,userId'
 }
 ))
 const router = require('koa-router')();
