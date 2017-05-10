@@ -9,3 +9,11 @@ server/config/local.config.js
 .vscode
 .gitconfig
 server/config/index.js
+
+config/local.config.js
+
+server/controllers/user.js
+
+src/components/project/projectList.vue
+
+src/main.js
