@@ -101,5 +101,12 @@ npm run dev
 # build for production with minification
 npm run build
 ```
+## 感谢以下贡献者
+- 吴晓兰
+- 墨白
+- lcfevr
+- 池盛星ocxers
+- Youwei-inMT
+- 刘云钊
 
 
