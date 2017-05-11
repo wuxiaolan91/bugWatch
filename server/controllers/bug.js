@@ -80,7 +80,6 @@ exports.addBug = function* () {
     if (err) this.body = err;
     return data;
   });
-  console.log('ruleList', ruleList);
   const bugObj = {
     projectId, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     ip,
@@ -91,6 +90,7 @@ exports.addBug = function* () {
     ua: this.request.header['user-agent'],
     date: this.query.time,
   };
+  console.log('bugObj', bugObj);
   bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
   ruleList.forEach((item, index) => {
     if (bugObj.errorPage.indexOf(item.keyword[0]) > -1) {
