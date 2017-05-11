@@ -5,19 +5,18 @@
         
         <el-card class="box-card" v-loading.body="loading">
           <div class="text item">
-            <span>公司名称：</span> {{ companyName }}
+            <span>公司名称：</span> {{ company.companyName }}
           </div>
           <div class="text item">
-            <span>公司id:</span> {{ id }}
+            <span>公司id：</span> {{ company.companyName }}
           </div>
           <div class="text item">
-            <span>公司拥有者:</span> {{ ownerName }}
+            <span>公司拥有者：</span> {{ company.ownerName }}
           </div>
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="公司成员" name="second">
-        <!--<el-input placeholder="请输入用户地址"></el-input>
-        <el-button></el-button>-->
+        <router-link to="/addUser?type=addMenberToCompany">添加成员到公司</router-link>
         <el-table :data="userList" stripe style="width: 100%">
           <el-table-column prop="name" label="用户"></el-table-column>
           <el-table-column prop="email" label="邮箱"></el-table-column>
@@ -39,16 +38,20 @@
     data () {
       return {
         activeName: 'first',
-        id: '',
         ownerId: '',
         ownerName: '', // 公司的拥有者
-        companyName: '',
         userList: [],
         projectList: [],
         companyId: '3355',
         loading: false
       }
-    }, created () {
+    },
+    computed: {
+      company () {
+        return this.$store.state.company;
+      }
+    },
+    created () {
       
       this.getCompanyById();
     }, methods: {
@@ -58,17 +61,22 @@
           this.loading = false;
           if (res.data) {
             let company = res.data;
-            this.id = company._id;
-            this.companyName = company.companyName;
             this.ownerId = company.ownerId;
             this.userList = company.userList;
             this.userList.every(item => {
               if (item._id = this.ownerId) {
-                this.ownerName = item.name;
+                company.ownerName = item.name;
               }
             })
             this.projectList = company.projectList;
+            this.$store.commit('getCompany',{
+              companyId: company._id,
+              companyName: company.companyName,
+              ownerId: company.ownerId,
+              ownerName: company.ownerName
+            });
           }
+          
         })
       }
     }
