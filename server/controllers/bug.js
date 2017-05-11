@@ -70,8 +70,8 @@ function bugListByFilter(type, bugList) {
  */
 exports.addBug = function* () {
   const ip = this.request.ip;
-  const website = this.request.headers.website;
-  const projectId = this.header.projectid;
+  const website = this.request.url;
+  const projectId = this.query.projectId;
   // 获取规则列表
 
   const ruleList = yield ruleModel.find({
@@ -82,7 +82,7 @@ exports.addBug = function* () {
   });
   console.log('ruleList', ruleList);
   const bugObj = {
-    projectId: this.header.projectid, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
+    projectId, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     ip,
     errorPage: this.query.pageUrl,
     refferPage: '',
