@@ -21,5 +21,9 @@ const mutationObj = {
       state.projectId = state.projectList.length ? state.projectList[0]._id : '';
     }
   },
+  getCompany: function (state, Object) {
+    state.company = Object;
+
+  }
 };
 export default mutationObj;
