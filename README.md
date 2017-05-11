@@ -102,10 +102,10 @@ npm run dev
 npm run build
 ```
 ## 感谢以下贡献者
-- 吴晓兰
+- wuxiaolan91（吴晓兰）
 - 墨白
 - lcfevr
-- 池盛星ocxers
+- ocxers（池盛星）
 - Youwei-inMT
 - 刘云钊
 
