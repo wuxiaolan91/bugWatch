@@ -58,11 +58,23 @@ export default {
       projectUserList: [],
       canAddUserList: [], //公司里还没有进这个项目的用户列表
     }
+  }, computed: {
+    projectId () {
+      return this.$route.state.projectId
+    }
+
   }, created() {
     this.projectId = this.$route.query.id;
     this.getProjectById();
     this.getCompanyById();
-  }, methods: {
+  },
+  watch: {
+    projectId () {
+      debugger;
+      this.getProjectById();
+    }
+  },
+  methods: {
 
     getProjectById() {
       this.$http.get('/api/project/getProjectById', {
@@ -98,10 +110,6 @@ export default {
                 }
               })
               if (isRepeat) canAddUserList.push(companyUser);
-              debugger;
-              // if (companyUser._id == this.ownerId) {
-              //   companyUser.ownerName = companyUser.name;
-              // }
             })
           } else {
             canAddUserList = [];
@@ -199,8 +207,6 @@ export default {
     handleSelect (item) {
 
     }
-  }, computed: {
-
   }, components: {
     projectCard
   }

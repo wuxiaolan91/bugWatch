@@ -1,7 +1,7 @@
 export default {
   title: 'bugWatch~',
   companyId: '',
-  projectId: '',
+  projectId: localStorage.getItem('projectId') || '',
   projectName: 'bugWatch开源项目',
   projectList: [
   ],
