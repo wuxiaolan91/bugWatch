@@ -26,14 +26,18 @@ let companyObj = {
   * getCompanyById() {
     const companyId = this.header.companyid;
     let userIdList = [];
-    let result = yield companyModel.findById(companyId).lean().exec((err, res) => {
+    let company = yield companyModel.findById(companyId).lean().exec((err, res) => {
       if (err) {
         return err;
       }
       console.log('res', res);
       return res;
     });
-    result.userList.map((item) => {
+    if (!company) {
+      this.body = null;
+      return;
+    }
+    company.userList.map((item) => {
       userIdList.push(item.userId);
     });
     let userList = yield userModel.find({
@@ -44,7 +48,7 @@ let companyObj = {
       }
       return docs;
     });
-    result.userList = userList;
+    company.userList = userList;
   
     console.log('===============userIdList===============');
     console.log(userIdList);
@@ -59,9 +63,9 @@ let companyObj = {
       return docs;
     });
     
-    result.projectList = projectList;
+    company.projectList = projectList;
     
-    this.body = result;
+    this.body = company;
   }
 };
 module.exports = companyObj;

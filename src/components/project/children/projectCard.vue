@@ -1,8 +1,8 @@
 <template>
 <el-card class="box-card">
   <ul>
-    <li>项目名{{ name }}</li>
-    <li>项目id:{{ projectId }}</li>
+    <li>项目名：{{ projectName }}</li>
+    <li>项目id：{{ projectId }}</li>
     </ul>
 </el-card>
 </template>
@@ -10,6 +10,14 @@
 export default {
   data () {
     return {}
-  },props: ['name', 'projectId']
+  },
+  computed: {
+    projectName () {
+      return this.$store.state.projectName;
+    },
+    projectId () {
+      return this.$store.state.projectId;
+    }
+  }
 }
 </script>

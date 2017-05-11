@@ -30,8 +30,8 @@
             <router-link to="/projectList?type=add">添加项目</router-link>
           </el-dropdown-item>
           <el-dropdown-item v-if="user.gradeId==3">
-            <router-link to="/addUser">添加用户</router-link>
-          </el-dropdown-item>
+            <router-link to="/project">添加用户</router-link>
+        </el-dropdown-item>
           <el-dropdown-item v-if="user.gradeId==3">
             <router-link to="/company"><span>公司设置</span></router-link>
           </el-dropdown-item>

@@ -3,14 +3,14 @@
 
 > 面向前端的一个监控平台。集错误监控，接口报错，性能分析，流量劫持分析于一身的前端监控平台
 
-[线上Demo](http://118.184.11.220)
+[线上Demo](https://www.fewatch.com)
 ## 接入指南
 1. 在你的 html 页面 引入这个 js 脚本
 
 ```javascript
-<script src="http://118.184.11.220/static/js/lib/bugWatch.js"></script> // 这个js文件3kb 大小
+<script src="https://www.fewatch.com/static/js/lib/bugWatch.js"></script> // 这个js文件3kb 大小
 ```
-2. 如果是想直接用我们提供的平台，那就去[网站](http://118.184.11.220)申请一个账号，在右上角添加一个项目，得到一个项目id。
+2. 如果是想直接用我们提供的平台，那就去[网站](https://www.fewatch.com)申请一个账号，在右上角添加一个项目，得到一个项目id。
 
 3. 在你的index.html 页面继续添加如下script.（推荐引用单独放在一个script里） 也可以直接添加到你的js里。
 ```javascript
@@ -22,21 +22,8 @@
   });
 </script>
 ```
-4. 增加接口代理。
-- nginx
-- webpack
-在你 config/index.js 找到 proxyTable, 增加下面代码里的api代理
-```javascript
-proxyTable: {
-  '/api': {
-    target: 'http://118.184.11.220:3000', // 如果是私有化部署则要设置成 http://localhost:3000
-    changeOrigin: true,
-    pathRewrite: {
-      '^/api': ''
-   }
-}
-      
- ```
+
+ok.好了。你可以去网站看你的监测数据了~
 
 现在的主要功能
 - 前端 JS 
@@ -114,5 +101,12 @@ npm run dev
 # build for production with minification
 npm run build
 ```
+## 感谢以下贡献者
+- wuxiaolan91（吴晓兰）
+- 墨白
+- lcfevr
+- ocxers（池盛星）
+- Youwei-inMT
+- 刘云钊
 
 

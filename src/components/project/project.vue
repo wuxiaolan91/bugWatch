@@ -4,7 +4,7 @@
     通过邮箱/姓名添加成员
     <el-select v-model="selUser" placeholder="请选择">
       <el-option
-        v-for="item in userList"
+        v-for="item in canAddUserList"
         :key="item._id"
         :label="item.name"
         :value="item._id">
@@ -49,7 +49,6 @@
 import projectCard from './children/projectCard.vue';
 export default {
   data() {
-
     return {
       loading: false,
       projectId: '',
@@ -57,12 +56,12 @@ export default {
       timeout: null,
       name: '',
       projectUserList: [],
-      userList: []
+      canAddUserList: [], //公司里还没有进这个项目的用户列表
     }
   }, created() {
     this.projectId = this.$route.query.id;
     this.getProjectById();
-    this.getUserList();
+    this.getCompanyById();
   }, methods: {
 
     getProjectById() {
@@ -82,18 +81,42 @@ export default {
         console.log(this.projectUserList)
       })
     },
-    /**
-     * 获取所有的用户列表
-     */
-    getUserList() {
-      this.$http.get('/api/user/getUserList')
-        .then((res) => {
-          this.loading = false;
-          if (res.data) {
-            this.userList = res.data;
+    getCompanyById () {
+      this.$http.get('/api/company/getCompanyById').then(res => {
+        this.loading = false;
+        if (res.data) {
+          let company = res.data;
+          let companyUserList = company.userList; // 公司的用户列表
+          let canAddUserList = []; //该项目里没有的本公司人员列表
+          if (companyUserList && companyUserList.length >= 1) { // 用户可以添加的列表里需要删除已经在本项目里的用户
+            companyUserList.forEach((companyUser, index) => {
+              let isRepeat = true;
+              this.projectUserList.every(projectUser=> {
+                
+                if (companyUser._id == projectUser._id) {
+                isRepeat = false;
+                }
+              })
+              if (isRepeat) canAddUserList.push(companyUser);
+              debugger;
+              // if (companyUser._id == this.ownerId) {
+              //   companyUser.ownerName = companyUser.name;
+              // }
+            })
+          } else {
+            canAddUserList = [];
           }
-        })
-
+          
+          this.canAddUserList = canAddUserList;
+          this.$store.commit('getCompany',{
+            companyId: company._id,
+            companyName: company.companyName,
+            ownerId: company.ownerId,
+            ownerName: company.ownerName
+          });
+        }
+        
+      })
     },
     addUserToProject () {
       if (!this.selUser) {
@@ -107,7 +130,10 @@ export default {
           roleId: 1
         }
       }).then(res => {
-        debugger;
+        if (res.data) {
+          let newUser = res.data;
+          this.projectUser.push(newUser);
+        }
       })
     },
     delUserFromProject (index,item) {
