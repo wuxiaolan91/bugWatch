@@ -131,17 +131,7 @@ export default {
           this.loading = false;
           if (res.status = 200) {
             let bugList = res.data.bugList;
-            if (bugList.length) {
-              bugList.map(item => {
-                let time = new Date(item.time);
-                let hour = `${time.getHours()}` < 10 ? `0${time.getHours()}` : `${time.getHours()}`;
-                let minutes = `${time.getMinutes()}` < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`;
-                let seconds = `${time.getSeconds()}` < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`;
 
-                item.time = `${time.getFullYear()}/${time.getMonth()+1}/${time.getDate()} ${hour}:${minutes}:${seconds}`;
-                return item;
-              })
-            }
             this.ajaxBugList = bugList;
             this.pageTotal = res.data.bugList.length / this.size;
           }

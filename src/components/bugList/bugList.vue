@@ -128,13 +128,6 @@ export default {
           this.loading = false;
           if (res.status = 200) {
             let bugList = res.data.bugList;
-            if (bugList.length) {
-              bugList.map(item => {
-                let time = new Date(item.time);
-                item.time = time.toString();
-                return item;
-              })
-            }
             this.tableData = bugList;
             this.pageTotal = res.data.totalLength / this.size;
 

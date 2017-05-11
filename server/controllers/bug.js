@@ -146,10 +146,15 @@ exports.getBugList = function* () { // 获取bug列表，还没有哪个地方�
     filterObj.message = new RegExp(query.errorKeyword);
   }
 
-  const bugList = yield bugModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, bugList) => {
+  const bugList = yield bugModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).lean().exec((err, bugList) => {
     if (err) {
       return console.error(err);
     }
+    bugList.map(item => {
+      item.time = util.systemConvertTime(item.time);
+      console.log('item', item);
+      return item;
+    })
     return bugList;
   });
   const totalLength = yield bugModel.find(filterObj).count();
