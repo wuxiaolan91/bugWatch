@@ -27,7 +27,7 @@
         <router-link to="/projectList?type=add">添加项目</router-link>
         <!--<br> {{ projectList }}-->
         <el-table v-loading.body="loading" :data="projectList" stripe style="width: 100%">
-          <el-table-column prop="name" width="150" label="项目名"></el-table-column>
+          <el-table-column prop="name"  label="项目名"></el-table-column>
           <el-table-column prop="_id" label="项目id"></el-table-column>
         </el-table>
       </el-tab-pane>

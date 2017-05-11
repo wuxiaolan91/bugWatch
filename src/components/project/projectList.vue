@@ -2,7 +2,7 @@
   <div>
     <el-button id="add-project-btn" type="text" @click="OpenAddProject">添加项目</el-button>
     <el-table v-loading.body="loading" :data="projectList" stripe style="width: 100%">
-      <el-table-column prop="name" width="250" label="项目名(比如百度)"></el-table-column>
+      <el-table-column prop="name" label="项目名(比如百度)"></el-table-column>
       
       <el-table-column prop="_id" label="项目id"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
