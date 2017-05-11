@@ -1,7 +1,8 @@
 (function () {
   let bugWatch = {};
+  var projectId = '';
   bugWatch.report = (config) => {
-    let projectId = config.projectId;
+    projectId = config.projectId;
     let debug = config.debug;
     if (debug == false) return;
     let ignore = config.ignore || '';
@@ -14,7 +15,7 @@
     error: Error对象
     */
     window.onerror = function (message, source, lineno, colno, error) {
-      const projectId = localStorage.projectId;
+      // const projectId = localStorage.bugwatchProjectId;
       const ignoreList = ignore.split(',');
       let isIgnore = false;
       for (var i = 0; i < ignoreList.length; i++) {
