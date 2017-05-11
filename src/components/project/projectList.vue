@@ -95,7 +95,11 @@
         })
       },
       editProject(index, scope) {
-        
+        // 当前激活项目变成这个项目
+        this.$store.commit('changeProject', {
+          projectId: scope.row._id,
+          projectName: scope.row.name
+        })
         this.$router.push(`/project?id=${scope.row._id}`)
       },
       /**

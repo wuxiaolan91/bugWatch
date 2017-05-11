@@ -1,6 +1,6 @@
 <template>
 <div>
-  <project-card :name="name" :project-id="projectId"></project-card>
+  <project-card></project-card>
   <el-form ref="form" :model="user" label-width="80px" v-loading.body="loading">
     <el-form-item label="用户名">
       <el-input v-model="user.name"></el-input>
@@ -35,7 +35,6 @@ export default {
     return {
       loading: false,
       btnText: '添加用户',
-      name: '',
       projectId: localStorage.getItem('projectId'),
       user: {
         name: '',

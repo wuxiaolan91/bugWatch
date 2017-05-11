@@ -1,6 +1,7 @@
 const mutationObj = {
   changeProject: function(state, Object) {
-    state.projectId = Object.projectId;
+    state.projectId = Object._id || Object.projectId;
+    if (Object.projectName) state.projectName = Object.projectName
   },
   getProjectList: function(state, List) {
     state.projectList = List;
