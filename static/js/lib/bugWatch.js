@@ -29,12 +29,9 @@
       if (error) {
         url = `${url}&error=${error.stack}&errorType=${error.name}`;
       }
-      fetch(`/api/bug/addBug?${url}`, {
-        headers: {
-          projectId: projectId,
-          website: location.host,
-        },
+      fetch(`https://www.fewatch.com/api/bug/addBug?${url}`, {
         method: 'GET',
+        mode: 'cors'
         // body: JSON.stringify({
         //   time: new Date(),
         //   url: location.url,
