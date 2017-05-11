@@ -1,6 +1,6 @@
 <template>
 <div>
-  <project-card></project-card>
+  <project-card v-if="type == 1"></project-card>
   <el-form ref="form" :model="user" label-width="80px" v-loading.body="loading">
     <el-form-item label="用户名">
       <el-input v-model="user.name"></el-input>
@@ -55,6 +55,14 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    type () {
+      if (this.$route.query.type == 'addMenberToCompany') {
+        return 2;
+      }
+      return 1;
+    }
   }, created () {
    if (this.user.gradeId ==3) {
      EventBus.$emit('isLogin', false)
@@ -70,7 +78,6 @@ export default {
         return;
       }
       this.$http.post('/api/user/addUser', this.user).then(res => {
-        debugger;
         if (res.data._id) {
           const user = res.data;
           this.$message('添加用户成功');
@@ -87,7 +94,6 @@ export default {
             //  EventBus.$emit('isLogin', true);
              this.$router.push('/addCompany');
           }
-         
           
         } else {
           this.$message.error('添加用户不成功：' + res.data);
