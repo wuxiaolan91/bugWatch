@@ -22,21 +22,8 @@
   });
 </script>
 ```
-4. 增加接口代理。
-- nginx
-- webpack
-在你 config/index.js 找到 proxyTable, 增加下面代码里的api代理
-```javascript
-proxyTable: {
-  '/api': {
-    target: 'http://118.184.11.220:3000', // 如果是私有化部署则要设置成 http://localhost:3000
-    changeOrigin: true,
-    pathRewrite: {
-      '^/api': ''
-   }
-}
-      
- ```
+
+ok.好了。你可以去网站看你的监测数据了~
 
 现在的主要功能
 - 前端 JS 
