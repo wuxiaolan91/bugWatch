@@ -93,6 +93,7 @@ const projectObj = {
     const projectId = this.query.projectId || this.header.projectid;
     const userId = this.query.userId;
     const roleId = this.query.roleId;
+    const userName = this.query.name;
     const newUser = {
       userId,
       roleId,
@@ -105,7 +106,6 @@ const projectObj = {
       if (err) return err;
       return data;
     });
-    console.log('107', project);
     // project.userList.push(newUser);
     const result = yield projectModel.update({
       _id: projectId
@@ -117,7 +117,9 @@ const projectObj = {
       console.log('err', err);
       console.log('res', res);
       if (err) return err;
-      return res;
+      return Object.assign(newUser, {
+        name: userName
+      });
     });
 
     this.body = result;

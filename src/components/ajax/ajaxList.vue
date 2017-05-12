@@ -95,6 +95,16 @@ export default {
       ajaxBugList: []
     }
   },
+  computed: {
+    projectId () {
+      return  this.$store.state.projectId;
+    }
+  },
+  watch: {
+    projectId () {
+      this.getAjaxList();
+    }
+  },
   methods: {
     onSearch() {
      this.getAjaxList();
@@ -142,9 +152,6 @@ export default {
   },
   mounted() {
    this.getAjaxList();
-    EventBus.$on('projectChange', projectId => {
-     this.getAjaxList();
-    })
   }
 }
 </script>

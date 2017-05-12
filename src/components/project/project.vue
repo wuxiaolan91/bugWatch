@@ -1,13 +1,22 @@
 <template>
   <div>
-    <project-card :name="name" :project-id="projectId"></project-card>
+    <project-card ></project-card>
     通过邮箱/姓名添加成员
-    <el-select v-model="selUser" placeholder="请选择">
+    <el-select v-model="selUser"  placeholder="请选择">
       <el-option
         v-for="item in canAddUserList"
         :key="item._id"
         :label="item.name"
         :value="item._id">
+      </el-option>
+    </el-select>
+    <!--选择项目角色-->
+    <el-select v-model="roleId" placeholder="请选择">
+      <el-option
+        v-for="item in roleList"
+        :key="item.roleId"
+        :label="item.roleName"
+        :value="item.roleId">
       </el-option>
     </el-select>
     <el-button id="add-project-btn" type="text" @click="addUserToProject">添加到项目</el-button>
@@ -51,19 +60,52 @@ export default {
   data() {
     return {
       loading: false,
-      projectId: '',
       selUser: '',
       timeout: null,
       name: '',
+      newUser: {
+
+      },
+      roleList: [ // 一个项目的角色列表
+        {
+          roleId: 1,
+          roleName: '用户'
+        },
+        {
+          roleId: 2,
+          roleName: '管理员'
+        }
+      ],
+      roleId: 1,
       projectUserList: [],
       canAddUserList: [], //公司里还没有进这个项目的用户列表
     }
+  }, computed: {
+    projectId () {
+      return this.$store.state.projectId
+    }
+
   }, created() {
-    this.projectId = this.$route.query.id;
     this.getProjectById();
     this.getCompanyById();
-  }, methods: {
-
+  },
+  watch: {
+    projectId () {
+      this.getProjectById();
+    },
+    selUser (newUserId) {
+      this.canAddUserList.forEach(item => {
+        if (item._id == newUserId) {
+          this.newUser = item;
+          return;
+        }
+      })
+    }
+  },
+  methods: {
+    changeSelUser (a, b) {
+      debugger;
+    },
     getProjectById() {
       this.$http.get('/api/project/getProjectById', {
         params: {
@@ -98,10 +140,6 @@ export default {
                 }
               })
               if (isRepeat) canAddUserList.push(companyUser);
-              debugger;
-              // if (companyUser._id == this.ownerId) {
-              //   companyUser.ownerName = companyUser.name;
-              // }
             })
           } else {
             canAddUserList = [];
@@ -119,7 +157,7 @@ export default {
       })
     },
     addUserToProject () {
-      if (!this.selUser) {
+      if (!this.newUser._id) {
         this.$message.error('请先选择一位用户');
         return;
       }
@@ -127,12 +165,13 @@ export default {
         params: {
           projectId: this.projectId,
           userId: this.selUser,
-          roleId: 1
+          roleId: this.roleId,
+          name: this.newUser.name
         }
       }).then(res => {
         if (res.data) {
           let newUser = res.data;
-          this.projectUser.push(newUser);
+          this.projectUserList.push(newUser);
         }
       })
     },
@@ -199,8 +238,6 @@ export default {
     handleSelect (item) {
 
     }
-  }, computed: {
-
   }, components: {
     projectCard
   }
