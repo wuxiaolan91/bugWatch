@@ -1,6 +1,8 @@
 const mutationObj = {
   changeProject: function(state, Object) {
-    state.projectId = Object.projectId;
+    state.projectId = Object._id || Object.projectId;
+    if (Object.projectName) state.projectName = Object.projectName;
+    localStorage.setItem('projectId', state.projectId);
   },
   getProjectList: function(state, List) {
     state.projectList = List;
@@ -20,5 +22,9 @@ const mutationObj = {
       state.projectId = state.projectList.length ? state.projectList[0]._id : '';
     }
   },
+  getCompany: function (state, Object) {
+    state.company = Object;
+
+  }
 };
 export default mutationObj;

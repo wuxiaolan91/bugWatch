@@ -26,27 +26,10 @@ Axios.interceptors.response.use(response =>
   response, (error) => {
     let url = '';
     if (error.config) url = error.config.url;
-    fetch('/api/bug/addAjaxWatch', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        projectId: localStorage.getItem('projectId'),
-        message: error.message,
-        url,
-        errorPage: location.href,
-        error: error.stack,
-        status: error.status,
-      }),
-    })
-      .then((response) => {
-        console.log('发出ajax错误监控');
-
-      });
+    bugWatch.reportAjax(error)
     // Do something with response error
     return Promise.reject(error);
-  });
+});
 
 Vue.prototype.$http = Axios;
 

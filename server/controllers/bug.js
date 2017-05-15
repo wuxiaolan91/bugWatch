@@ -70,8 +70,8 @@ function bugListByFilter(type, bugList) {
  */
 exports.addBug = function* () {
   const ip = this.request.ip;
-  const website = this.request.headers.website;
-  const projectId = this.header.projectid;
+  const website = this.request.url;
+  const projectId = this.query.projectId;
   // 获取规则列表
 
   const ruleList = yield ruleModel.find({
@@ -80,9 +80,8 @@ exports.addBug = function* () {
     if (err) this.body = err;
     return data;
   });
-  console.log('ruleList', ruleList);
   const bugObj = {
-    projectId: this.header.projectid, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
+    projectId, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     ip,
     errorPage: this.query.pageUrl,
     refferPage: '',
@@ -91,6 +90,7 @@ exports.addBug = function* () {
     ua: this.request.header['user-agent'],
     date: this.query.time,
   };
+  console.log('bugObj', bugObj);
   bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
   ruleList.forEach((item, index) => {
     if (bugObj.errorPage.indexOf(item.keyword[0]) > -1) {
@@ -146,10 +146,15 @@ exports.getBugList = function* () { // 获取bug列表，还没有哪个地方�
     filterObj.message = new RegExp(query.errorKeyword);
   }
 
-  const bugList = yield bugModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, bugList) => {
+  const bugList = yield bugModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).lean().exec((err, bugList) => {
     if (err) {
       return console.error(err);
     }
+    bugList.map(item => {
+      item.time = util.systemConvertTime(item.time);
+      console.log('item', item);
+      return item;
+    })
     return bugList;
   });
   const totalLength = yield bugModel.find(filterObj).count();

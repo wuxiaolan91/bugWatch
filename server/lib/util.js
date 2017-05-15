@@ -8,8 +8,8 @@ function getPlatform(userAgent) {
   let platform = '';
   let ua = userAgent;
   if (/MicroMessenger/i.test(ua)) {
-  platform = '微信浏览器';// 这是微信平台下浏览器
-} else if (/android|adr/i.test(ua)) {
+    platform = '微信浏览器';// 这是微信平台下浏览器
+  } else if (/android|adr/i.test(ua)) {
 
    // 根据不同产品线，分为GT-，SM-，SCH-开头的UA来判断是三星
    if (/GT-|SM-|SCH-/ig.test(ua)) {
@@ -38,7 +38,18 @@ function getPlatform(userAgent) {
  }
   return platform;
 }
+function systemConvertTime (date) {
+  let time = new Date(date);
+  let hour = `${time.getHours()}` < 10 ? `0${time.getHours()}` : `${time.getHours()}`;
+  let minutes = `${time.getMinutes()}` < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`;
+  let seconds = `${time.getSeconds()}` < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`;
+
+  time = `${time.getFullYear()}年${time.getMonth()+1}月${time.getDate()}日 ${hour}:${minutes}:${seconds}`;
+  console.log('time', time);
+  return time;
+}
 let util = {
   getPlatform,
+  systemConvertTime
 };
 module.exports = util;

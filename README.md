@@ -22,21 +22,23 @@
   });
 </script>
 ```
-4. 增加接口代理。
-- nginx
-- webpack
-在你 config/index.js 找到 proxyTable, 增加下面代码里的api代理
+
+4. 可选 如果你不需要ajax监控就不需要加这个
+在你ajax公用拦截的地方加上 reportAjax 方法的调用
 ```javascript
-proxyTable: {
-  '/api': {
-    target: 'http://118.184.11.220:3000', // 如果是私有化部署则要设置成 http://localhost:3000
-    changeOrigin: true,
-    pathRewrite: {
-      '^/api': ''
-   }
-}
-      
- ```
+bugWatch.reportAjax(error)
+```
+比如：如果你用的是 `Axios`
+```javascript
+Axios.interceptors.response.use(response =>
+  response, (error) => {
+    bugWatch.reportAjax(error)
+    // Do something with response error
+    return Promise.reject(error);
+});
+```
+
+ok.好了。你可以去网站看你的监测数据了~
 
 现在的主要功能
 - 前端 JS 
@@ -114,5 +116,12 @@ npm run dev
 # build for production with minification
 npm run build
 ```
+## 感谢以下贡献者
+- wuxiaolan91（吴晓兰）
+- 墨白
+- lcfevr
+- ocxers（池盛星）
+- Youwei-inMT
+- 刘云钊
 
 

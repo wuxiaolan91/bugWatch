@@ -17,23 +17,35 @@ exports.getUserList = function* () {
  */
 exports.addUser = function* () {
   const user = this.request.body;
+  const companyId = this.header.companyid;
   let isRepeat = false;
   // 需要先判断一下是否存在相同的用户名
   const userList = yield userModel.find({}, (err, res) => {
     if (err) return;
     return res;
   });
-  userList.forEach((item, index, array) => {
-    if (item.name == user.name) {
-      isRepeat = true;
+  isRepeat = false; //比如盛星大哥既有自己的公司，但是也是bugWatch开源团队的，所以不做重复校验
+  // userList.forEach((item, index, array) => {
+  //   if (item.name == user.name) {
+  //     isRepeat = true;
 
       
-    }
-  });
+  //   }
+  // });
   if (isRepeat) {
     this.body = '该名字的用户名已经存在，请重新申请';
   } else {
     const newUser = yield userModel(user).save();
+    let addUserToCompany = yield companyModel.update({
+    _id: companyId,
+  }, {
+    $push: {
+      userList: {
+        roleId: 2,
+        userId: newUser._id
+      },
+    },
+  });
     newUser.password = '****';
     this.body = newUser;
   }
@@ -61,8 +73,12 @@ exports.login = function* (ctx) {
       console.log('查找这家用户是哪家公司的', res);
       return res;
     })
-    console.log('company', company);
-    result.companyId = company._id;
+    if (company) { 
+       result.companyId = company._id;
+    } else { // 用户还没有公司，推荐它去创建公司
+      result.companyId = '';
+    }
+   
   }
   this.body = result;
 };

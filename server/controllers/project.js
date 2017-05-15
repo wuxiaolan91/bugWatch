@@ -43,13 +43,16 @@ const projectObj = {
   * @param projectId {String} 项目id
   */
   * getProjectById() {
-    const projectId = this.query.projectId;
-    const userIdList = [];
-    const project = yield projectModel.findOne({
+    const projectId = this.query.projectId || this.header.projectid;
+    let userIdList = [];
+    let project = yield projectModel.findOne({
       _id: projectId,
-    }).sort({ _id: -1 }).exec((err, data) => {
+    }).sort({ _id: -1 }).lean().exec((err, data) => {
       if (err) this.body = err;
-      if (!data) this.body = [];
+      if (!data) {
+        this.body = [];
+        return;
+      }
       if (data.userList) {
         data.userList.map((item) => {
           userIdList.push(item.userId);
@@ -77,6 +80,7 @@ const projectObj = {
       });
       newUserList.push(item);
     }
+    if (!project) this.body = null;
     project.userList = userList;
     this.body = project;
   },
@@ -86,24 +90,36 @@ const projectObj = {
    *
    */
   * updateProject() {
-    const projectId = this.query.projectId;
+    const projectId = this.query.projectId || this.header.projectid;
     const userId = this.query.userId;
     const roleId = this.query.roleId;
+    const userName = this.query.name;
     const newUser = {
       userId,
       roleId,
     };
-    const project = yield projectModel.findOne({
+    let project = yield projectModel.findOne({
       _id: projectId,
-    }).sort({ _id: -1 }).exec((err, data) => {
+    }).sort({ _id: -1 }).lean().exec((err, data) => {
+      console.log('err', err);
+      console.log('data', data);
       if (err) return err;
       return data;
     });
-    project.userList.push(newUser);
-    const result = yield projectModel.update({ _id: projectId }, project, (err, res) => {
-      if (err) return err;
+    // project.userList.push(newUser);
+    const result = yield projectModel.update({
+      _id: projectId
+    }, {
+      $push: {
+        userList: newUser
+      }
+    }).exec((err, res) => {
+      console.log('err', err);
       console.log('res', res);
-      return res;
+      if (err) return err;
+      return Object.assign(newUser, {
+        name: userName
+      });
     });
 
     this.body = result;
@@ -129,7 +145,6 @@ const projectObj = {
     project.userList.forEach((item, index) => {
       if (item.roleId == newUser.roleId && item.userId == newUser.userId) {
         const user = project.userList.splice(index, 1);
-        console.log('user:', user);
       } else {
 
       }
