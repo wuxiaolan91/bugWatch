@@ -75,7 +75,8 @@
     };
   }
   bugWatch.reportAjax = (config => {
-  // 发错ajax错误
+     let url = config.config ? config.config.url : '';
+    // 发错ajax错误
      fetch(`${apiPre}/bug/addAjaxWatch`, {
       method: 'POST',
       mode: 'cors',
@@ -85,7 +86,7 @@
       body: JSON.stringify({
         projectId: projectId,
         message: config.message,
-        url: config.config.url,
+        url: url,
         errorPage: location.href,
         error: config.stack,
         status: config.status,
