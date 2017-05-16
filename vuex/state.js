@@ -1,6 +1,6 @@
 let userInfo = localStorage.getItem('userInfo');
 if (userInfo) {
-  userInfo = JSON.parse(userInfo)
+  userInfo = JSON.parse(userInfo);
 } else {
   userInfo = {};
 }
