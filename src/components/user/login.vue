@@ -64,9 +64,11 @@
             localStorage.setItem('userInfo', JSON.stringify(user));
             localStorage.setItem('name', user.name);
             localStorage.setItem('userId', user._id);
-
+            localStorage.setItem('companyId', user.companyId);
             EventBus.$emit('isLogin', true)
+            debugger;
             if (user.companyId) {
+              this.$router.push('/');
               localStorage.setItem('companyId', user.companyId);
             } else {
               this.$router.push('/addCompany');
