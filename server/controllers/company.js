@@ -30,7 +30,7 @@ let companyObj = {
       if (err) {
         return err;
       }
-      console.log('res', res);
+      // console.log('res', res);
       return res;
     });
     if (!company) {

@@ -59,19 +59,19 @@
             localStorage.setItem('userInfo', JSON.stringify(user));
             localStorage.setItem('name', user.name);
             localStorage.setItem('userId', user._id);
-<<<<<<< HEAD
-            if (user.companyId) {
-              localStorage.setItem('companyId', user.companyId);
-            }
-            EventBus.$emit('isLogin', true)
-=======
+//<<<<<<< HEAD
+//            if (user.companyId) {
+//              localStorage.setItem('companyId', user.companyId);
+//            }
+//            EventBus.$emit('isLogin', true)
+//=======
             EventBus.$emit('isLogin', true)
             if (user.companyId) {
               localStorage.setItem('companyId', user.companyId);
             } else {
               this.$router.push('/addCompany');
             }
->>>>>>> dev
+//>>>>>>> dev
             this.$router.push('/');
             
             
