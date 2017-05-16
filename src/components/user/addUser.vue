@@ -39,19 +39,13 @@ export default {
       user: {
         name: '',
         email: '',
-        password: '',
+        gradeId: '1',
         gradeId: Number(this.$route.query.gradeId || 1)
       },
       roleList: [
         {
           label: '用户',
           value: 1
-        }, {
-          label: '管理员',
-          value: 2
-        }, {
-          label: '公司拥有者',
-          value: 3
         }
       ]
     }
@@ -62,13 +56,27 @@ export default {
         return 2;
       }
       return 1;
+    },
+    gradeId () { // 当前操作用户的等级
+      return this.$store.state.user.gradeId;
     }
-  }, created () {
+  },
+  created () {
+      if (this.gradeId == 3) {
+      this.roleList.push({
+          label: '管理员',
+          value: 2
+        })
+    }
+    if (this.gradeId == '') {
+      this.roleList.push({
+          label: '公司拥有者',
+          value: 3
+        })
+    }
    if (this.user.gradeId ==3) {
      EventBus.$emit('isLogin', false)
      this.btnText = '注册';
-   } else {
-     this.roleList.pop();
    }
   }, methods: {
     onSubmit () {

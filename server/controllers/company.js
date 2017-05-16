@@ -15,7 +15,7 @@ let companyObj = {
       userList: [
         {
           userId: this.header.userid,
-          roleId: 3
+          gradeId: 3
         }
       ]
     };

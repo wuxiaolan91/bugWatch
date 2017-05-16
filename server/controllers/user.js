@@ -54,12 +54,13 @@ exports.addUser = function* () {
 /* 用户登录 */
 exports.login = function* (ctx) {
   const body = this.request.body;
+  // 在用户表里找是否有这个用户，有则返回用户信息
   let result = yield userModel.findOne(body).lean().exec((err, res) => {
     if (err) return  '登录失败lala';
     if (res) {
      if (!res._id) {this.body = '没有这个用户';}
       const user = res;
-      return { name: user.name};
+      return { name: user.name, _id: user._id};
     }
       return  '用户名或者密码有误';
   })
@@ -69,10 +70,31 @@ exports.login = function* (ctx) {
       message: '登录失败，请确认你的账号和密码是否正确',
     };
   } else {
-    let company = yield companyModel.findOne({ownerId: result._id}).exec((err, res) => {
-      console.log('查找这家用户是哪家公司的', res);
+    let company = yield companyModel.findOne(
+      {
+        $or: [
+          {ownerId: result._id},
+          {
+            'userList.userId': {
+              $in: [result._id],
+            }
+          }
+          
+        ]
+      }
+    ).lean().exec((err, res) => {
+     if (err) this.body = err;
       return res;
     })
+     // 查找出这个用户在这家公司的权限等级
+     company.userList.forEach(item => {
+        let userId = result._id + '';
+      
+       if (item.userId == userId) {
+         result.gradeId = item.gradeId;
+         return;
+       }
+      })
     if (company) { 
        result.companyId = company._id;
     } else { // 用户还没有公司，推荐它去创建公司

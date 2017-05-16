@@ -39,7 +39,8 @@
     },
     created () {
       EventBus.$emit('isLogin', false)
-    }, methods: {
+    },
+    methods: {
       onSubmit () {
         if (!this.form.name || !this.form.password) {
           this.$message.error('请先完善你的登录信息')
@@ -55,6 +56,10 @@
             this.$message({
               message: '登录成功',
               type: 'success'
+            });
+            this.$store.commit('getCompany', {
+              companyId: user.companyId,
+              gradeId: user.gradeId
             });
             localStorage.setItem('userInfo', JSON.stringify(user));
             localStorage.setItem('name', user.name);

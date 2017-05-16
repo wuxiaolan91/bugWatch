@@ -23,13 +23,13 @@
             {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
           </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-if="user.gradeId > 1">
+          <el-dropdown-item v-if="gradeId > 1">
             <router-link to="/projectList?type=list">项目列表</router-link>
           </el-dropdown-item>
-          <el-dropdown-item v-if="user.gradeId > 1">
+          <el-dropdown-item v-if="gradeId > 1">
             <router-link to="/projectList?type=add">添加项目</router-link>
           </el-dropdown-item>
-          <el-dropdown-item v-if="user.gradeId==3">
+          <el-dropdown-item v-if="gradeId > 1">
             <router-link to="/project">添加用户</router-link>
         </el-dropdown-item>
           <el-dropdown-item>
@@ -45,10 +45,7 @@
 export default {
   data() {
     return {
-      name: localStorage.name,
-      user: {
-        gradeId: 0
-      }
+      name: localStorage.name
     }
   },
   created () {
@@ -69,6 +66,9 @@ export default {
     },
     projectList () {
       return this.$store.state.projectList;
+    },
+    gradeId () {
+      return this.$store.state.user.gradeId
     }
   }
   , methods: {
