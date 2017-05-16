@@ -16,14 +16,14 @@
         </el-card>
       </el-tab-pane>
       <el-tab-pane label="公司成员" name="second">
-        <router-link to="/addUser?type=addMenberToCompany">添加成员到公司</router-link>
+        <router-link v-if="gradeId > 1" to="/addUser?type=addMenberToCompany">添加成员到公司</router-link>
         <el-table :data="userList" stripe style="width: 100%">
           <el-table-column prop="name" label="用户"></el-table-column>
           <el-table-column prop="email" label="邮箱"></el-table-column>
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="公司项目" name="third">
-        <router-link to="/projectList?type=add">添加项目</router-link>
+        <router-link v-if="gradeId > 1" to="/projectList?type=add">添加项目</router-link>
         <!--<br> {{ projectList }}-->
         <el-table v-loading.body="loading" :data="projectList" stripe style="width: 100%">
           <el-table-column prop="name"  label="项目名"></el-table-column>
@@ -49,6 +49,9 @@
     computed: {
       company () {
         return this.$store.state.company;
+      },
+      gradeId () {
+        return this.$store.state.user.gradeId;
       }
     },
     created () {

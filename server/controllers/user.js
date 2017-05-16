@@ -88,7 +88,6 @@ exports.login = function* (ctx) {
      if (err) this.body = err;
       return res;
     })
-    console.log('company', company);
     if (company) {
       // 查找出这个用户在这家公司的权限等级
      company.userList.forEach(item => {
