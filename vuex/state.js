@@ -6,7 +6,7 @@ if (userInfo) {
 }
 export default {
   title: 'bugWatch~',
-  companyId: '',
+  companyId: userInfo.companyId,
   projectId: localStorage.getItem('projectId') || '',
   projectName: '',
   projectList: [
