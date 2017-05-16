@@ -55,7 +55,7 @@ exports.addUser = function* () {
 exports.login = function* (ctx) {
   const body = this.request.body;
   // 在用户表里找是否有这个用户，有则返回用户信息
-  let result = yield userModel.findOne(body).lean().exec((err, res) => {
+  let user = yield userModel.findOne(body).lean().exec((err, res) => {
     if (err) return  '登录失败lala';
     if (res) {
      if (!res._id) {this.body = '没有这个用户';}
@@ -64,8 +64,9 @@ exports.login = function* (ctx) {
     }
       return  '用户名或者密码有误';
   })
-  if (result == null) {
-    result = {
+  console.log('user', user);
+  if (user == null) {
+    user = {
       errorCode: 1,
       message: '登录失败，请确认你的账号和密码是否正确',
     };
@@ -73,35 +74,39 @@ exports.login = function* (ctx) {
     let company = yield companyModel.findOne(
       {
         $or: [
-          {ownerId: result._id},
+          {ownerId: user._id},
           {
             'userList.userId': {
-              $in: [result._id],
+              $in: [user._id],
             }
           }
           
         ]
       }
     ).lean().exec((err, res) => {
+
      if (err) this.body = err;
       return res;
     })
-     // 查找出这个用户在这家公司的权限等级
+    console.log('company', company);
+    if (company) {
+      // 查找出这个用户在这家公司的权限等级
      company.userList.forEach(item => {
-        let userId = result._id + '';
+        let userId = user._id + '';
       
        if (item.userId == userId) {
-         result.gradeId = item.gradeId;
+         user.gradeId = item.gradeId;
          return;
        }
       })
-    if (company) { 
-       result.companyId = company._id;
-    } else { // 用户还没有公司，推荐它去创建公司
-      result.companyId = '';
     }
-   
+     
+    if (company) { 
+       user.companyId = company._id;
+    } else { // 用户还没有公司，推荐它去创建公司
+      user.companyId = '';
+    }
   }
-  this.body = result;
+  this.body = user;
 };
 
