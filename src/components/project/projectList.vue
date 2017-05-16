@@ -56,17 +56,15 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消'
           
-        }).then(({value}) = > {
+        }).then(({value}) => {
           this.addProject(value);
-        
-      }).
-        catch(() = > {
+          
+        }).catch(() => {
           this.$message({
-          type: 'info',
-          message: '取消输入'
+            type: 'info',
+            message: '取消输入'
+          });
         });
-      })
-        ;
       },
       addProject(projectName) {
         const newProject = {
@@ -77,24 +75,22 @@
             roleId: 3
           }]
         };
-        this.$http.post('/api/project/addProject', newProject).then((res) = > {
-          if (res.status = 200
-      )
-        {
-          let project = res.data;
-          this.$message({
-            type: 'success',
-            message: '你的项目是: ' + projectName
-          });
-          if (this.projectList.length < 1) {
-            let projectId = project._id;
-            localStorage.setItem('projectId', projectId);
-            this.$router.push(`/project?id=${projectId}`);
+        this.$http.post('/api/project/addProject', newProject).then((res) => {
+          if (res.status = 200) {
+            let project = res.data;
+            this.$message({
+              type: 'success',
+              message: '你的项目是: ' + projectName
+            });
+            if (this.projectList.length < 1) {
+              let projectId = project._id;
+              localStorage.setItem('projectId', projectId);
+              this.$router.push(`/project?id=${projectId}`);
+            }
+            newProject._id = project._id;
+            this.$store.commit('addProject', newProject);
           }
-          newProject._id = project._id;
-          this.$store.commit('addProject', newProject);
-        }
-      })
+        })
       },
       editProject(index, scope) {
         // 当前激活项目变成这个项目
@@ -111,59 +107,54 @@
        */
       delProject(index, project) {
         this.$msgbox({
-            title: '删除项目',
-            message: `是否删除项目：${project.row.name}`,
-            showCancelButton: true,
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            beforeClose: (action, instance, done) = > {
-            if (action === 'confirm')
-        {
-          instance.confirmButtonLoading = true;
-          instance.confirmButtonText = '执行中...';
-          let projectId = this.projectList[index]._id;
-          if (!projectId) {
-            this.$message.warning('没有找到你要删除的项目的id');
-          }
-          this.$http.get('/api/project/removeProjectById', {
-            params: {
-              projectId: projectId,
-              companyId: localStorage.getItem('companyId')
+          title: '删除项目',
+          message: `是否删除项目：${project.row.name}`,
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              let projectId = this.projectList[index]._id;
+              if (!projectId) {
+                this.$message.warning('没有找到你要删除的项目的id');
+              }
+              this.$http.get('/api/project/removeProjectById', {
+                params: {
+                  projectId: projectId,
+                  companyId: localStorage.getItem('companyId')
+                }
+              }).then(res => {
+                instance.confirmButtonLoading = false;
+                done();
+                if (res.data.ok) {
+                  
+                  this.$message({
+                    message: '删除项目成功',
+                    type: 'success'
+                    
+                  });
+                  // this.projectList.splice(index, 1);
+                  this.$store.commit('deleteProject', project.row);
+                  if (this.projectList.length == 0) {
+                    localStorage.removeItem('projectId');
+                    this.$router.push('/projectList?type=list');
+                  }
+                } else {
+                  this.$message.error('删除项目失败');
+                }
+              }).
+              catch(rej => {
+                instance.confirmButtonLoading = false;
+                done();
+                this.$message.error('删除项目失败');
+              })
+            } else {
+              done();
             }
-          }).then(res = > {
-            instance.confirmButtonLoading = false;
-          done();
-          if (res.data.ok) {
-            
-            this.$message({
-              message: '删除项目成功',
-              type: 'success'
-              
-            });
-            // this.projectList.splice(index, 1);
-            this.$store.commit('deleteProject', project.row);
-            if (this.projectList.length == 0) {
-              localStorage.removeItem('projectId');
-              this.$router.push('/projectList?type=list');
-            }
-          } else {
-            this.$message.error('删除项目失败');
           }
-        }).
-          catch(rej = > {
-            instance.confirmButtonLoading = false;
-          done();
-          this.$message.error('删除项目失败');
         })
-        }
-      else
-        {
-          done();
-        }
-      }
-      })
-        
-        
       },
       /**
        * 生成一个项目id
@@ -184,12 +175,12 @@
           params: {
             userId: this.user._id
           }
-        }).then((res) = > {
+        }).then((res) => {
           this.loading = false;
-        if (res.data) {
-          this.projectList = res.data;
-        }
-      })
+          if (res.data) {
+            this.projectList = res.data;
+          }
+        })
       }
     }
   }
