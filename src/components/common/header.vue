@@ -23,7 +23,7 @@
             {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
           </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item >
+          <el-dropdown-item v-if="gradeId > 1">
             <router-link to="/projectList?type=list">项目列表</router-link>
           </el-dropdown-item>
           <el-dropdown-item v-if="gradeId > 1">
