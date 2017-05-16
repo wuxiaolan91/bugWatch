@@ -64,12 +64,25 @@
             localStorage.setItem('userInfo', JSON.stringify(user));
             localStorage.setItem('name', user.name);
             localStorage.setItem('userId', user._id);
+<<<<<<< HEAD
+=======
+//<<<<<<< HEAD
+//            if (user.companyId) {
+//              localStorage.setItem('companyId', user.companyId);
+//            }
+//            EventBus.$emit('isLogin', true)
+//=======
+>>>>>>> 315cdc3... 删除公司项目的时候要把它从company的projectList表里也删除掉。
             EventBus.$emit('isLogin', true)
             if (user.companyId) {
               localStorage.setItem('companyId', user.companyId);
             } else {
               this.$router.push('/addCompany');
             }
+<<<<<<< HEAD
+=======
+//>>>>>>> dev
+>>>>>>> 315cdc3... 删除公司项目的时候要把它从company的projectList表里也删除掉。
             this.$router.push('/');
             
             
