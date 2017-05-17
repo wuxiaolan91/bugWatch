@@ -134,7 +134,7 @@ export default {
             companyUserList.forEach((companyUser, index) => {
               let isRepeat = true;
               this.projectUserList.every(projectUser=> {
-                
+
                 if (companyUser._id == projectUser._id) {
                 isRepeat = false;
                 }
@@ -144,7 +144,7 @@ export default {
           } else {
             canAddUserList = [];
           }
-          
+
           this.canAddUserList = canAddUserList;
           this.$store.commit('getCompany',{
             companyId: company._id,
@@ -153,7 +153,7 @@ export default {
             ownerName: company.ownerName
           });
         }
-        
+
       })
     },
     addUserToProject () {
@@ -171,7 +171,11 @@ export default {
       }).then(res => {
         if (res.data) {
           let newUser = res.data;
+          newUser.roleName = this.showRole(newUser.roleId);
+          console.log(res)
+          console.log(this.projectUserList)
           this.projectUserList.push(newUser);
+
         }
       })
     },
