@@ -17,7 +17,6 @@ export default {
       this.$http.post('/api/company/addCompanyByCompanyName', {
           companyName: this.companyName
       }).then(res => {
-        debugger;
         if (res.data._id) {
           const companyId = res.data;
           localStorage.setItem('companyId', companyId._id);
@@ -25,7 +24,7 @@ export default {
           EventBus.$emit('isLogin', true);
           this.$router.push('/company');
         } else {
-          this.$message.warning('添加项目失败');
+          this.$message.warning('添加项目失败：'+res.data);
         }
       })
     }

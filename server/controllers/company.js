@@ -9,19 +9,32 @@ let companyObj = {
   },
   * addCompanyByCompanyName() {
     const companyName = this.request.body.companyName;
-    let newCompany = {
-      companyName: companyName,
-      ownerId: this.header.userid,
-      userList: [
-        {
-          userId: this.header.userid,
-          gradeId: 3
-        }
-      ]
-    };
-    console.log('company', newCompany);
-    const result = yield new companyModel(newCompany).save();
-    this.body = result;
+    const existCompany = yield companyModel.findOne({companyName: companyName}).lean().exec((err, res) => {
+      if (err) {
+        return err;
+      }
+      // console.log('res', res);
+      return res;
+    });
+    
+    console.log(existCompany);
+    if (!existCompany) {
+      let newCompany = {
+        companyName: companyName,
+        ownerId: this.header.userid,
+        userList: [
+          {
+            userId: this.header.userid,
+            roleId: 3
+          }
+        ]
+      };
+      const result = yield new companyModel(newCompany).save();
+      this.body = result;
+    } else {
+      this.body = "该公司名称已存在，请重新申请";
+    }
+
   },
   * getCompanyById() {
     const companyId = this.header.companyid;
@@ -49,7 +62,7 @@ let companyObj = {
       return docs;
     });
     company.userList = userList;
-  
+    
     console.log('===============userIdList===============');
     console.log(userIdList);
     let projectList = yield projectModal.find({
