@@ -8,9 +8,12 @@
       <el-table-column fixed="right" label="操作" width="100">
         <template scope="scope">
           <el-button type="text" size="small" @click.native.prevent="delProject(scope.$index, scope)">
+
             删除
           </el-button>
-          <el-button type="text" @click.native.prevent="editProject(scope.$index, scope)" size="small">编辑</el-button>
+          <el-button type="text"
+                     @click.native.prevent="editProject(scope.$index, scope)"
+                     size="small">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -18,48 +21,49 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        loading: false,
-        user: {}
+export default {
+  data() {
+    return {
+      loading: false,
+      user: {}
+    }
+  },
+  created() {
+    let userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      this.user = JSON.parse(userInfo);
+    }
+
+  },
+  computed: {
+    projectList() {
+      return this.$store.state.projectList;
+    }
+  },
+  watch: {
+    '$route': 'fetchData'
+  },
+  methods: {
+    fetchData() {
+      const type = this.$route.query.type;
+      if (type == 'add') {
+        console.log('是公司')
+        this.OpenAddProject();
       }
     },
-    created() {
-      let userInfo = localStorage.getItem('userInfo');
-      if (userInfo) {
-        this.user = JSON.parse(userInfo);
-      }
-      
-    },
-    computed: {
-      projectList () {
-        return this.$store.state.projectList;
-      }
-    },
-    watch: {
-      '$route': 'fetchData'
-    },
-    methods: {
-      fetchData () {
-        const type = this.$route.query.type;
-        if (type == 'add') {
-          console.log('是公司')
-          this.OpenAddProject();
-        }
-      },
-      /**
-       * 打开增加项目的弹窗
-       */
-      OpenAddProject() {
-        this.$prompt('请输入项目的名字', '添加新项目', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消'
-          
-        }).then(({value}) => {
-          this.addProject(value);
-          
-        }).catch(() => {
+    /**
+     * 打开增加项目的弹窗
+     */
+    OpenAddProject() {
+      this.$prompt('请输入项目的名字', '添加新项目', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+
+      }).then(value => {
+        this.addProject(value);
+
+      }).
+        catch(value => {
           this.$message({
             type: 'info',
             message: '取消输入'
@@ -174,19 +178,48 @@
         this.$http.get('/api/project/getProjectList', {
           params: {
             userId: this.user._id
+
           }
-        }).then((res) => {
-          this.loading = false;
-          if (res.data) {
-            this.projectList = res.data;
+      else
+        {
+            done();
           }
-        })
+        }
+      })
+
+
+    },
+    /**
+     * 生成一个项目id
+     */
+    addProjectId() {
+      function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
       }
+
+      return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    },
+    /**
+     *
+     */
+    getProjectList() {
+      this.loading = true;
+      this.$http.get('/api/project/getProjectList', {
+        params: {
+          userId: this.user._id
+        }
+      }).then((res) => {
+        this.loading = false;vfff
+        if(res.data) {
+          this.projectList = res.data;
+        }
+      })
     }
   }
+}
 </script>
 <style lang="less">
-  #add-project-btn {
-    float: right;
-  }
+#add-project-btn {
+  float: right;
+}
 </style>

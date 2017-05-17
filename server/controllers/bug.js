@@ -181,10 +181,10 @@ exports.weekBugList = function* () { // 显示一周内报错最多的页面
       $lte: date,
     },
   }).sort().exec((err, bugList) => {
-    console.log('获取本周bug列表- 查询返回')
+    // console.log('获取本周bug列表- 查询返回')
     this.body = bugListByFilter(type, bugList);
   });
-  console.log('会执行到这里嘛？175')
+  // console.log('会执行到这里嘛？175')
 };
 /**
  * 得到昨天和今天每个小时段的bug数量列表

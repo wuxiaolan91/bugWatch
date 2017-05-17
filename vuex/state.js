@@ -1,10 +1,19 @@
+let userInfo = localStorage.getItem('userInfo');
+if (userInfo) {
+  userInfo = JSON.parse(userInfo);
+} else {
+  userInfo = {};
+}
 export default {
   title: 'bugWatch~',
-  companyId: '',
+  companyId: userInfo.companyId,
   projectId: localStorage.getItem('projectId') || '',
-  projectName: 'bugWatch开源项目',
+  projectName: '',
   projectList: [
   ],
+  user: {
+    gradeId: userInfo.gradeId || '' // 当前用户在公司里的gradeId 1不能添加项目。 2.可以添加项目和用户 3all。
+  },
   company: {
     companyId: '', // 公司id
     companyName: '',

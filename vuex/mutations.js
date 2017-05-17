@@ -22,9 +22,9 @@ const mutationObj = {
       state.projectId = state.projectList.length ? state.projectList[0]._id : '';
     }
   },
-  getCompany: function (state, Object) {
-    state.company = Object;
-
+  getCompany: function (state, obj) {
+    state.company = Object.assign(state.company, obj);
+    if (obj.gradeId) state.user.gradeId = obj.gradeId;
   }
 };
 export default mutationObj;

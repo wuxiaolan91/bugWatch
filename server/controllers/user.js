@@ -76,30 +76,55 @@ exports.login = function*(ctx) {
     if (err) {
       return '登录失败lala';
     }
+
     if (res) {
       if (!res._id) {this.body = '没有这个用户';}
       const user = res;
-      return {name: user.name};
+
+      return { name: user.name, _id: user._id};
     }
     return '用户名或者密码有误';
   })
-  if (result == null) {
-    result = {
+  console.log('user', user);
+  if (user == null) {
+    user = {
       errorCode: 1,
       message: '登录失败，请确认你的账号和密码是否正确',
     };
   } else {
-    let company = yield companyModel.findOne({ownerId: result._id}).exec((err, res) => {
-      console.log('查找这家用户是哪家公司的', res);
+    let company = yield companyModel.findOne(
+      {
+        $or: [
+          {ownerId: user._id},
+          {
+            'userList.userId': {
+              $in: [user._id],
+            }
+          }
+          
+        ]
+      }
+    ).lean().exec((err, res) => {
+
+     if (err) this.body = err;
       return res;
     })
     if (company) {
-      result.companyId = company._id;
-    } else { // 用户还没有公司，推荐它去创建公司
-      result.companyId = '';
+
+      // 查找出这个用户在这家公司的权限等级
+     company.userList.forEach(item => {
+        let userId = user._id + '';
+      
+       if (item.userId == userId) {
+         user.gradeId = item.gradeId;
+         return;
+       }
+      })
     }
-    
+     
+    if (company) { 
+       user.companyId = company._id;
   }
-  this.body = result;
+  this.body = user;
 };
 

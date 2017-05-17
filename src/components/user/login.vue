@@ -39,7 +39,8 @@
     },
     created () {
       EventBus.$emit('isLogin', false)
-    }, methods: {
+    },
+    methods: {
       onSubmit () {
         if (!this.form.name || !this.form.password) {
           this.$message.error('请先完善你的登录信息')
@@ -56,24 +57,27 @@
               message: '登录成功',
               type: 'success'
             });
+            this.$store.commit('getCompany', {
+              companyId: user.companyId,
+              gradeId: user.gradeId
+            });
             localStorage.setItem('userInfo', JSON.stringify(user));
             localStorage.setItem('name', user.name);
             localStorage.setItem('userId', user._id);
-//<<<<<<< HEAD
-//            if (user.companyId) {
-//              localStorage.setItem('companyId', user.companyId);
-//            }
-//            EventBus.$emit('isLogin', true)
-//=======
+
+            localStorage.setItem('companyId', user.companyId);
             EventBus.$emit('isLogin', true)
+            debugger;
             if (user.companyId) {
+              this.$router.push('/');
               localStorage.setItem('companyId', user.companyId);
             } else {
               this.$router.push('/addCompany');
             }
-//>>>>>>> dev
+
             this.$router.push('/');
             
+
             
           } else {
             this.$message.error('登录失败，请确认你的账号和密码是否正确');

@@ -34,6 +34,7 @@ let companyObj = {
     } else {
       this.body = "该公司名称已存在，请重新申请";
     }
+
   },
   * getCompanyById() {
     const companyId = this.header.companyid;
