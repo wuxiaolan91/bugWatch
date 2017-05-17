@@ -173,21 +173,18 @@ export default {
       /**
        *
        */
-      getProjectList() {
+       getProjectList() {
         this.loading = true;
         this.$http.get('/api/project/getProjectList', {
           params: {
             userId: this.user._id
-
           }
-      else
-        {
-            done();
+        }).then((res) => {
+          this.loading = false;
+          if (res.data) {
+            this.projectList = res.data;
           }
-        }
-      })
-
-
+        })
     },
     /**
      * 生成一个项目id

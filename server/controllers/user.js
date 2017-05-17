@@ -72,7 +72,7 @@ exports.addUser = function*() {
 /* 用户登录 */
 exports.login = function*(ctx) {
   const body = this.request.body;
-  let result = yield userModel.findOne(body).lean().exec((err, res) => {
+  let user = yield userModel.findOne(body).lean().exec((err, res) => {
     if (err) {
       return '登录失败lala';
     }
@@ -110,7 +110,7 @@ exports.login = function*(ctx) {
       return res;
     })
     if (company) {
-
+      user.companyId = company._id;
       // 查找出这个用户在这家公司的权限等级
      company.userList.forEach(item => {
         let userId = user._id + '';
@@ -121,9 +121,7 @@ exports.login = function*(ctx) {
        }
       })
     }
-     
-    if (company) { 
-       user.companyId = company._id;
+       
   }
   this.body = user;
 };
