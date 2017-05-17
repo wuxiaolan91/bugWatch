@@ -40,7 +40,7 @@ const projectObj = {
     }).exec((err, res)=> {
       return res;
     });
-    
+
     let company = yield companyModel.findById(companyId).lean().exec((err, res) => {
       if (err) {
         return err;
@@ -126,6 +126,17 @@ const projectObj = {
       }
       return data;
     });
+
+    let user = yield userModel.findOne({
+      _id:userId
+    }).sort({_id:-1}).exec((err,user)=>{
+      if (err) {
+        return err;
+      }
+
+      return user;
+    })
+
     // project.userList.push(newUser);
     const result = yield projectModel.update({
       _id: projectId
@@ -137,24 +148,29 @@ const projectObj = {
       if (err) {
         return err;
       }
-      return Object.assign(newUser, {
-        name: userName
-      });
+
+      return res
     });
-    
-    this.body = result;
+    console.log(user)
+    if (result.ok) {
+      this.body = Object.assign({},newUser,{email:user.email,gradeId:user.gradeId, name:user.name})
+    } else {
+      this.body = null;
+    }
+
+
   },
-  
+
   * delUserFromProject() {
     const projectId = this.query.projectId;
     const userId = this.query.userId;
     const roleId = this.query.roleId;
-    
+
     const newUser = {
       userId,
       roleId,
     };
-    
+
     const project = yield projectModel.findOne({
       _id: projectId,
     }).sort({_id: -1}).exec((err, data) => {
@@ -163,26 +179,26 @@ const projectObj = {
       }
       return data;
     });
-    
+
     project.userList.forEach((item, index) => {
       if (item.roleId == newUser.roleId && item.userId == newUser.userId) {
         const user = project.userList.splice(index, 1);
       } else {
-        
+
       }
     });
-    
+
     const result = yield projectModel.update({_id: projectId}, project, (err, res) => {
       if (err) {
         return err;
       }
-      
+
       return res;
     });
-    
+
     this.body = result;
   },
-  
+
   /**
    * 删除一个项目
    *
@@ -192,7 +208,7 @@ const projectObj = {
     if (!projectId) {
       this.body = '请输入要删除的项目id';
     }
-    
+
     let company = yield companyModel.findOne({
       _id: this.query.companyId
     }).sort({_id: -1}).exec((err, data) => {
@@ -201,7 +217,7 @@ const projectObj = {
         return err;
       }
       // this.body = data;
-      
+
       return data;
     });
     console.log('>>>>>>>>>>>>>>> company <<<<<<<<<<<<<');
@@ -215,7 +231,7 @@ const projectObj = {
 
       }
     });
-    
+
     const result = yield companyModel.update({
       _id: company._id
     }, company).exec((err, res) => {
@@ -224,7 +240,7 @@ const projectObj = {
       }
       return res;
     });
-  
+
     const newProject = yield projectModel.remove({
       _id: projectId,
     }, (err, data) => {
@@ -233,7 +249,7 @@ const projectObj = {
       }
       this.body = data;
     });
-    
+
     this.body = newProject;
     // Chi
   }
