@@ -1,6 +1,6 @@
 
 const ajaxModel = require('../models/ajaxModel.js');
-
+const util = require('../lib/util.js');
 let ajaxObj = {
   /**
    * 增加一条ajax错误记录
@@ -51,12 +51,16 @@ let ajaxObj = {
     if (query.url) {
       filterObj.url = new RegExp(query.url);
     }
-    const ajaxList = yield ajaxModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).exec((err, data) => {
+    const ajaxList = yield ajaxModel.find(filterObj).sort({ _id: -1 }).skip(skip).limit(10).lean().exec((err, data) => {
       if (err) {
         this.body = err;
        return err;
        
       } else {
+        data.map(item => {
+          item.time = util.systemConvertTime(item.time);
+          return item;
+        })
         return data;
       }
     });

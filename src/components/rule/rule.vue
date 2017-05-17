@@ -84,11 +84,8 @@ export default {
      * 删除一条rule
      */
     delRule(index, rule) {
-      debugger;
-      console.log('rule', rule.row);
 
       let ruleId = this.ruleList[index]._id;
-      console.log('ruleId', ruleId);
       this.$http.get('/api/rule/removeRule', {
         params: {
           ruleId

@@ -1,7 +1,8 @@
 <template>
-    <div id="page-bug"
-      v-loading.body="loading"
-         style="width:100%;height:400px;"></div>
+  <div id="page-bug"
+       v-loading.body="loading"
+       style="height:400px;">
+  </div>
 </template>
 
 <script>
@@ -9,36 +10,29 @@
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
+      width: '100%',
       option: {
-        title: {
-          text: 'bug页面排行榜'
-        },
+      
         tooltip: {
           trigger: 'axis',
-          	axisPointer: {
-						type: 'shadow'
-					}
-        },
-      
-        toolbox: {
-          show: true,
-          feature: {
-            mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] },
-            restore: { show: true },
-            saveAsImage: { show: true }
+          axisPointer: {
+            type: 'shadow'
           }
         },
-        legend: {
-          data: ['页面']
-        },
-        calculable: true,
+        grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
         xAxis: [
           {
             type: 'category',
-            data: []
+            data: [],
+            axisTick: {
+                alignWithLabel: true
+            }
           }
         ],
         yAxis: [
@@ -50,29 +44,29 @@ export default {
           {
             name: 'bug次数',
             type: 'bar',
-            data: [0,0,0,0,0],
-            markPoint: {
-              data: [
-                { type: 'max', name: '最大值' }
-              ]
-            },
-            markLine: {
-              data: [
-                { type: 'average', name: '平均值' }
-              ]
-            }
+            data: [0, 0, 0, 0, 0],
+            barWidth: '60%'
           }
         ]
       }
     }
-  }, mounted() {
-   	this.getPageList();
-		EventBus.$on('projectChange', num => {
-			this.getPageList();
-		})
+  },
+  watch: {
+    projectId() {
+      this.getPageList();
+    }
+  }, computed: {
+    projectId() {
+      return this.$store.state.projectId
+    }
+  },
+  mounted() {
+    this.getPageList();
   }, methods: {
     getPageList() {
       let pageBug = document.getElementById('page-bug');
+      var chatWidth = pageBug.parentNode.offsetWidth;
+      pageBug.style.width= chatWidth + 'px';
       if (!pageBug) return;
       var myChart = echarts.init(pageBug);
       this.loading = true;

@@ -4,14 +4,18 @@
     <!--<p id="website-desc">帮你监控错误，性能<p>-->
     <div class="left">
       <h1>bugWatch</h1>
-      <el-select v-model="projectId"
-                 @change="changeProject"
-                 placeholder="默认网站">
-        <el-option v-for="item in projectList"
-                   :label="item.name"
-                   :value="item._id">
+      <el-select
+        :value="projectId"
+        @input="changeProject"
+
+        placeholder="默认网站">
+        <el-option
+          v-for="item in projectList"
+          :label="item.name"
+          :value="item._id">
         </el-option>
       </el-select>
+      
     </div>
     <div class="right">
       <el-dropdown >
@@ -19,14 +23,17 @@
             {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
           </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-if="user.gradeId > 1">
+          <el-dropdown-item >
             <router-link to="/projectList?type=list">项目列表</router-link>
           </el-dropdown-item>
-          <el-dropdown-item v-if="user.gradeId > 1">
+          <el-dropdown-item v-if="gradeId > 1">
             <router-link to="/projectList?type=add">添加项目</router-link>
           </el-dropdown-item>
-          <el-dropdown-item v-if="user.gradeId==3">
-            <router-link to="/addUser">添加用户</router-link>
+          <el-dropdown-item v-if="gradeId > 1">
+            <router-link to="/project">添加用户</router-link>
+        </el-dropdown-item>
+          <el-dropdown-item>
+            <router-link to="/company"><span>公司设置</span></router-link>
           </el-dropdown-item>
           <el-dropdown-item ><span @click="exitBtn">退出</span></el-dropdown-item>
         </el-dropdown-menu>
@@ -38,18 +45,12 @@
 export default {
   data() {
     return {
-      name: localStorage.name,
-      projectId: '',
-      user: {
-        gradeId: 0
-      },
-      projectList: []
+      name: localStorage.name
     }
   },
   created () {
     let userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
-      console.log('user', this.user);
       this.user = JSON.parse(userInfo);
     } else {
       this.user = {};
@@ -58,13 +59,25 @@ export default {
       this.getProjectList();
     }
     
-  }, methods: {
-    changeProject() {
-      console.log('改变项目啦，来自改变项目的change事件');
-      EventBus.$emit('projectChange', this.projectId)
+  },
+  computed: {
+    projectId () {
+      return this.$store.state.projectId;
+    },
+    projectList () {
+      return this.$store.state.projectList;
+    },
+    gradeId () {
+      return this.$store.state.user.gradeId
+    }
+  }
+  , methods: {
+    changeProject(projectId) {
+      this.$store.commit('changeProject', {
+          projectId: projectId
+        })
     },
     exitBtn() {
-      console.log('退出')
       localStorage.clear();
       // this.$store.isLogin = false;
       EventBus.$emit('isLogin', false)
@@ -81,7 +94,6 @@ export default {
      * 显示页面头部的项目列表
      */
     getProjectList() {
-      console.log('headeer组件 - 拿项目列表')
       this.$http.get('/api/project/getProjectList', {
         params: {
           userId: this.user._id
@@ -89,18 +101,21 @@ export default {
       })
         .then(res => {
           if (res.data) {
-            this.projectList = res.data;
-            console.dir(this.projectList);
-            if (this.projectList.length) {
-              if (!this.projectId) {
-                this.projectId = this.projectList[0]._id;
-                localStorage.setItem('projectId', this.projectId);
-              }
+            const projectList = res.data;
 
+            if (projectList.length) {
+                localStorage.setItem('projectId', this.projectId);
+                this.projectId = projectList[0]._id;
+                this.$store.commit('getProjectList', projectList);
             } else {
-              localStorage.removeItem('projectId');
-              this.$message('您还没有添加过项目，需要先添加一个项目');
-              this.$router.push('/projectList?type=add')
+              if (localStorage.getItem('companyId')) {
+                 localStorage.removeItem('projectId');
+                this.$message('您还没有添加过项目，需要先添加一个项目');
+                this.$router.push('/projectList?type=add')
+              } else {
+                // this.$router.push('/projectList?type=add')
+              }
+             
             }
           }
         })
@@ -108,7 +123,9 @@ export default {
   },
   watch: {
     projectId(value) {
-      console.log('value:' + value);
+       this.$store.commit('changeProject', {
+        projectId: this.projectId
+      })
       if (value) localStorage.setItem('projectId', value);
 
     }

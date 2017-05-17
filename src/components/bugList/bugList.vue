@@ -20,8 +20,10 @@
                   v-model="errorKeyword"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
-                   @click="onSearch">搜索</el-button>
+        <el-button
+          type="primary"
+          icon="search"
+          @click="onSearch">搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData"
@@ -83,6 +85,16 @@ export default {
       value: '',
       tableData: []
     }
+  },
+  computed: {
+    projectId () {
+      return this.$store.state.projectId;
+    }
+  },
+  watch: {
+    projectId () {
+      this.getList();
+    }
   }, methods: {
     onSearch() {
       this.getList();
@@ -97,7 +109,6 @@ export default {
 
     }, getList() {
       let self = this;
-      console.log('获取bug列表')
       var searchParam = {
         size: self.size,
         currentPage: self.currentPage,
@@ -117,14 +128,6 @@ export default {
           this.loading = false;
           if (res.status = 200) {
             let bugList = res.data.bugList;
-            if (bugList.length) {
-              bugList.map(item => {
-                let time = new Date(item.time);
-                item.time = time.toString();
-                return item;
-              })
-            }
-            console.dir(bugList);
             this.tableData = bugList;
             this.pageTotal = res.data.totalLength / this.size;
 
@@ -136,9 +139,7 @@ export default {
     }
   }, mounted() {
     this.getList();
-    EventBus.$on('projectChange', projectId => {
-      this.getList();
-    })
+    
   }
 }
 </script>

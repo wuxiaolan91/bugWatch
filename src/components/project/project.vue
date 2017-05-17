@@ -1,22 +1,26 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <ul>
-        <li>项目名{{ name }}</li>
-        <li>项目id:{{ projectId }}</li>
-        </ul>
-    </el-card>
+    <project-card ></project-card>
     通过邮箱/姓名添加成员
-    <el-select v-model="selUser" placeholder="请选择">
+    <el-select v-model="selUser"  placeholder="请选择">
       <el-option
-        v-for="item in userList"
+        v-for="item in canAddUserList"
         :key="item._id"
         :label="item.name"
         :value="item._id">
       </el-option>
     </el-select>
+    <!--选择项目角色-->
+    <el-select v-model="roleId" placeholder="请选择">
+      <el-option
+        v-for="item in roleList"
+        :key="item.roleId"
+        :label="item.roleName"
+        :value="item.roleId">
+      </el-option>
+    </el-select>
     <el-button id="add-project-btn" type="text" @click="addUserToProject">添加到项目</el-button>
-    <el-option
+
     <section>
       成员列表
       <el-table v-loading.body="loading"
@@ -34,29 +38,74 @@
                          label="应用角色"
                          width="100">
         </el-table-column>
+        <el-table-column fixed="right"
+                         label="操作"
+                         width="100">
+          <template scope="scope">
+            <el-button
+              v-if="scope.row.roleId!=3"
+              @click.native.prevent="delUserFromProject(scope.$index, scope)"
+              type="text"
+              size="small">删除</el-button>
+
+          </template>
+        </el-table-column>
       </el-table>
     </section>
   </div>
 </template>
 <script>
+import projectCard from './children/projectCard.vue';
 export default {
   data() {
-
     return {
       loading: false,
-      projectId: '',
       selUser: '',
       timeout: null,
       name: '',
+      newUser: {
+
+      },
+      roleList: [ // 一个项目的角色列表
+        {
+          roleId: 1,
+          roleName: '用户'
+        },
+        {
+          roleId: 2,
+          roleName: '管理员'
+        }
+      ],
+      roleId: 1,
       projectUserList: [],
-      userList: []
+      canAddUserList: [], //公司里还没有进这个项目的用户列表
     }
+  }, computed: {
+    projectId () {
+      return this.$store.state.projectId
+    }
+
   }, created() {
-    this.projectId = this.$route.query.id;
     this.getProjectById();
-    this.getUserList();
-  }, methods: {
-   
+    this.getCompanyById();
+  },
+  watch: {
+    projectId () {
+      this.getProjectById();
+    },
+    selUser (newUserId) {
+      this.canAddUserList.forEach(item => {
+        if (item._id == newUserId) {
+          this.newUser = item;
+          return;
+        }
+      })
+    }
+  },
+  methods: {
+    changeSelUser (a, b) {
+      debugger;
+    },
     getProjectById() {
       this.$http.get('/api/project/getProjectById', {
         params: {
@@ -71,23 +120,44 @@ export default {
           item.roleName = roleName;
         })
         this.projectUserList = project.userList;
+        console.log(this.projectUserList)
       })
     },
-    /**
-     * 获取所有的用户列表
-     */
-    getUserList() {
-      this.$http.get('/api/user/getUserList')
-        .then((res) => {
-          this.loading = false;
-          if (res.data) {
-            this.userList = res.data;
+    getCompanyById () {
+      this.$http.get('/api/company/getCompanyById').then(res => {
+        this.loading = false;
+        if (res.data) {
+          let company = res.data;
+          let companyUserList = company.userList; // 公司的用户列表
+          let canAddUserList = []; //该项目里没有的本公司人员列表
+          if (companyUserList && companyUserList.length >= 1) { // 用户可以添加的列表里需要删除已经在本项目里的用户
+            companyUserList.forEach((companyUser, index) => {
+              let isRepeat = true;
+              this.projectUserList.every(projectUser=> {
+                
+                if (companyUser._id == projectUser._id) {
+                isRepeat = false;
+                }
+              })
+              if (isRepeat) canAddUserList.push(companyUser);
+            })
+          } else {
+            canAddUserList = [];
           }
-        })
-
+          
+          this.canAddUserList = canAddUserList;
+          this.$store.commit('getCompany',{
+            companyId: company._id,
+            companyName: company.companyName,
+            ownerId: company.ownerId,
+            ownerName: company.ownerName
+          });
+        }
+        
+      })
     },
     addUserToProject () {
-      if (!this.selUser) {
+      if (!this.newUser._id) {
         this.$message.error('请先选择一位用户');
         return;
       }
@@ -95,11 +165,56 @@ export default {
         params: {
           projectId: this.projectId,
           userId: this.selUser,
-          roleId: 1
+          roleId: this.roleId,
+          name: this.newUser.name
         }
       }).then(res => {
-        debugger;
+        if (res.data) {
+          let newUser = res.data;
+          this.projectUserList.push(newUser);
+        }
       })
+    },
+    delUserFromProject (index,item) {
+      console.log(item)
+      this.$msgbox({
+        title: '删除用户',
+        message: `是否删除用户：${item.row.name}`,
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose:(action, instance, done)=>{
+          if (action == 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '执行中...';
+            this.$http.get('api/project/delUserFromProject',{
+              params: {
+                projectId: this.projectId,
+                userId: item.row._id,
+                roleId: item.row.roleId
+              }
+            }).then(res =>{
+              instance.confirmButtonLoading = false;
+              console.log(res)
+              if(res.data.ok) {
+                this.projectUserList.splice(index,1)
+                this.$message.success('删除用户成功');
+              } else {
+                this.$message.error('删除用户失败');
+              }
+
+              done()
+            }).catch(res =>{
+              this.$message.error('删除用户失败');
+              done();
+            })
+          } else {
+            done()
+          }
+        }
+      })
+
+
     },
     createStateFilter(queryString) {
       return (state) => {
@@ -123,8 +238,8 @@ export default {
     handleSelect (item) {
 
     }
-  }, computed: {
-
+  }, components: {
+    projectCard
   }
 }
 </script>
@@ -132,11 +247,24 @@ export default {
 .el-card {
   margin-bottom: 20px;
 }
-ul {
+ul.project-describe {
   list-style: none;
-  line-height: 2;
+  display:flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-direction: column;
+  height:100%;
+
+
   li {
-    
+   i {
+     margin-right:3px
+   }
+    span {
+       margin-right:10px
+    }
   }
 }
+
+
 </style>

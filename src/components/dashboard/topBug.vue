@@ -1,7 +1,7 @@
 <template>
     <div id="top-bug"
       v-loading.body="loading"
-         style="width:100%;height:400px;"></div>
+         style="height:400px;"></div>
   </div>
 </template>
 
@@ -11,7 +11,6 @@ export default {
   data() {
     return {
       loading: false,
-      msg: 'Welcome to Your Vue.js App',
       option: {
         title: {
           text: 'bugTop排行榜'
@@ -22,17 +21,7 @@ export default {
         legend: {
           data: ['bug类型']
         },
-        toolbox: {
-          show: true,
-          feature: {
-            mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
-        },
-        calculable: true,
+
         xAxis: [
           {
             type: 'category',
@@ -48,26 +37,23 @@ export default {
           {
             name: '次数',
             type: 'bar',
-            data: [500, 135.6, 76.7, 32.6, 20.0],
-            markPoint: {
-              data: [
-                { type: 'max', name: '最大值' }
-              ]
-            },
-            markLine: {
-              data: [
-                { type: 'average', name: '平均值' }
-              ]
-            }
+            data: [500, 135.6, 76.7, 32.6, 20.0]
           }
         ]
       }
     }
-  }, mounted() {
-    this.getTopList();
-    EventBus.$on('projectChange', num => {
+  }, 
+  computed: {
+    projectId () {
+      return this.$store.state.projectId
+    }
+  },
+  watch: {
+    projectId () {
       this.getTopList();
-    })
+    }
+  },mounted() {
+    this.getTopList();
 
   }, methods: {
     /**
@@ -76,6 +62,8 @@ export default {
     getTopList() {
       let topBug = document.getElementById('top-bug');
       if (!topBug) return;
+      var chatWidth = topBug.parentNode.offsetWidth;
+      topBug.style.width= chatWidth + 'px';
       var myChart = echarts.init(topBug);
       this.loading = true;
       this.$http.get('/api/bug/bugTopList?type=bug')
@@ -83,8 +71,6 @@ export default {
           this.loading = false;
           if (res.status == 200) {
             let bugListObj = res.data;
-            console.log('bugListObj - 来自接口bugTopList?type=bug---84');
-            console.dir(bugListObj);
             this.option.xAxis[0].data = bugListObj.chartPageList;
             this.option.series[0].data = bugListObj.chartCountList;
             myChart.setOption(this.option);

@@ -1,23 +1,25 @@
+const companyModel = require('../models/companyModel.js');
 const projectModel = require('../models/projectModel.js');
 const userModel = require('../models/userModel.js');
 const projectObj = {
   /**
-  * 展示项目列表
-  *
-  */
-  * getProjectList() {
+   * 展示项目列表
+   *
+   */
+    * getProjectList() {
     let findObj = {};
     const userId = this.query.userId;
     if (userId) {
-
       findObj = {
         'userList.userId': {
           $in: [userId],
         },
       };
     }
-    const list = yield projectModel.find(findObj).sort({ _id: -1 }).exec((err, data) => {
-      if (err) this.body = err;
+    const list = yield projectModel.find(findObj).sort({_id: -1}).exec((err, data) => {
+      if (err) {
+        this.body = err;
+      }
       this.body = data;
     });
   },
@@ -25,24 +27,48 @@ const projectObj = {
    * 增加一个项目
    *
    */
-  * addProject() {
+    * addProject() {
+    const companyId = this.header.companyid;
     const param = this.request.body;
     const project = yield new projectModel(param).save();
-    this.body = project;
+    const result = yield companyModel.update({
+      _id: companyId,
+    }, {
+      $push: {
+        projectList: project._id,
+      },
+    }).exec((err, res)=> {
+      return res;
+    });
+    
+    let company = yield companyModel.findById(companyId).lean().exec((err, res) => {
+      if (err) {
+        return err;
+      }
+      // console.log('res', res);
+      return res;
+    });
+    console.log('///////// Company ??????????????');
+    console.log(company);
+    this.body = company; //project;
   },
   /**
-  * 获取一个项目
-  * @param projectId {String} 项目id
-  */
-  * getProjectById() {
-    const projectId = this.query.projectId;
-    const userIdList = [];
-    const project = yield projectModel.findOne({
+   * 获取一个项目
+   * @param projectId {String} 项目id
+   */
+    * getProjectById() {
+    const projectId = this.query.projectId || this.header.projectid;
+    let userIdList = [];
+    let project = yield projectModel.findOne({
       _id: projectId,
-    }).sort({ _id: -1 }).exec((err, data) => {
-      if (err) this.body = err;
-      if (!data) this.body = [];
-      console.log('data', data)
+    }).sort({_id: -1}).lean().exec((err, data) => {
+      if (err) {
+        this.body = err;
+      }
+      if (!data) {
+        this.body = [];
+        return;
+      }
       if (data.userList) {
         data.userList.map((item) => {
           userIdList.push(item.userId);
@@ -54,7 +80,9 @@ const projectObj = {
     const userList = yield userModel.find({
       _id: userIdList,
     }).lean().exec((err, docs) => {
-      if (err) return err;
+      if (err) {
+        return err;
+      }
       return docs;
     });
     const newUserList = [];
@@ -70,6 +98,9 @@ const projectObj = {
       });
       newUserList.push(item);
     }
+    if (!project) {
+      this.body = null;
+    }
     project.userList = userList;
     this.body = project;
   },
@@ -78,44 +109,133 @@ const projectObj = {
    * @param {String} projectId 项目id
    *
    */
-  * updateProject() {
-    const projectId = this.query.projectId;
+    * updateProject() {
+    const projectId = this.query.projectId || this.header.projectid;
     const userId = this.query.userId;
     const roleId = this.query.roleId;
+    const userName = this.query.name;
     const newUser = {
       userId,
       roleId,
     };
-    const project = yield projectModel.findOne({
+    let project = yield projectModel.findOne({
       _id: projectId,
-    }).sort({ _id: -1 }).exec((err, data) => {
-      if (err) return err;
+    }).sort({_id: -1}).lean().exec((err, data) => {
+      if (err) {
+        return err;
+      }
       return data;
     });
-    project.userList.push(newUser);
-    const result = yield projectModel.update({ _id: projectId }, project, (err, res) => {
-      if (err) return err;
-      console.log('res', res);
-      return res;
+    // project.userList.push(newUser);
+    const result = yield projectModel.update({
+      _id: projectId
+    }, {
+      $push: {
+        userList: newUser
+      }
+    }).exec((err, res) => {
+      if (err) {
+        return err;
+      }
+      return Object.assign(newUser, {
+        name: userName
+      });
     });
-
+    
     this.body = result;
   },
+  
+  * delUserFromProject() {
+    const projectId = this.query.projectId;
+    const userId = this.query.userId;
+    const roleId = this.query.roleId;
+    
+    const newUser = {
+      userId,
+      roleId,
+    };
+    
+    const project = yield projectModel.findOne({
+      _id: projectId,
+    }).sort({_id: -1}).exec((err, data) => {
+      if (err) {
+        return err;
+      }
+      return data;
+    });
+    
+    project.userList.forEach((item, index) => {
+      if (item.roleId == newUser.roleId && item.userId == newUser.userId) {
+        const user = project.userList.splice(index, 1);
+      } else {
+        
+      }
+    });
+    
+    const result = yield projectModel.update({_id: projectId}, project, (err, res) => {
+      if (err) {
+        return err;
+      }
+      
+      return res;
+    });
+    
+    this.body = result;
+  },
+  
   /**
    * 删除一个项目
    *
    */
-  * removeProjectById() {
-
+    * removeProjectById() {
     const projectId = this.query.projectId;
-    // const projectId = this.query.projectId;
+    if (!projectId) {
+      this.body = '请输入要删除的项目id';
+    }
+    
+    let company = yield companyModel.findOne({
+      _id: this.query.companyId
+    }).sort({_id: -1}).exec((err, data) => {
+      if (err) {
+        // this.body = err;
+        return err;
+      }
+      // this.body = data;
+      
+      return data;
+    });
+    console.log('>>>>>>>>>>>>>>> company <<<<<<<<<<<<<');
+    console.log(company);
+    console.log('>>>>>>>>>>>>>>> company.projectList <<<<<<<<<<<<<');
+    console.log(company.projectList);
+    company.projectList.forEach((item, index) => {
+      if (item == projectId) {
+         company.projectList.splice(index, 1);
+      } else {
+
+      }
+    });
+    
+    const result = yield companyModel.update({
+      _id: company._id
+    }, company).exec((err, res) => {
+      if (err) {
+        return err;
+      }
+      return res;
+    });
+  
     const newProject = yield projectModel.remove({
-      projectId,
+      _id: projectId,
     }, (err, data) => {
-      if (err) this.body = err;
+      if (err) {
+        this.body = err;
+      }
       this.body = data;
     });
-  },
-
+    
+    this.body = newProject;
+    // Chi
+  }
 };
 module.exports = projectObj;
