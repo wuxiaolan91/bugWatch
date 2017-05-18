@@ -90,6 +90,7 @@ exports.login = function*(ctx) {
     user = {
       errorCode: 1,
       message: '登录失败，请确认你的账号和密码是否正确',
+
     };
   } else {
     let company = yield companyModel.findOne(
@@ -101,7 +102,7 @@ exports.login = function*(ctx) {
               $in: [user._id],
             }
           }
-          
+
         ]
       }
     ).lean().exec((err, res) => {
@@ -114,14 +115,20 @@ exports.login = function*(ctx) {
       // 查找出这个用户在这家公司的权限等级
      company.userList.forEach(item => {
         let userId = user._id + '';
-      
+
        if (item.userId == userId) {
          user.gradeId = item.gradeId;
          return;
        }
       })
     }
-       
+
+    if (company) {
+       user.companyId = company._id;
+    } else { // 用户还没有公司，推荐它去创建公司
+      user.companyId = '';
+    }
+
   }
   this.body = user;
 };
