@@ -18,7 +18,8 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "polyfill": "node build/polyfill-bugwatch.js"
   },
   "dependencies": {
     "axios": "^0.15.3",

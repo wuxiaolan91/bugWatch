@@ -6,7 +6,7 @@ import ElementUI from 'element-ui';
 import Axios from 'axios';
 import App from './App';
 import router from './router';
-import store from '../vuex';
+import store from './vuex';
 // Add a request interceptor
 Axios.interceptors.request.use((config) => {
   const projectId = store.state.projectId;

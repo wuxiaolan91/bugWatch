@@ -64,6 +64,7 @@
             localStorage.setItem('userInfo', JSON.stringify(user));
             localStorage.setItem('name', user.name);
             localStorage.setItem('userId', user._id);
+
             localStorage.setItem('companyId', user.companyId);
             EventBus.$emit('isLogin', true)
             debugger;
@@ -73,6 +74,10 @@
             } else {
               this.$router.push('/addCompany');
             }
+
+            this.$router.push('/');
+            
+
             
           } else {
             this.$message.error('登录失败，请确认你的账号和密码是否正确');
