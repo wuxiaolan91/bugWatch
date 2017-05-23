@@ -100,8 +100,10 @@ const projectObj = {
     }
     if (!project) {
       this.body = null;
+    } else {
+      project.userList = userList;
     }
-    project.userList = userList;
+    
     this.body = project;
   },
   /**
