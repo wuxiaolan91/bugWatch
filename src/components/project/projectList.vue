@@ -60,7 +60,8 @@ export default {
         cancelButtonText: '取消'
 
       }).then(value => {
-        this.addProject(value);
+        const newProjectName = value.value;
+        this.addProject(newProjectName);
 
       }).
         catch(value => {
