@@ -17,7 +17,6 @@ let companyObj = {
       return res;
     });
     
-    console.log(existCompany);
     if (!existCompany) {
       let newCompany = {
         companyName: companyName,
@@ -25,7 +24,7 @@ let companyObj = {
         userList: [
           {
             userId: this.header.userid,
-            roleId: 3
+            gradeId: 3
           }
         ]
       };
@@ -64,7 +63,6 @@ let companyObj = {
     company.userList = userList;
     
     console.log('===============userIdList===============');
-    console.log(userIdList);
     let projectList = yield projectModal.find({
       'userList.userId': {
         $in: userIdList,

@@ -8,7 +8,7 @@ const companySchema = new mongoose.Schema({
     default: [
       {
         userId: String,
-        roleId: Number,
+        gradeid: Number,
       },
     ],
   },
