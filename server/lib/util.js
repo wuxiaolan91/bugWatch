@@ -45,7 +45,6 @@ function systemConvertTime (date) {
   let seconds = `${time.getSeconds()}` < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`;
 
   time = `${time.getFullYear()}年${time.getMonth()+1}月${time.getDate()}日 ${hour}:${minutes}:${seconds}`;
-  console.log('time', time);
   return time;
 }
 let util = {
