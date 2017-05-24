@@ -71,8 +71,12 @@ exports.addUser = function*() {
 };
 /* 用户登录 */
 exports.login = function*(ctx) {
+  console.log(' ')
   const body = this.request.body;
-  let user = yield userModel.findOne(body).lean().exec((err, res) => {
+  let user = yield userModel.findOne({
+    name: body.name,
+    password: body.password
+  }).lean().exec((err, res) => {
     if (err) {
       return '登录失败lala';
     }
@@ -85,7 +89,9 @@ exports.login = function*(ctx) {
     }
     return '用户名或者密码有误';
   })
-  console.log('user', user);
+
+  // 查找该用户相关的信息
+  // console.log('user', user);
   if (user == null) {
     user = {
       errorCode: 1,
@@ -130,6 +136,7 @@ exports.login = function*(ctx) {
     }
 
   }
+  delete user.password;
   this.body = user;
 };
 
