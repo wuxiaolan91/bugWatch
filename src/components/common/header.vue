@@ -23,13 +23,13 @@
             {{ name }}<i class="el-icon-caret-bottom el-icon--right"></i>
           </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-if="gradeId > 1">
+          <el-dropdown-item >
             <router-link to="/projectList?type=list">项目列表</router-link>
           </el-dropdown-item>
-          <el-dropdown-item v-if="gradeId > 1">
+          <el-dropdown-item >
             <router-link to="/projectList?type=add">添加项目</router-link>
           </el-dropdown-item>
-          <el-dropdown-item v-if="gradeId > 1">
+          <el-dropdown-item >
             <router-link to="/project">添加用户</router-link>
         </el-dropdown-item>
           <el-dropdown-item>
