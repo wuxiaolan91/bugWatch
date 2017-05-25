@@ -2,7 +2,7 @@ const Koa = require('koa');
 let cors = require('kcors');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
-const whitelist = ['/api/bug/addBug1', '/api/bug/addAjaxBug'];  
+const whitelist = ['bug/addBug', 'bug/addAjaxBug'];  
 app.use(bodyParser());
 app.use(cors({
   origin (ctx) {
