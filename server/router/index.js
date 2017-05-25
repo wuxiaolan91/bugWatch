@@ -7,7 +7,7 @@ app.use(cors({
   allowMethods: 'GET,HEAD,PUT,POST,DELETE,OPTIONS,PATCH',
   allowHeaders : "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
 }
-))
+));
 const router = require('koa-router')();
 
 // router
@@ -37,7 +37,7 @@ router.get('/project/delUserFromProject', projectController.delUserFromProject);
 
 
 // bug
-router.get('/bug/addBug', bugController.addBug);
+router.post('/bug/addBug', bugController.addBug);
 router.get('/bug/email', () => {
   const email = require('../controllers/user');
 });

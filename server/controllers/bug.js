@@ -72,6 +72,8 @@ exports.addBug = function* () {
   const ip = this.request.ip;
   const website = this.request.url;
   const projectId = this.query.projectId;
+  const body = this.request.body;
+  console.log('body', this.request.body);
   // 获取规则列表
 
   const ruleList = yield ruleModel.find({
@@ -83,12 +85,12 @@ exports.addBug = function* () {
   const bugObj = {
     projectId, // 加这个字段是为了一个Team要同时监测多个网站的错误做区分用的
     ip,
-    errorPage: this.query.pageUrl,
+    errorPage: body.pageUrl,
     refferPage: '',
-    message: this.query.message,
-    error: this.query.error,
+    message: body.message,
+    error: body.error,
     ua: this.request.header['user-agent'],
-    date: this.query.time,
+    date: body.time,
   };
   console.log('bugObj', bugObj);
   bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
