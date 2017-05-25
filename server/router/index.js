@@ -6,9 +6,9 @@ const whiteList = ['/bug/addBug', '/bug/addAjaxWatch'];
 app.use(bodyParser());
 app.use(cors({
   origin (ctx) {
+    const requestOrigin = ctx.accept.headers.origin;
     if (ctx.request.header['access-control-request-method']) { return requestOrigin; } // 如果当前不是cors。那么不进行白名单校验
     console.log('ctx', ctx);
-    const requestOrigin = ctx.accept.headers.origin;
     const apiUrl = ctx.request.url;
     console.log('ctx', ctx);
      if (!whiteList.includes(apiUrl)) {
