@@ -2,15 +2,16 @@ const Koa = require('koa');
 let cors = require('kcors');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
-const whitelist = ['/bug/addBug', '/bug/addAjaxWatch'];  
+const whiteList = ['/bug/addBug', '/bug/addAjaxWatch'];  
 app.use(bodyParser());
 app.use(cors({
   origin (ctx) {
+    if (ctx.request.header['access-control-request-method']) { return requestOrigin; } // 如果当前不是cors。那么不进行白名单校验
     console.log('ctx', ctx);
     const requestOrigin = ctx.accept.headers.origin;
     const apiUrl = ctx.request.url;
     console.log('ctx', ctx);
-     if (!whitelist.includes(apiUrl)) {
+     if (!whiteList.includes(apiUrl)) {
          ctx.throw(`🙈 ${apiUrl} is not a valid api`);
      }
      return requestOrigin;
