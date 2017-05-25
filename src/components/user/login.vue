@@ -67,7 +67,6 @@
 
             localStorage.setItem('companyId', user.companyId);
             EventBus.$emit('isLogin', true)
-            debugger;
             if (user.companyId) {
               this.$router.push('/');
               localStorage.setItem('companyId', user.companyId);
