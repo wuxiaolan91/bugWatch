@@ -2,9 +2,20 @@ const Koa = require('koa');
 let cors = require('kcors');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
+const whitelist = ['/api/bug/addBug1', '/api/bug/addAjaxBug'];  
 app.use(bodyParser());
 app.use(cors({
-  allowMethods: 'GET,HEAD,PUT,POST,DELETE,OPTIONS,PATCH',
+  origin (ctx) {
+    console.log('ctx', ctx);
+    const requestOrigin = ctx.accept.headers.origin;
+    const apiUrl = ctx.request.url;
+    console.log('ctx', ctx);
+     if (!whitelist.includes(apiUrl)) {
+         ctx.throw(`🙈 ${apiUrl} is not a valid api`);
+     }
+     return requestOrigin;
+  },
+  allowMethods: 'POST,OPTIONS',
   allowHeaders : "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
 }
 ));
