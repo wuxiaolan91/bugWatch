@@ -1,7 +1,7 @@
 const userModel = require('../models/userModel.js');
 const companyModel = require('../models/companyModel.js');
 const projectModel = require('../models/projectModel.js');
-
+const sha512 = require('js-sha512');
 exports.searchuser = function*() {
   this.body = yield userModel.find({}, (err, res) => {
     if (err) {
@@ -20,7 +20,7 @@ exports.getUserList = function*() {
  * 添加一个新用户
  */
 exports.addUser = function*() {
-  const user = this.request.body;
+  let user = this.request.body;
   const companyId = this.header.companyid;
   let isRepeat = false;
   let existUserName = false;
@@ -53,6 +53,9 @@ exports.addUser = function*() {
       this.body = '该邮箱已经存在，请重新申请';
     }
   } else {
+    console.log('before-password', user.password);
+    user.password = sha512(user.password);
+    console.log('password512', user.password.toString());
     const newUser = yield userModel(user).save();
     let addUserToCompany = yield companyModel.update({
       _id: companyId,
@@ -71,11 +74,11 @@ exports.addUser = function*() {
 };
 /* 用户登录 */
 exports.login = function*(ctx) {
-  console.log(' ')
   const body = this.request.body;
+  let password = sha512(body.password);
   let user = yield userModel.findOne({
     name: body.name,
-    password: body.password
+    password: password
   }).lean().exec((err, res) => {
     if (err) {
       return '登录失败lala';
