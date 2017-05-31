@@ -29,7 +29,6 @@ function bugListByFilter(type, bugList) {
   const pageListObj = {}; // 错误的页面
   const chartPageList = []; // 最后传给echarts的数据
   const chartCountList = []; // 图表里需要的报错页面数组
-  console.log('bugList', bugList);
   if (bugList && bugList.length) {
      bugList.forEach((item) => {
       const page = type == 'page' ? item.errorPage : item.message;
@@ -71,9 +70,9 @@ function bugListByFilter(type, bugList) {
 exports.addBug = function* () {
   const ip = this.request.ip;
   const website = this.request.url;
-  const projectId = this.query.projectId;
+  
   const body = this.request.body;
-  console.log('body', this.request.body);
+  const projectId = body.projectId;
   // 获取规则列表
 
   const ruleList = yield ruleModel.find({
@@ -92,7 +91,6 @@ exports.addBug = function* () {
     ua: this.request.header['user-agent'],
     date: body.time,
   };
-  console.log('bugObj', bugObj);
   bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
   ruleList.forEach((item, index) => {
     if (bugObj.errorPage.indexOf(item.keyword[0]) > -1) {
@@ -154,7 +152,6 @@ exports.getBugList = function* () { // 获取bug列表，还没有哪个地方�
     }
     bugList.map(item => {
       item.time = util.systemConvertTime(item.time);
-      console.log('item', item);
       return item;
     })
     return bugList;
