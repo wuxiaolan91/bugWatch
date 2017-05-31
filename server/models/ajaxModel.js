@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ajaxSchema = new Schema({
-  projectId: String,
-  errorPage: String,
+  projectId: {
+    type: String,
+    required: true
+  },
+  errorPage:  {
+    type: String,
+    required: true
+  },
   url: String,
   message: String,
   error: String,
