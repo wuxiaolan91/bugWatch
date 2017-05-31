@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const bugSchema = new Schema({
-  projectId: String , // 报错的是哪个项目
+  projectId: {
+    type: String,
+    required: true
+  } , // 报错的是哪个项目
   errorPage: {
     type: String,
     required: true 
