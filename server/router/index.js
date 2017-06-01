@@ -29,6 +29,7 @@ const ajaxController = require('../controllers/ajax.js');
 const userController = require('../controllers/user.js');
 const ruleController = require('../controllers/rule.js');
 const projectController = require('../controllers/project.js');
+const performanceController = require('../controllers/performance.js');
 
 // company
 router.post('/company/addCompanyByCompanyName', companyController.addCompanyByCompanyName);
@@ -68,6 +69,8 @@ router.get('/bug/getAjaxList', ajaxController.list);
 router.post('/rule/addRule', ruleController.addRule);
 router.get('/rule/removeRule', ruleController.removeRule);
 router.get('/rule/getRuleList', ruleController.getRuleList);
+
+router.get('./performance/addPerformance', performanceController.addPerformance);
 app.use(router.routes());
 app.use(router.allowedMethods());
 module.exports = app;

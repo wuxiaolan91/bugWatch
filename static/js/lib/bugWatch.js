@@ -2,6 +2,44 @@
   let bugWatch = {};
   let projectId = '';
   let apiPre = 'https://www.fewatch.com/api';
+
+// 计算加载时间
+function getEntryTiming (entry) {
+    var t = entry;
+    var times = {};
+    console.log('timing', entry);
+    times.loadPage = (t.loadEventEnd - t.navigationStart) / 1000; // 页面加载完成的时间
+    times.domReady = (t.domComplete - t.responseEnd ) / 1000; // 解析dom树的时间
+    times.whiteScheen = (t.domLoading - t.fetchStart) / 1000;
+    // DNS 查询时间
+    times.lookupDomain = t.domainLookupEnd - t.domainLookupStart;
+ 
+    // 内容加载完成的时间
+    times.request = t.responseEnd - t.requestStart;
+ 
+    // TCP 建立连接完成握手的时间
+    times.connect = t.connectEnd - t.connectStart;
+ 
+    // 挂载 entry 返回
+    times.name = entry.name;
+    times.entryType = entry.entryType;
+    times.initiatorType = entry.initiatorType;
+    times.duration = entry.duration;
+ 
+    return times;
+}
+// window.onload = function () {
+//   const timing = performance.timing;
+//   const baiping = timing.domLoading - timing.fetchStart;
+//   console.log(`白屏时间：${baiping}`);
+// };
+window.onload = function () {
+  console.log('load');
+  var timing = getEntryTiming(performance.timing);
+  const chromeWhiteScreen = (chrome.loadTimes().firstPaintTime - chrome.loadTimes().startLoadTime) * 1000;
+  console.log('chrome自己的白屏时间', chromeWhiteScreen);
+  console.log('timing', timing);
+}
   bugWatch.report = (config) => {
     projectId = config.projectId;
     let debug = config.debug;
@@ -47,14 +85,7 @@
       }).then((res) => {
         // res instanceof Response == true.
         if (res.ok) {
-          try {
-            res.url = decodeURIComponent(res.url);
-            res.json().then((data) => {
-              console.log(data.entries);
-            });
-          } catch (ex) {
-
-          }
+          console.log('上报一个bug成功');
 
         } else {
           console.log("Looks like the response wasn't perfect, got status", res.status);
@@ -64,11 +95,7 @@
         console.log(`这个接口出错了${error}`);
       });
     };
-    window.onload = function () {
-      const timing = performance.timing;
-      const baiping = timing.domLoading - timing.fetchStart;
-      console.log(`白屏时间：${baiping}`);
-    };
+    
   };
   bugWatch.reportAjax = ((config) => {
     const url = config.config ? config.config.url : '';
