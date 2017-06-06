@@ -69,8 +69,8 @@ function bugListByFilter(type, bugList) {
  */
 exports.addBug = function* () {
   const ip = this.request.ip;
-  const website = this.request.url;
-  
+  const website = this.request.header.origin;
+  console.log('website', website);
   const body = this.request.body;
   const projectId = body.projectId;
   // 获取规则列表
