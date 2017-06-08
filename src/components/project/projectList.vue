@@ -29,6 +29,10 @@ export default {
     }
   },
   created() {
+    const type = this.$route.query.type;
+    if (type == 'add') {
+      this.OpenAddProject();
+    }
     let userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
       this.user = JSON.parse(userInfo);
