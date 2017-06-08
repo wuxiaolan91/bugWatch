@@ -44,6 +44,9 @@ export default {
     EventBus.$on('isLogin', isLogin => {
       this.isLogin = isLogin;
     })
+  },
+  mounted () {
+    console.log(bug)
   }
 }
 

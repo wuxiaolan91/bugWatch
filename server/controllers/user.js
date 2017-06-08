@@ -1,6 +1,5 @@
 const userModel = require('../models/userModel.js');
 const companyModel = require('../models/companyModel.js');
-const projectModel = require('../models/projectModel.js');
 const sha512 = require('js-sha512');
 exports.searchuser = function*() {
   this.body = yield userModel.find({}, (err, res) => {

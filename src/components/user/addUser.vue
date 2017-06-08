@@ -5,6 +5,9 @@
     <el-form-item label="用户名">
       <el-input v-model="user.name"></el-input>
     </el-form-item>
+    <el-form-item label="真实姓名">
+      <el-input v-model="user.realName"></el-input>
+    </el-form-item>
     <el-form-item label="邮箱">
       <el-input type="email" v-model="user.email"></el-input>
     </el-form-item>
@@ -38,6 +41,7 @@ export default {
       projectId: localStorage.getItem('projectId'),
       user: {
         name: '',
+        realName: '',
         email: '',
         gradeId: '1',
         gradeId: Number(this.$route.query.gradeId || 1)

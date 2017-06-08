@@ -50,7 +50,7 @@ const projectObj = {
     });
     console.log('///////// Company ??????????????');
     console.log(company);
-    this.body = company; //project;
+    this.body = project; //project;
   },
   /**
    * 获取一个项目

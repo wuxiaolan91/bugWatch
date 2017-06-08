@@ -1,7 +1,7 @@
 (function () {
   let bugWatch = {};
   let projectId = '';
-  let apiPre = 'https://www.fewatch.com/api';
+  let apiPre = '/api';
   bugWatch.report = (config) => {
     projectId = config.projectId;
     let debug = config.debug;
