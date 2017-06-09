@@ -7,7 +7,9 @@ const mutationObj = {
   getProjectList: function(state, List) {
     state.projectList = List;
     if (List.length) {
-      state.projectId = List[0]._id;
+      const currentProject = List[0];
+      state.projectId = currentProject._id;
+      state.projectName = currentProject.name;
     }
   },
   addProject: function(state, Object) {
