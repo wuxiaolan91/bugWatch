@@ -1,11 +1,11 @@
-const router = require('./server/router')
+const router = require('./server/router');
 const mongoose = require('mongoose');
-const config = require('./server/config')
+const config = require('./server/config');
 
 
 // const list = require("./controllers/list.js");
 // const mongo = require('./models/db.js');
-const app = require('./server/router')
+const app = require('./server/router');
 
 // app.use(bodyParser());
 
@@ -27,5 +27,4 @@ mongoose.connect(config.mongo.DB_URL);
  */
 mongoose.connection.on('connected', () => {
   console.log('连接成功');
-
 });

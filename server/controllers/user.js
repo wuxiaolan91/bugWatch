@@ -15,60 +15,100 @@ exports.getUserList = function*() {
     }
   });
 };
+exports.addUser = function() {
+  console.log('addUser - start')
+  let user = this.request.body;
+  let data = null;
+ 
+  userModel.find({}).exec((err, result)=> {
+    if (err) {
+      this.body = '-----error occured'
+    } else {
+      console.log('results', result);
+      this.body = result;
+    }
+  });
+}
 /**
  * 添加一个新用户
  */
-exports.addUser = function*() {
+exports.addUser1 = function*() {
+  debugger;
   let user = this.request.body;
   const companyId = this.header.companyid;
   let isRepeat = false;
   let existUserName = false;
   let existEmail = false;
   // 需要先判断一下是否存在相同的用户名
-  const userList = yield userModel.find({}, (err, res) => {
+  let userList = [];
+  console.log('开始 find')
+userList = yield userModel.find().lean().exec((err, result) => {
+    debugger;
     if (err) {
-      return;
-    }
-    return res;
-  });
-  isRepeat = false; //比如盛星大哥既有自己的公司，但是也是bugWatch开源团队的，所以不做重复校验
-  
-  userList.forEach((item, index, array) => {
-    if (item.name === user.name) {
-      isRepeat = true;
-      existUserName=true;
-    }
-    if (item.email === user.email) {
-      existEmail = true;
-      isRepeat = true;
-    }
-  });
-  if (isRepeat) {
-    if(existUserName&&existEmail) {
-    this.body = '该用户名、邮箱已经存在，请重新申请';
-    } else if (existUserName) {
-      this.body = '该用户名已经存在，请重新申请';
+      return err;
     } else {
-      this.body = '该邮箱已经存在，请重新申请';
+      return {
+        data: result
+      };
     }
-  } else {
-    console.log('before-password', user.password);
-    user.password = sha512(user.password);
-    console.log('password512', user.password.toString());
-    const newUser = yield userModel(user).save();
-    let addUserToCompany = yield companyModel.update({
-      _id: companyId,
-    }, {
-      $push: {
-        userList: {
-          roleId: 2,
-          userId: newUser._id
-        },
-      },
-    });
-    newUser.password = '****';
-    this.body = newUser;
-  }
+    // console.log('hahahah');
+    // console.log(err);
+    // console.log(result);
+    // return result;
+  })
+  this.body = userList;
+  // let userPromise = yield userModel.find().exec(function (err,objs) {
+  //   debugger;
+  //   console.log('haha');
+  // });
+  // userPromise.then(result => {
+  //   console.log('CHEGNGONG')
+  //   return result;
+  // },
+  // err => {
+  //   console.log('shibai');
+  //   console.log(err);
+  //   return err;
+  // })
+    console.log('userList 返回' + userList)
+  // isRepeat = false; //比如盛星大哥既有自己的公司，但是也是bugWatch开源团队的，所以不做重复校验
+  
+  // userList.forEach((item, index, array) => {
+  //   if (item.name === user.name) {
+  //     isRepeat = true;
+  //     existUserName=true;
+  //   }
+  //   if (item.email === user.email) {
+  //     existEmail = true;
+  //     isRepeat = true;
+  //   }
+  // });
+  // if (isRepeat) {
+  //   if(existUserName&&existEmail) {
+  //   this.body = '该用户名、邮箱已经存在，请重新申请';
+  //   } else if (existUserName) {
+  //     this.body = '该用户名已经存在，请重新申请';
+  //   } else {
+  //     this.body = '该邮箱已经存在，请重新申请';
+  //   }
+  // } else {
+  //   console.log('before-password', user.password);
+  //   user.password = sha512(user.password);
+  //   console.log('password512', user.password.toString());
+  //   const newUser = yield userModel(user).save();
+  //   let addUserToCompany = yield companyModel.update({
+  //     _id: companyId,
+  //   }, {
+  //     $push: {
+  //       userList: {
+  //         roleId: 2,
+  //         userId: newUser._id
+  //       },
+  //     },
+  //   });
+  //   newUser.password = '****';
+  //   this.body = newUser;
+  // }
   
 };
 /* 用户登录 */

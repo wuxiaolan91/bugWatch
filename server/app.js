@@ -1,7 +1,6 @@
 const app = require('./router/index')
 let config = require('./config')
 const mongoose = require('mongoose')
-mongoose.Promise = global.Promise;
 app.on('error', (err, ctx) => {
   console.log('Koa服务开启失败', err);
 });
