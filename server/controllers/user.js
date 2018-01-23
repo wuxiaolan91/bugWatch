@@ -20,14 +20,19 @@ exports.addUser = function() {
   let user = this.request.body;
   let data = null;
  
-  userModel.find({}).exec((err, result)=> {
-    if (err) {
-      this.body = '-----error occured'
-    } else {
-      console.log('results', result);
-      this.body = result;
-    }
-  });
+  let addNewUser = async function () {
+    await userModel.find({}).exec((err, res) => {
+      if (err) {
+        console.log('-----err');
+        this.body = '错啦';
+      } else {
+        console.log('------result')
+         this.body = [];
+      }
+      console.log('1');
+    })
+  }
+  addNewUser();
 }
 /**
  * 添加一个新用户
