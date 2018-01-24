@@ -1,3 +1,4 @@
+
 const app = require('./router/index')
 let config = require('./config')
 const mongoose = require('mongoose')
@@ -13,14 +14,14 @@ app.listen(config.port, () => {
  * 连接
  */
 mongoose.connect(config.mongo.DB_URL, {useMongoClient: true});
-
+const db = mongoose.connection;
 /**
  * 连接成功
  */
-mongoose.connection.on('connected', () => {
-  console.log('数据库连接成功');
+db.once('open', () => {
+  console.log('-----Mongoose connection success');
 });
-mongoose.connection.on('error', function (err) {
-  console.log('-----Mongoose connection error: ' + err);
+db.on('error', function (err) {
+  console.error('-----Mongoose connection error: ' + err);
 });
 
