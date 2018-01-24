@@ -43,7 +43,6 @@ export default {
         name: '',
         realName: '',
         email: '',
-        gradeId: '1',
         gradeId: Number(this.$route.query.gradeId || 1)
       },
       roleList: [
