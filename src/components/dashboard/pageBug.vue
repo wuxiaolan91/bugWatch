@@ -13,7 +13,9 @@ export default {
       loading: false,
       width: '100%',
       option: {
-      
+        title: {
+          text: 'bugTop排行榜'
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
