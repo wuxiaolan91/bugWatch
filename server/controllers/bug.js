@@ -87,8 +87,7 @@ exports.addBug = function* () {
     refferPage: '',
     message: body.message,
     error: body.error,
-    ua: this.request.header['user-agent'],
-    date: body.time,
+    ua: this.request.header['user-agent']
   };
   bugObj.ua = util.getPlatform(bugObj.ua) + ':' + bugObj.ua;
   ruleList.forEach((item, index) => {
