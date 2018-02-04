@@ -12,6 +12,9 @@ export default {
       companyName: ''
     }
   }, created () {
+    this.$store.commit('changeUser', {
+      gradeId: 3
+    });
   }, methods: {
     addCompany () {
       this.$http.post('/api/company/addCompanyByCompanyName', {

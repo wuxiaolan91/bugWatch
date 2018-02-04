@@ -27,6 +27,10 @@ const mutationObj = {
   getCompany: function (state, obj) {
     state.company = Object.assign(state.company, obj);
     if (obj.gradeId) state.user.gradeId = obj.gradeId;
+  },
+  changeUser: function (state, obj) {
+    
+    state.user.gradeId = obj.gradeId;
   }
 };
 export default mutationObj;

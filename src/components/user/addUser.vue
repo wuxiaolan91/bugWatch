@@ -43,7 +43,7 @@ export default {
         name: '',
         realName: '',
         email: '',
-        gradeId: Number(this.$route.query.gradeId || 1)
+        gradeId: 0
       },
       roleList: [
         {
@@ -55,17 +55,18 @@ export default {
   },
   computed: {
     type () {
-      debugger;
       if (this.$route.query.type == 'addMenberToCompany') {
         return 2;
       }
       return 1;
     },
     gradeId () { // 当前操作用户的等级
+      debugger;
       return this.$store.state.user.gradeId;
     }
   },
   created () {
+    this.user.gradeId = Number(this.$route.query.gradeId || 1);
       if (this.gradeId == 3) {
       this.roleList.push({
           label: '管理员',
@@ -90,6 +91,7 @@ export default {
         return;
       }
       this.$http.post('/api/user/addUser', this.user).then(res => {
+        debugger;
         if (res.data._id) {
           const user = res.data;
           this.$message('添加用户成功');
@@ -98,7 +100,7 @@ export default {
           this.user.password = '';
           this.user.gradeId = 1; // 1是普通用户
           if (user.gradeId < 3) {
-             this.$router.push('/projectList?type=list')
+             this.$router.push('/projectList?type=list');
           } else { // 如果用户是owner身份，那么就要跳到添加项目的页面去。
              localStorage.setItem('userInfo', JSON.stringify(user));
              localStorage.setItem('name', user.name);
