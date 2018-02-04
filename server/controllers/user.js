@@ -2,13 +2,6 @@ const userModel = require('../models/userModel.js');
 const companyModel = require('../models/companyModel.js');
 const sha512 = require('js-sha512');
 
-exports.searchuser = function* () {
-  this.body = yield userModel.find({}, (err, res) => {
-    if (err) {
-      
-    }
-  });
-};
 exports.getUserList = function* () {
   this.body = yield userModel.find({}, (err, res) => {
     if (err) {
@@ -20,15 +13,15 @@ exports.getUserList = function* () {
  * 添加一个新用户
  */
 exports.addUser = function* () {
-  const addUser = this.request.body;
+  const userReq = this.request.body;
   const companyId = this.header.companyid;
   let isRepeat = false;
   // 需要先判断一下是否存在相同的用户了
   let user = yield userModel.findOne({
     '$or': [{
-      name: addUser.name,
+      name: userReq.name,
     },
-    { email: addUser.email }
+    { email: userReq.email }
     ],
   }).lean().exec((err, result) => {
     if (err) {
@@ -36,19 +29,19 @@ exports.addUser = function* () {
       return err;
     }  else {
       if (result) isRepeat = true;
-      console.log('findaddUser', result || {});
+      console.log('finduserReq', result || {});
       return result;
     }
   });
   if (isRepeat) { // 已经存在该用户或者邮箱了
-    if (addUser.name == user.name) {
+    if (userReq.name == user.name) {
       this.body = '该用户名已经存在，请重新申请';
-    } else if (addUser.email == user.eamil) {
+    } else if (userReq.email == user.eamil) {
       this.body = '该邮箱已经存在，请重新申请';
     }
   } else {
-    addUser.password = sha512(addUser.password);
-    const newUser = yield userModel(addUser).save();
+    userReq.password = sha512(userReq.password);
+    const newUser = yield userModel(userReq).save();
     const addUserToCompany = yield companyModel.update({
       _id: companyId,
     }, {
