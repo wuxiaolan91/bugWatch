@@ -36,12 +36,14 @@ exports.addUser = function* () {
   if (isRepeat) { // 已经存在该用户或者邮箱了
     if (userReq.name == user.name) {
       this.body = '该用户名已经存在，请重新申请';
-    } else if (userReq.email == user.eamil) {
+    } else if (userReq.email == user.email) {
       this.body = '该邮箱已经存在，请重新申请';
+    } else {
+      this.body = '用户重复了?'
     }
   } else {
     userReq.password = sha512(userReq.password);
-    const newUser = yield userModel(userReq).save();
+    let newUser = yield userModel(userReq).save();
     const addUserToCompany = yield companyModel.update({
       _id: companyId,
     }, {
