@@ -5,7 +5,6 @@
       <el-tab-pane label="bug页面排行榜" name="second"></el-tab-pane>
       <el-tab-pane label="bugTop排行榜" name="third"></el-tab-pane>
     </el-tabs>
-
     <bug-compare v-show="activeName === 'first'"></bug-compare>
     <page-bug v-show="activeName === 'second'"></page-bug>
     <top-bug v-show="activeName === 'third'"></top-bug>

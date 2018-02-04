@@ -59,7 +59,6 @@ router.get('/bug/bugTopList', bugController.weekBugList);
 // ajax
 router.post('/bug/addAjaxWatch', ajaxController.report);
 router.get('/bug/getAjaxList', ajaxController.list);
-// router.get('/user', user.searchuser);
 // router.post('/user/email', user.sendemail);
 
 // rule
