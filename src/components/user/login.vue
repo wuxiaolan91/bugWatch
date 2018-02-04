@@ -1,6 +1,6 @@
 <template>
   <div class="bgcontainer">
-    <div class="background loaded" :style="'background:url('+bg+') center center no-repeat;background-size: cover;'"></div>
+    <div class="background loaded"></div>
     <div class="topbanner">
       <div class="poswrap">
         <h1>bugWatch</h1>
@@ -24,12 +24,10 @@
   </div>
 </template>
 <script>
-  import bgUrl from './../../assets/bg.jpeg'
   
   export default {
     data () {
       return {
-        bg: bgUrl,
         loading: false,
         form: {
           name: '',
@@ -101,6 +99,7 @@
   div.background {
     opacity: 0;
     display: block;
+    background: linear-gradient(rgb(110, 162, 200) 0%, rgb(147, 200, 217) 17%, rgb(147, 200, 217) 26%, rgb(98, 155, 183) 58%, rgb(76, 126, 158) 74%, rgb(72, 118, 151) 80%, rgb(68, 103, 134) 92%) 50% 50% / cover no-repeat rgb(103, 160, 189);
     /*background: url(/assets/bg.jpeg) center center no-repeat;*/
     /*background: url(https://mdapi.zjwist.com/mediainfo3/get/87?CompressionScale=60) center center no-repeat;*/
     background-size: cover;
@@ -173,8 +172,8 @@
     outline: 0;
     border-radius: 3px;
     position: relative;
-    border: 1px solid #ff7b00; /*ffaa00, c91b2b*/
-    background-color: #ff7b00;
+    border: 1px solid rgb(110, 162, 200); /*ffaa00, c91b2b*/
+    background-color: rgb(110, 162, 200);
     color: #FFF;
     font-weight: 700;
     -webkit-transition: padding-right 218ms ease;

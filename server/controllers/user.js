@@ -43,6 +43,7 @@ exports.addUser = function* () {
     }
   } else {
     userReq.password = sha512(userReq.password);
+   
     let newUser = yield userModel(userReq).save();
     const addUserToCompany = yield companyModel.update({
       _id: companyId,
@@ -62,6 +63,7 @@ exports.addUser = function* () {
 exports.login = function* (ctx) {
   const body = this.request.body;
   const password = sha512(body.password);
+  console.log('密码-----', password);
   let user = yield userModel.findOne({
     name: body.name,
     password,

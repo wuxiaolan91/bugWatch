@@ -43,7 +43,7 @@ export default {
         name: '',
         realName: '',
         email: '',
-        gradeId: 0
+        gradeId: Number(this.$route.query.gradeId || 1)
       },
       roleList: [
         {
@@ -60,20 +60,18 @@ export default {
       }
       return 1;
     },
-    gradeId () { // 当前操作用户的等级
-      debugger;
+    operateGradeId () { // 当前操作用户的等级
       return this.$store.state.user.gradeId;
     }
   },
   created () {
-    this.user.gradeId = Number(this.$route.query.gradeId || 1);
-      if (this.gradeId == 3) {
+      if (this.operateGradeId == 3) {
       this.roleList.push({
           label: '管理员',
           value: 2
         })
     }
-    if (this.gradeId == '') {
+    if (this.operateGradeId == '') {
       this.roleList.push({
           label: '公司拥有者',
           value: 3
